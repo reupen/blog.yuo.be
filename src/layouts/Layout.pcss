@@ -1,0 +1,307 @@
+@font-face {
+  font-family: "Noto Serif Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url(./fonts/subsets/NotoSerif[wdth,wght].woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Serif Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url(./fonts/subsets/NotoSerif-Italic[wdth,wght].woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url(./fonts/subsets/NotoSans[wdth,wght].woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url(./fonts/subsets/NotoSans-Italic[wdth,wght].woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url(./fonts/subsets/NotoSansMono[wdth,wght].woff2) format("woff2");
+}
+
+:root {
+  --max-body-width: 700px;
+  --sans-serif-font-family: "Noto Sans Variable", system-ui, sans-serif;
+  --serif-font-family: "Noto Serif Variable", serif;
+  --monospace-font-family: "Noto Sans Mono Variable", ui-monospace, monospace;
+  --text-accent-colour: #ff8049;
+  --text-accent-colour-light: #ffaf47;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  background: #1d1d1d;
+  color: #fff;
+  font-family: var(--serif-font-family);
+  font-feature-settings: "salt";
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 50px;
+  margin: 0 0 2.5rem;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 32px;
+  margin: 2.4rem 0 0.6rem;
+
+  + h3 {
+    margin-top: 1.6rem;
+  }
+}
+
+h3 {
+  font-size: 26px;
+  margin: 0 0 0.55rem;
+}
+
+p + h3,
+ol,
+ul + h3 {
+  margin-top: 2rem;
+}
+
+h4 {
+  font-size: 22px;
+  margin: 1.2rem 0 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--sans-serif-font-family);
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+a,
+.comments-link {
+  text-underline-offset: 0.2em;
+
+  &,
+  :visited {
+    color: var(--text-accent-colour);
+  }
+
+  &:hover {
+    color: var(--text-accent-colour-light);
+    text-decoration-thickness: 12%;
+  }
+}
+
+.comments-link {
+  cursor: pointer;
+  text-decoration: underline;
+  margin: 0 0 1.5rem;
+}
+
+p,
+li {
+  line-height: 1.75;
+  color: #d3d3d3;
+}
+
+ol,
+ul {
+  padding-left: 1.5rem;
+}
+
+p,
+figure,
+iframe,
+ol,
+ul,
+table {
+  margin: 0 0 1.5rem;
+}
+
+iframe {
+  border: none;
+}
+
+em,
+strong {
+  color: #f1f1f1;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding-left: 0.3rem;
+
+  p {
+    margin: 0 0 1rem;
+  }
+}
+
+details {
+  margin: 0 0 1rem;
+
+  summary {
+    cursor: pointer;
+    font-size: 30px;
+
+    h2 {
+      display: inline-block;
+      margin-top: 0;
+    }
+  }
+}
+
+table {
+  font-family: var(--sans-serif-font-family);
+  font-size: 16px;
+
+  th,
+  td {
+    padding: 0.25rem 0.75rem;
+
+    &:not([align]) {
+      text-align: left;
+    }
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+pre {
+  padding: 0.6rem;
+}
+
+code {
+  font-family: var(--monospace-font-family);
+  font-size: 15px;
+}
+
+:not(pre) > code {
+  background: #121212;
+  color: #e1e4e8;
+  padding: 0.1rem 0.2rem;
+}
+
+blockquote {
+  margin: 0 0 1.5em;
+  padding: 0 1.5em;
+  border-left: 3px solid var(--text-accent-colour);
+
+  p {
+    font-style: italic;
+  }
+}
+
+figcaption {
+  font-family: var(--sans-serif-font-family);
+  font-size: 14px;
+  position: relative;
+
+  &,
+  p {
+    color: #a9a8a8;
+  }
+}
+
+img,
+video {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin-bottom: 0.5rem;
+  font-family: var(--sans-serif-font-family);
+  font-size: 16px;
+}
+
+.border {
+  img {
+    border: solid 1px black;
+  }
+}
+
+audio {
+  width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.section {
+  padding: 3rem 1.5rem;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.footnotes {
+  font-size: 14px;
+  margin: 1.5rem 0;
+
+  p {
+    margin: 1rem 0;
+  }
+}
+
+.fa-solid {
+  text-underline-offset: inherit;
+}

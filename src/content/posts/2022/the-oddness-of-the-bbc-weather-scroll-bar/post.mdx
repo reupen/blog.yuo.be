@@ -1,0 +1,113 @@
+---
+title: "The oddness of the BBC Weather scroll bar"
+slug: the-oddness-of-the-bbc-weather-scroll-bar
+date: 2022-12-08T00:00:20.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-6390f1cbee68c06e3db04041
+tags:
+  - web
+excerpt: |-
+  I often would find myself confused by the scroll bar underneath the days in the forecast on the BBC Weather website. Sometimes it would look like the days were scrolled all the way to the right, when in fact they were scrolled all the way to the left:
+
+  0:00/1×
+
+  But the behaviour wasn’t consistent. Sometimes the scroll bar colours would be the expected way round, making me think the problem had been fixed, only for the problem to return another day.
+
+  Eventually I worked out the pattern: it was th
+---
+
+import { PostImage } from "@/components"
+
+import bbc_weather_background_affects_scroll_bar_mp4 from "./bbc-weather-background-affects-scroll-bar.mp4"
+import bbc_weather_evening_switch_day_mp4 from "./bbc-weather-evening-switch-day.mp4"
+import bbc_weather_evening_mp4 from "./bbc-weather-evening.mp4"
+import image_1_png from "./image-1.png"
+
+I often would find myself confused by the scroll bar underneath the days in
+[the forecast on the BBC Weather website](https://www.bbc.co.uk/weather/2643743).
+Sometimes it would look like the days were scrolled all the way to the right,
+when in fact they were scrolled all the way to the left:
+
+<figure>
+  <video
+    src={bbc_weather_evening_mp4}
+    height="1084"
+    preload="metadata"
+    width="2396"
+    controls
+    playsInline
+  />
+  <figcaption>On hover, the scroll bar is almost one solid colour</figcaption>
+</figure>
+
+But the behaviour wasn’t consistent. Sometimes the scroll bar colours would be
+the expected way round, making me think the problem had been fixed, only for the
+problem to return another day.
+
+Eventually I worked out the pattern: it was the time of day. The scroll bar
+colours are essentially reversed in the evening. But, if you switch to the
+forecast for another date, the scroll bar colours change again!
+
+Here’s that change in action:
+
+<figure>
+  <video
+    src={bbc_weather_evening_switch_day_mp4}
+    height="1086"
+    preload="metadata"
+    width="2384"
+    controls
+    playsInline
+  ></video>
+  <figcaption>My sanity was partially restored</figcaption>
+</figure>
+
+Still, the question of why the time of day was affecting the scroll bar colour
+remained. Surely no one would do this deliberately?
+
+There is, in fact, a factor other than the time of day that determines whether
+this happens: which web browser you’re using. Both of the above videos were
+taken in Firefox (on Windows 10). If you switch to Chrome, or Microsoft Edge,
+the scroll bar colour is consistently normal, night or day.
+
+I first assumed the scroll bar colour was being overridden using CSS, and I
+checked the styles on the element for `scrollbar-color`. It wasn’t set. It
+seemed there was some other indirect factor causing the odd behaviour.
+
+With a bit more digging, I worked out what that factor was: the background
+colour of one of the parent elements of the scrollable element. That background
+colour, while normally hidden by a background image, changes by day and night.
+That change in colour also causes the scroll bar colour to change.
+
+This effect is shown here:
+
+<figure>
+  <video
+    src={bbc_weather_background_affects_scroll_bar_mp4}
+    height="1320"
+    preload="metadata"
+    width="3068"
+    controls
+    playsInline
+  ></video>
+  <figcaption>Now the scroll bar is normal, now it’s not</figcaption>
+</figure>
+
+I’m pretty sure this behaviour has been there for more than a couple of years.
+Perhaps, I’m just the last person using Firefox for BBC Weather.
+
+I still wondered why the evening scroll bar wasn’t darker than it was (and more
+like a typical dark mode scroll bar). As it turns out, it’s because the
+background colour of the parent of that element also determines the scroll bar
+colour. If you set that colour to black when the evening colours are active, you
+do get something closer to a normal dark mode scroll bar (albeit still looking
+odd):
+
+<figure>
+  <PostImage
+    src={image_1_png}
+    alt="An image further showing a further change in the scroll bar colour after the background colour of an element higher in the tree was changed"
+  />
+  <figcaption>A nice end: a mystery solved, and it’s sunny tomorrow</figcaption>
+</figure>

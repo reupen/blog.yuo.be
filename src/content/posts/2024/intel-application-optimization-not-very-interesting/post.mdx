@@ -1,0 +1,94 @@
+---
+title: "Intel Application Optimization: not very interesting"
+slug: intel-application-optimization-not-very-interesting
+date: 2024-01-04T00:00:30.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-6592db5b1fe2ea7fd10d14ea
+tags:
+  - software
+excerpt: |-
+  I gave Intel Application Optimization a go. And then uninstalled it.
+---
+
+import { PostImage } from "@/components"
+
+import _95419_img3_png from "./95419-img3.png"
+import intel_app_opt_no_apps_png from "./intel-app-opt-no-apps.png"
+
+I decided to try out Intel’s new
+[Intel Application Optimization](https://www.intel.com/content/www/us/en/support/articles/000095419/processors.html)
+tool for 14th generation Intel processors.
+
+Getting it working required enabling an option called Intel Dynamic Tuning
+Technology in my motherboard’s BIOS settings (which was curiously in a menu
+named ‘Thermal Configuration’), installing some drivers downloaded from my
+motherboard manufacturer’s website, and installing the Intel Application
+Optimization app from the Microsoft Store. The drivers include two services, and
+curiously have INTEL CONFIDENTIAL in all the .inf files (presumably an
+oversight).
+
+After going through all that, I was able to run the Intel Application
+Optimization utility without it displaying an error. Well sort of – it simply
+stated ‘No applications have been detected’:
+
+<figure>
+  <PostImage
+    src={intel_app_opt_no_apps_png}
+    alt="A screenshot of stating ‘No applications have been detected’."
+  />
+  <figcaption>
+    <span>Is anyone home?</span>
+  </figcaption>
+</figure>
+
+I tried starting various games I had installed, but the message persisted. The
+example screenshot of the Intel Application Optimization utility on Intel’s
+website has lots of games in the list of detected applications:
+
+<figure>
+  <PostImage
+    src={_95419_img3_png}
+    alt="A screenshot of Intel Application Optimization from Intel’s website, listing numerous games in the list of detected applications."
+  />
+  <figcaption>
+    <span>There’s even a scroll bar</span>
+  </figcaption>
+</figure>
+
+Search results online, however, show that only two games are known to be
+supported – Tom Clancy’s Rainbow Six Siege and Metro Exodus. Neither are games
+that I have.
+
+Before the screenshot, Intel does say:
+
+> Expanded view with detected applications list (example only). This list will
+> vary for from user to user.
+
+Presumably they’re hinting at the lack of supported games (ironically, though,
+it means the screenshot isn’t actually an example as stated).
+
+With it being seemingly useless for me, I decided to remove Intel Application
+Optimization from my system. Disabling Intel Dynamic Tuning Technology in BIOS
+and uninstalling the Intel Application Optimization utility are both easy. But
+the driver package has no uninstaller, and getting rid of it and the associated
+services is a faff. (I first disabled the two services, and then used the ‘Show
+hidden devices’ and ‘Devices by driver’ views in Device Manager to remove the
+devices and drivers. The entries for the services were then automatically
+removed after a reboot.)
+
+All in all, this thing seems more of a technology demo than a useful piece of
+software. It’d need to be pretty compelling to convince me to install more
+background processes, and some performance improvements for two games I don’t
+play (or have) is not that.
+
+### **Update January 2024**
+
+Intel has
+[stated in a CES 2024 press release](https://www.intel.com/content/www/us/en/newsroom/news/ces-2024-client-processor-news.html)
+that there are now eight supported games. (As an aside, that press release also
+has a link to an internal SharePoint site in the footer...)
+[Another report](https://www.pcgamer.com/intel-to-roll-out-14th-gens-game-optimization-software-to-older-1213th-gen-hybrid-cpus-after-all/)
+says support for a few more games is on the way. Let’s hope an official list of
+supported games, and a driver package that can actually be uninstalled, are also
+in the pipeline.

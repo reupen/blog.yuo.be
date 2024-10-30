@@ -1,0 +1,114 @@
+---
+title: "The pervasiveness of caret browsing in Windows 10"
+slug: the-pervasiveness-of-caret-browsing-in-windows-10
+date: 2023-03-02T00:00:22.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-63ffaf953f36b9777482610b
+tags:
+  - Windows
+excerpt: |-
+  When I’m using Visual Studio, I often press the F7 key to start a build. But, a few days ago, I accidentally tried to do that when a taskbar item context menu was focused. What happened was this:
+
+  ‘That doesn’t look like it’s supposed to happen’, was the first thing that came to mind.
+
+  As it turns out, F7 behaves similarly in almost anywhere UWP-based, such as in the taskbar calendar:
+
+  Or in a smaller context menu:
+
+  Apart from the obvious problem of the dialogue box not fitting in many of these
+---
+
+import { PostImage } from "@/components"
+
+import image_1_png from "./image-1.png"
+import image_2_png from "./image-2.png"
+import image_3_png from "./image-3.png"
+import image_4_png from "./image-4.png"
+import image_png from "./image.png"
+
+When I’m using Visual Studio, I often press the F7 key to start a build. But, a
+few days ago, I accidentally tried to do that when a taskbar item context menu
+was focused. What happened was this:
+
+<figure>
+  <PostImage
+    src={image_1_png}
+    alt="A dialogue box asking to turn on caret browsing, but over a taskbar item context menu, and with the sides cut off."
+  />
+  <figcaption>
+    I thought ‘Yes’ and ‘No’ buttons on dialogue boxes against the rules
+  </figcaption>
+</figure>
+
+‘That doesn’t look like it’s supposed to happen’, was the first thing that came
+to mind.
+
+As it turns out, F7 behaves similarly in almost anywhere UWP-based, such as in
+the taskbar calendar:
+
+<figure>
+  <PostImage
+    src={image_2_png}
+    alt="A dialogue box asking to turn on caret browsing over the taskbar calendar flyout window."
+  />
+  <figcaption>Now I’m wondering if ‘Text’ and ‘text’ the same thing</figcaption>
+</figure>
+
+Or in a smaller context menu:
+
+<figure>
+  <PostImage
+    src={image_png}
+    alt="A dialogue box asking to turn on caret browsing, but over a taskbar item context menu, and with all sides cut off."
+  />
+  <figcaption>Don’t worry, it gets more broken</figcaption>
+</figure>
+
+Apart from the obvious problem of the dialogue box not fitting in many of these
+places, turning on caret browsing in these examples doesn’t do anything useful –
+there’s no selectable text, and no cursor that appears.
+
+But the problem is even worse in the start menu. If you’re unlucky, you’ll get
+this after pressing F7 (after first focusing something in the start menu):
+
+<figure>
+  <PostImage
+    src={image_3_png}
+    alt="The Windows 10 start menu, but greyed out."
+  />
+  <figcaption>
+    Some of these tiles animate to the same thing in a loop.
+  </figcaption>
+</figure>
+
+This start menu is broken: most interactions don’t work, and it stays like this
+after closing and reopening it. The Escape key does get you out of this state if
+it’s one of the first things you try. But once you’ve closed and reopened the
+start menu in the broken state, the Escape key doesn’t help. The only way out is
+terminating explorer.exe and restarting it using Task Manager, or logging out
+and back in again.
+
+The reason the start menu breaks in this way is that the caret browsing dialogue
+box is in the centre of the screen and is clipped out of view (as it doesn’t
+overlap with the start menu). If your settings are such that your start menu
+reaches the centre of your screen, you’ll see the dialogue box, and things
+aren’t as bad:
+
+<figure>
+  <PostImage
+    src={image_4_png}
+    alt="A wider start menu, with a partly visible caret browsing dialogue box on top."
+  />
+  <figcaption>
+    A wider start menu at a lower resolution, in a virtual machine
+  </figcaption>
+</figure>
+
+There are years-old references to these problems online (seemingly in one case
+from someone with a stuck F7 key), so it’s not new. I was also able to reproduce
+it in a clean installation of Windows 10 22H2 in a virtual machine, so it’s
+unlikely to be something peculiar to my installation.
+
+On the plus side, I wasn’t able to reproduce it in Windows 11 22H2, so perhaps
+it has been fixed there (not that I’m in any rush to upgrade my main desktop...)

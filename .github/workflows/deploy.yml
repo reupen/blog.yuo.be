@@ -1,0 +1,14 @@
+name: Trigger deploy hook
+
+on:
+  schedule:
+    - cron: "1 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger deploy hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make deploy hook request
+        run: curl -X POST "${{ secrets.PAGES_DEPLOY_HOOK }}"

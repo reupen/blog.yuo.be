@@ -1,0 +1,65 @@
+---
+title: "Be careful buying an Intel BE200 M.2 card"
+slug: be-careful-buying-an-intel-be200-m-2-card
+date: 2023-11-09T00:00:37.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-654c0126d1ab7a9d15d367ea
+tags:
+  - hardware
+excerpt: |-
+  Here’s a picture of an Intel AX210 card:
+
+  And here’s a picture of an Intel BE200 card:
+
+  If you’re observant, you may have noticed that the connector is slightly different. The AX210 is both A and E keyed, while the BE200 is only E keyed (like the AX211).
+
+  That means the BE200 won’t physically fit in all sockets that an AX210 card did. I imagine this is not much of an issue on Intel systems. However, the BE200 doesn’t fit in my AMD-based ThinkPad, as it has a key A M.2 socket for the Wi-Fi card.
+---
+
+import { PostImage } from "@/components"
+
+import ax210_1_jpg from "./ax210-1.jpg"
+import be200_webp from "./be200.webp"
+
+Here’s a picture of an Intel AX210 card:
+
+<figure>
+  <PostImage src={ax210_1_jpg} alt="A picture of an Intel AX210 M.2 card." />
+</figure>
+
+And here’s a picture of an Intel BE200 card:
+
+<figure>
+  <PostImage src={be200_webp} alt="A picture of an Intel BE200 M.2 card." />
+</figure>
+
+If you’re observant, you may have noticed that the connector is slightly
+different. The AX210 is both A and E keyed, while the BE200 is only E keyed
+(like the AX211).
+
+That means the BE200 won’t physically fit in all sockets that an AX210 card did.
+I imagine this is not much of an issue on Intel systems. However, the BE200
+doesn’t fit in my AMD-based ThinkPad, as it has a key A M.2 socket for the Wi-Fi
+card. And even if you do manage to install a BE200 in an AMD system,
+[some have reported that the card doesn’t work](https://twitter.com/ghost_motley/status/1722009391967207467).
+
+A notable difference between key A and key E M.2 sockets is that key E sockets
+support
+[Intel’s proprietary CNVi interface](https://en.wikipedia.org/wiki/CNVi).
+There’s nothing to suggest the BE200 is using CNVi, but it if were using it in
+some way it would explain incompatibilities with AMD systems. (An analysis of
+the PIN layouts of the cards may provide some further clues. Photos of the
+bottom side of the BE200 shows some PINs where the key A notch would be, while
+at the same time the AX211 has PINs connected that the BE200 doesn’t.)
+
+There’s nothing on the production specifications page for the BE200 to indicate
+any difference in connection or compatibility compared to the AX210. Intel also,
+for some reason, has restricted access to the product brief page for the BE200
+(while still linking to it from the specifications page). That is unfortunate,
+as the product brief page probably sheds some light on the matter.
+
+I very nearly ordered a BE200 when they became available recently, assuming it
+would be a straightforward upgrade for the AX210 I previously installed in my
+AMD-based ThinkPad. Luckily I held off, due to £14.40 delivery fee Mouser charge
+to the UK for small orders. (And now, I know not to bother buying one...)

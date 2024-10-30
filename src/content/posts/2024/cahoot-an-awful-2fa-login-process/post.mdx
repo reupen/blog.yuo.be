@@ -1,0 +1,81 @@
+---
+title: "Cahoot: An awful 2FA login process"
+slug: cahoot-an-awful-2fa-login-process
+date: 2024-10-20T23:00:55.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-67154b690e22b032dd168e49
+tags:
+  - web
+excerpt: |-
+  I’m happier when I can copy and paste one-time passwords.
+---
+
+import { PostImage } from "@/components"
+
+import cahoot_2_png from "./cahoot-2.png"
+
+I have a savings account with [cahoot](https://www.cahoot.com). Like most banks
+and building society websites, when logging into your account on the web you
+have to authenticate using a second factor.
+
+With cahoot, that second factor is a one-time password sent via text message.
+That, in itself, isn’t too uncommon. cahoot, however, make the process painful
+in ways that no one else does:
+
+- they manage to structure their texts in such a way that the Messages app on my
+  Pixel 8 doesn’t offer to copy the code
+- even if you go to the effort of manually copying the code from the text, they
+  actively block you from pasting the code into their website
+- the codes are overly complex – eight characters and alphanumeric. The codes
+  don’t have a set format, so you’re jumping between letters and numbers (they
+  don’t, at least, use easily confused characters like 0 and 1)
+- the attributes they set on the `<input>` element cause browsers to remember
+  every previous code, and offer to autocomplete it (particularly annoying in
+  Chrome for Android)
+
+(And, yes, they don’t offer any option other than an OTP via text for the second
+factor.)
+
+Here’s an example of one of their texts:
+
+{
+
+<figure>
+  <PostImage
+    src={cahoot_2_png}
+    alt="A redacted text message from cahoot reading, ‘OTP to LOG ON TO YOUR ONLINE BANKING. Please call us if this wasn&#x27;t you. NEVER share this code, not even with cahoot staff CUPN****’"
+  />
+  <figcaption>
+    <span>They even forgot to put the code into a sentence</span>
+  </figcaption>
+</figure>
+}
+
+And here’s a formatted example of the markup for the HTML input for the one-time
+password:
+
+```html
+<input
+  _ngcontent-ng-c528047910=""
+  type="text"
+  oncut="return false"
+  oncopy="return false"
+  onpaste="return false"
+  aria-required="true"
+  id="pwd"
+  name="pwd"
+  aria-label=""
+  aria-describedby="oneTimePasscodeDacDescpwd"
+  class="logon-textbox val-Otp ng-pristine ng-invalid ng-touched"
+  minlength="8"
+  maxlength="8"
+/>
+```
+
+(Contrast that with the example on
+[https://web.dev/articles/sms-otp-form](https://web.dev/articles/sms-otp-form).)
+
+I now actively avoid using the account. (And once the current interest rate
+expires, I’ll stop altogether. Parting with convenience isn’t always worth it
+for me for a slightly better interest rate, as it turns out.)

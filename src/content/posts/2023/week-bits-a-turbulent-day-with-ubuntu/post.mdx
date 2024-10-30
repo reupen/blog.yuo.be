@@ -1,0 +1,128 @@
+---
+title: "Week bits: A turbulent day with Ubuntu"
+slug: week-bits-a-turbulent-day-with-ubuntu
+date: 2023-02-20T00:00:53.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-63f29fe1f71e0f9869fd277f
+tags:
+  - Ubuntu
+excerpt: |-
+  I’m trying something different for this post – it's spoken (a short podcast, if you like).
+
+  Week bits 19/02/2023: A turbulent day with Ubuntu0:00/5:031×
+
+  Transcript
+
+  This is my first ‘week bits’, where I talk about something (hopefully interesting) that happened during the previous week. It’s an experiment, and I won’t do one every week (or possibly ever again).
+
+  This week, I’m talking about Ubuntu, the Linux-based operating system. On Friday, I turned my laptop on in the morning, as I do most w
+---
+
+import week_bits_2023_02_19_ubuntu_m4a from "./week-bits-2023-02-19-ubuntu.m4a"
+
+I’m trying something different for this post – it's spoken (a short podcast, if
+you like).
+
+<figure>
+  <audio
+    src={week_bits_2023_02_19_ubuntu_m4a}
+    preload="metadata"
+    controls
+  ></audio>
+  <figcaption>Week bits 19/02/2023: A turbulent day with Ubuntu</figcaption>
+</figure>
+
+<details>
+<summary><h2>Transcript</h2></summary>
+
+This is my first ‘week bits’, where I talk about something (hopefully
+interesting) that happened during the previous week. It’s an experiment, and I
+won’t do one every week (or possibly ever again).
+
+This week, I’m talking about Ubuntu, the Linux-based operating system. On
+Friday, I turned my laptop on in the morning, as I do most weekdays, and there
+were some unusual errors displayed while Ubuntu was booting. They read:
+‘blacklist: Problem blacklisting hash (-13)’. That same error was repeated 33
+times. I’d never seen these errors before, so ‘What is that?’ was the main
+thought in my mind. Ubuntu continued booting without problem, so I ignored the
+errors for the moment.
+
+Once I logged into Ubuntu, and opened Firefox, I ran into another problem: it
+wasn’t loading any web pages. In fact, I seemed to have no internet connectivity
+at all. I checked the Wi-Fi status in Ubuntu and it wasn’t even connected to a
+network. ‘That’s weird’, I thought. I saw one of my Wi-Fi networks listed and
+manually connected to it, and my internet was back.
+
+That, however, wasn’t the end of my Friday woes: later that morning, when I was
+on a Teams call in Chrome, I flicked over to Slack and my display froze, flashed
+black and then remained frozen. I still had audio so I stayed on the call, and
+then forcibly rebooted my laptop after the call had ended.
+
+When Ubuntu booted back up, once again it wasn’t connected to a Wi-Fi network.
+This time I paid a bit more attention: my laptop was no longer seeing my 6GHz
+Wi-Fi 6E network. It was still seeing my 2.4 and 5 GHz networks, and although
+those ones were also saved, Ubuntu wasn’t configured to automatically connect to
+them as it was for the 6 GHz network. I suspected some kernel and firmware
+updates Ubuntu had installed the day before were the cause of the Wi-Fi 6E
+problem. I had a quick look at the update logs, but I didn’t have time to
+investigate further, so I just made Ubuntu connect to my 5 GHz network
+automatically so I could get on with my day.
+
+Then the afternoon came. Twice more my display froze. The first time I was using
+Teams and Slack again, the second time I was just using Slack.
+
+I’d had enough at that point and dug through the system logs, looking for clues.
+And it didn’t take long to find some. There were loads of amdgpu ‘no-retry page
+fault’ errors, all mentioning Slack, at the time of the last display freeze.
+Bingo. I searched the Ubuntu bug tracker for that error, and quickly found an
+entry, but for Ubuntu 22.10 Kinetic. It looked like the same bug, but I was
+running Ubuntu 22.04, the latest long-term support release. There was a link to
+the upstream bug for the problem, and the bug was introduced in kernel version
+5.19, and fixed in 6.1.
+
+I was confused about why this would suddenly start affecting me. So, I looked at
+the Ubuntu update logs more closely: the kernel had been updated from version
+5.15 to 5.19. That explained everything.
+
+Based on what the amdgpu bug report said, I decided to update to the Ubuntu
+linux-oem-22.04c kernel, which is based on the upstream 6.1 kernel. I also
+manually updated some firmware images from the upstream linux-firmware Git
+repository to see if it helped with the Wi-Fi 6E problem.
+
+The kernel update solved the display freezes, but the Wi-Fi 6E problem remained.
+I checked my router settings and noticed that the 6 GHz network was configured
+to use a non-preferred scanning channel (or non-PSC as they are called). I
+switched to a preferred scanning channel, and Ubuntu saw the Wi-Fi 6E network
+once again. I also checked the behaviour in Windows 11 and it had no problem
+connecting to the original channel I was using. Regardless of which one is
+correct, I don’t really expect to turn on my laptop one day and find it won’t
+connect to my Wi-Fi network. The polite thing to do would’ve been to warn about
+the problem with the channel for a period of time before goign on to break it.
+
+The last problem remaining was the unhelpful blacklisting errors on boot. A
+quick search online showed those errors are also new in version 5.19 of the
+kernel, and are caused by a BIOS bug relating to secure boot keys. But the
+errors can, apparently, be safely ignored. So, ignore them I shall.
+
+So, all-in-all, a turbulent kernel update, and I’m surprised Canonical is
+pushing the 5.19 kernel to Ubuntu 22.04 with such a severe AMD GPU bug. No doubt
+there are others running into the same problem, as I speak.
+
+And that’s the end of my first ‘week bits’. Hope you enjoyed them.
+
+</details>
+
+<details>
+<summary><h2>Links</h2></summary>
+
+Links to the AMD GPU bug mentioned:
+
+- [Ubuntu bug](https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1995956)
+- [Upstream bug](https://gitlab.freedesktop.org/drm/amd/-/issues/2113)
+
+The kernel I ended up installing:
+
+- [linux-oem-22.04c](https://packages.ubuntu.com/jammy-updates/linux-oem-22.04c)
+
+</details>

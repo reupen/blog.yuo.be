@@ -1,0 +1,18 @@
+[project]
+name = "blog-yuo-be"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "brotli>=1.1.0",
+    "fonttools>=4.54.1",
+    "httpx>=0.27.2",
+    "ruff>=0.7.1",
+]
+
+[tool.ruff.lint]
+extend-select = ["B0", "I", "PT", "RUF", "SIM", "UP"]
+extend-ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma=false

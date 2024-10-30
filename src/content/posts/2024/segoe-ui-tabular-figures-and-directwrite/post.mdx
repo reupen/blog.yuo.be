@@ -1,0 +1,87 @@
+---
+title: "Segoe UI, tabular figures and DirectWrite"
+slug: segoe-ui-tabular-figures-and-directwrite
+date: 2024-07-20T23:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-669bb32b3ae32947959f04ce
+tags:
+  - fonts
+  - Win32
+excerpt: |-
+  Segoe UI isn’t always consistent, but it can be made to be.
+---
+
+import { PostImage } from "@/components"
+
+import segoe_ui_proportional_figures_png from "./segoe-ui-proportional-figures.png"
+import segoe_ui_tabular_figures_png from "./segoe-ui-tabular-figures.png"
+import semi_light_tabular_figures_png from "./semi-light-tabular-figures.png"
+
+When using the normal weight of Segoe UI, the default Windows font, a column of
+numbers looks something like this:
+
+<figure>
+  <PostImage
+    src={segoe_ui_tabular_figures_png}
+    alt="A screenshot of track numbers displayed in a column and rendered using the Segoe UI font in the standard font weight."
+  />
+  <figcaption>
+    <span>Segoe UI, standard weight</span>
+  </figcaption>
+</figure>
+
+I recently noticed, however, that when switching to a semi-light font weight,
+the column instead looks like this:
+
+<figure>
+  <PostImage
+    src={segoe_ui_proportional_figures_png}
+    alt="A screenshot of track numbers displayed in a column and rendered using the Segoe UI font in the semi-light font weight."
+  />
+  <figcaption>
+    <span>Segoe UI, semi-light weight</span>
+  </figcaption>
+</figure>
+
+There’s suddenly less spacing around the digit 1, and the numbers no longer line
+up.
+
+The reason?
+[Some Segoe UI font weights default to tabular figures (numerals), while others default to proportional figures.](https://github.com/MicrosoftDocs/typography-issues/issues/411)
+
+The good news is that it’s possible to switch between the two styles using
+[the ‘tnum’ and ‘pnum’ OpenType features](https://en.wikipedia.org/wiki/List_of_typographic_features).
+When using CSS, tabular and proportional figures can be selected between (for
+supported fonts) by
+[using the font-variant-numeric CSS property](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric).
+
+But what about when using DirectWrite in a Windows desktop app? Nothing much
+useful comes up when searching for ‘DirectWrite tabular figures’ on Google.
+However, with a bit of digging through the documentation, I found the answer:
+
+```c++
+void enable_tabular_figures(const wil::com_ptr_t<IDWriteFactory>& factory,
+    const wil::com_ptr_t<IDWriteTextLayout>& text_layout, const DWRITE_TEXT_RANGE text_range)
+{
+    wil::com_ptr_t<IDWriteTypography> typography;
+    THROW_IF_FAILED(factory->CreateTypography(&typography));
+
+    THROW_IF_FAILED(typography->AddFontFeature({DWRITE_FONT_FEATURE_TAG_TABULAR_FIGURES, 1}));
+
+    THROW_IF_FAILED(text_layout->SetTypography(typography.get(), text_range));
+}
+```
+
+And here’s the result – Segoe UI with a semi-light font weight and tabular
+figures:
+
+<figure>
+  <PostImage
+    src={semi_light_tabular_figures_png}
+    alt="A screenshot of track numbers displayed in a column and rendered using the Segoe UI font in the standard font weight and the tabular figures OpenType feature enabled."
+  />
+  <figcaption>
+    <span>Segoe UI, semi-light weight with tabular figures enabled</span>
+  </figcaption>
+</figure>

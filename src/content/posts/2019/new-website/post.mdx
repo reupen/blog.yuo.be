@@ -1,0 +1,146 @@
+---
+title: "The history of a website: musicmusic’s (foobar2000) stuff"
+slug: new-website
+date: 2019-10-21T15:57:38.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-5da6195ecf157740b32e6ba1
+tags:
+  - web
+excerpt: |-
+  musicmusic’s foobar2000 stuff first appeared in 2003
+  [https://web.archive.org/web/20031222203115/http://members.lycos.co.uk/musicf/],
+  as a website to host components I had written for the foobar2000 audio player
+  [https://foobar2000.org]. Hosted on free web host Lycos, it’s address was
+  members.lycos.co.uk/musicf. The site’s design was simple and unassuming:
+
+  The original site, hosted on LycosThe site was simply an HTML file that I had
+  manually crafted. Some CSS was embedded in the page (curiousl
+---
+
+import { PostImage } from "@/components"
+
+import image_10_png from "./image-10.png"
+import image_11_png from "./image-11.png"
+import image_17_png from "./image-17.png"
+import image_3_png from "./image-3.png"
+import image_4_png from "./image-4.png"
+import image_5_png from "./image-5.png"
+
+musicmusic’s foobar2000 stuff
+[first appeared in 2003](https://web.archive.org/web/20031222203115/http://members.lycos.co.uk/musicf/),
+as a website to host components I had written for the
+[foobar2000 audio player](https://foobar2000.org). Hosted on free web host
+Lycos, it’s address was _members.lycos.co.uk/musicf_. The site’s design was
+simple and unassuming:
+
+<figure>
+  <PostImage src={image_10_png} alt="A screenshot of the original site" />
+  <figcaption>The original site, hosted on Lycos</figcaption>
+</figure>
+
+The site was simply an HTML file that I had manually crafted. Some CSS was
+embedded in the page (curiously, partly in all caps and partly lower case), as
+well as a small bit of JavaScript that hides and shows the Text writer change
+log on click. Also of note is that the site had a textured background.
+
+[In 2004](https://web.archive.org/web/20041205172954/http://music.everywebhost.com/),
+the design of the site was slightly refined, and the textured background
+removed. The CSS had been moved to a separate file. The site also moved to a
+non-free shared hosting provider, with the URL changing to
+_music.everywebhost.com_. It is also interesting to see that Album list panel
+was open source at this point; I recall that the source code of the original
+Album list component (that it was based on) was part of the foobar2000 SDK.
+
+[In early 2005](https://web.archive.org/web/20050111025042/http://music.everywebhost.com:80/),
+nested green boxes were introduced to organise expanding content about Columns
+UI.
+[In April 2005](https://web.archive.org/web/20050406013327/http://music.morbo.org/),
+the nested boxes were dropped and the site was spread over multiple pages. Each
+page shared a common side menu; PHP was introduced to achieve this. The site
+also moved to _music.morbo.org_, after the owner of morbo.org kindly offered to
+host my website following some problems with my previous host.
+[By the end of 2005](https://web.archive.org/web/20051225023107/http://music.morbo.org/),
+the site looked like this:
+
+<figure>
+  <PostImage
+    src={image_11_png}
+    alt="A screenshot of the home page of the late 2005 version of the site"
+  />
+  <figcaption>Blue was out, and lilac was in</figcaption>
+</figure>
+
+This colour scheme and design would prove to be short-lived.
+[In early 2006](https://web.archive.org/web/20060407022014/http://music.morbo.org/),
+the site underwent a more radical refresh:
+
+<figure>
+  <PostImage
+    src={image_3_png}
+    alt="A screenshot of the home page of the early 2006 version of the site"
+  />
+  <figcaption>This minimalist design is one of my favourites</figcaption>
+</figure>
+
+Colours were banished, and the Verdana font was dropped in favour of a return to
+Tahoma. PHP was also now used to calculate file sizes for downloads.
+
+In October 2006, the site moved again, but this time to a dedicated domain name:
+_yuo.be_. This would become the site’s long-term home. The site also remained
+largely unchanged in design
+[until 2009](https://web.archive.org/web/20090609162200/http://yuo.be/), where
+some of the minimalism was lost:
+
+<figure>
+  <PostImage
+    src={image_4_png}
+    alt="A screenshot of the home page of the 2009 version of the site"
+  />
+  <figcaption>Two-toned boxes were now in vogue</figcaption>
+</figure>
+
+[In 2015](https://web.archive.org/web/20150831053301/http://yuo.be/), the site
+moved to AWS and CloudFlare, and underwent a Bootstrap-themed refresh:
+
+<figure>
+  <PostImage
+    src={image_5_png}
+    alt="A screenshot of the home page of the 2015 version of the site"
+  />
+  <figcaption>The site had a sticky header</figcaption>
+</figure>
+
+'foobar2000' was dropped from the name of the site (largely because of a lack of
+space). This has remained the design of the site, until now.
+
+## Rethinking the site: a new design
+
+<figure>
+  <PostImage
+    src={image_17_png}
+    alt="A screenshot of the home page of the new version of the site"
+  />
+  <figcaption>Back to basics</figcaption>
+</figure>
+
+I’ve, once again, redesigned the site. [The new site](https://yuo.be) opts for
+simplicity, and focuses on logically organised content.
+
+The change in design also coincides with a more radical change in technology.
+The new site was built using [site generator Gatsby](https://www.gatsbyjs.org/)
+and [CSS framework Bulma](https://bulma.io/). The site is written using
+[React](https://reactjs.org/), [GraphQL](https://graphql.org/) and
+[Sass](https://sass-lang.com/) – but compiles to HTML, and works without
+JavaScript. (But, if you do have JavaScript enabled, it magically turns into a
+[single-page application](https://en.wikipedia.org/wiki/Single-page_application).)
+
+As a result, PHP is no longer used on the site, and caching works well out of
+the box. And, despite the more static nature of the content, I was able to
+retain the display of download file sizes.
+
+The new site [is live at yuo.be](https://yuo.be/) and
+[it’s source code has been published on GitHub](https://github.com/reupen/yuo.be).
+Feel free to leave feedback in the comments or on GitHub. (If you encounter any
+problems with the new site, the old site is temporarily available at
+[old.yuo.be](https://old.yuo.be).)

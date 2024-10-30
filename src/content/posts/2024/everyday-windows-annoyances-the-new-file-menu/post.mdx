@@ -1,0 +1,65 @@
+---
+title: "Everyday Windows annoyances: The new file menu"
+slug: everyday-windows-annoyances-the-new-file-menu
+date: 2024-06-13T23:00:16.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-65bffd261fe2ea7fd10d174b
+tags:
+  - Windows
+excerpt: |-
+  Always consider the order of items in user interfaces, please.
+---
+
+import { PostImage } from "@/components"
+
+import image_1_png from "./image-1.png"
+import image_2_png from "./image-2.png"
+import image_png from "./image.png"
+
+When you right-click on the desktop or in a folder, one of the things you can do
+using the context menu is create new files, folders and shortcuts. Here’s what
+this part of the context menu looks like on a fully up-to-date installation of
+Windows 11:
+
+<figure>
+  <PostImage src={image_1_png} alt="The ‘New’ menu in Windows 11" />
+  <figcaption>
+    <span>I honestly forgot that Microsoft Publisher was a thing</span>
+  </figcaption>
+</figure>
+
+I always pause for a moment when looking at this menu. Because, at first glance,
+it looks like the entries for creating new files (from the third item down) are
+in no particular order. In fact, though, those entries sorted by something that
+isn’t shown – the file extension used by that file type.
+
+The items being sorted by something not visible makes it harder to scan through
+the list to find the item you want. But is this a new problem? The answer is no
+– the order of the items was the same in Windows 7 (though a useful dividing
+line after ‘Shortcut’ has been lost):
+
+<figure>
+  <PostImage src={image_png} alt="The ‘New’ menu in Windows 7" />
+  <figcaption>
+    <span>Briefcases!</span>
+  </figcaption>
+</figure>
+
+In fact, apart from a moved briefcase, the order was the same in Windows XP:
+
+<figure>
+  <PostImage src={image_2_png} alt="The ‘New’ menu in Windows XP" />
+  <figcaption>
+    <span>Simpler times</span>
+  </figcaption>
+</figure>
+
+Why are the items in that order? There’s a simple probable explanation: the
+entries that determine what appears in that menu are organised by file extension
+under the HKEY_CLASSES_ROOT key in the Windows Registry. The items are
+presumably just being shown in the order they are enumerated from the Windows
+Registry (and, as I get to the end of writing this post, I see that
+[Raymond Chen has confirmed this](https://devblogs.microsoft.com/oldnewthing/20190611-00/?p=102581)).
+
+There’s hope for Windows 12, I guess.

@@ -1,0 +1,33 @@
+---
+title: "Microsoft SAPI text-to-speech fun"
+slug: microsoft-sapi-text-to-speech-fun
+date: 2010-06-10T23:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-289
+excerpt: |-
+  It seems to fail at resampling. I tested on Windows 7 with the stock Microsoft
+  Anna voice; you probably won't notice unless you use an alternative output (e.g.
+  write to file) and specify a non-native sample rate (I suppose most people don't
+  do that).
+
+  Handily I was in the context of a foobar2000 component, so I was able to make
+  SAPI output to memory at the native sample rate and use FB2K's resampler.
+
+  Here are some samples [https://blog.yuo.be/content/images/misc/TTS-resample.7z]
+  (native 16kHz,
+---
+
+import TTS_resample_7z from "./TTS-resample.7z"
+
+It seems to fail at resampling. I tested on Windows 7 with the stock Microsoft
+Anna voice; you probably won't notice unless you use an alternative output (e.g.
+write to file) and specify a non-native sample rate (I suppose most people don't
+do that).
+
+Handily I was in the context of a foobar2000 component, so I was able to make
+SAPI output to memory at the native sample rate and use FB2K's resampler.
+
+<a href={TTS_resample_7z}>Here are some samples</a> (native 16kHz,
+SAPI-resampled 22kHz, FB2K-resampled 22kHz). Feel free to share any insight in
+the comments...

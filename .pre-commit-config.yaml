@@ -1,0 +1,38 @@
+exclude: ^.subset-chars$
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: npm exec --no -- prettier --write --ignore-unknown
+        language: system
+        types: [text]
+      - id: eslint
+        name: eslint
+        entry: npm exec --no -- eslint --fix --max-warnings 0 .
+        language: system
+        files: \.(([cm]?(j|t)s)|astro|mdx)$
+      - id: astro-check
+        name: astro check
+        entry: npm exec --no -- astro check --minimumFailingSeverity hint
+        language: system
+        pass_filenames: false
+      - id: ruff-check
+        name: ruff-check
+        entry: uv run ruff check --fix --exit-non-zero-on-fix
+        language: system
+        types: [python]
+        require_serial: true
+      - id: ruff-format
+        name: ruff-format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+        require_serial: true

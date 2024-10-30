@@ -1,0 +1,143 @@
+---
+title: "The bugs in File Explorer"
+slug: the-bugs-in-file-explorer
+date: 2023-10-19T23:00:26.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-65312945d1ab7a9d15d365fd
+tags:
+  - Windows
+excerpt: |-
+  The latest version of Windows 11 includes an updated version of File Explorer, built using the Windows App SDK. Some parts of File Explorer haven’t actually changed – the main part of the UI containing the left pane and the file list is still using DirectUI (an undocumented technology). But do the new parts contain new bugs?
+
+  Yes, is the short answer (in some cases, glaringly obvious ones).
+
+
+  The address bar is randomly refocused
+
+  After clicking on the address bar and then clicking somewhere els
+---
+
+import { PostImage } from "@/components"
+
+import address_bar_1_mp4 from "./address-bar-1.mp4"
+import explorer_225_jpg from "./explorer-225-.jpg"
+import explorer_alignment_cropped_png from "./explorer-alignment-cropped.png"
+import icon_size_1_mp4 from "./icon-size-1.mp4"
+import search_2_mp4 from "./search-2.mp4"
+import square_2_mp4 from "./square-2.mp4"
+
+The latest version of Windows 11 includes an updated version of File Explorer,
+built using the
+[Windows App SDK](https://learn.microsoft.com/en-gb/windows/apps/windows-app-sdk/).
+Some parts of File Explorer haven’t actually changed – the main part of the UI
+containing the left pane and the file list is still using DirectUI (an
+undocumented technology). But do the new parts contain new bugs?
+
+Yes, is the short answer (in some cases, glaringly obvious ones).
+
+## The address bar is randomly refocused
+
+After clicking on the address bar and then clicking somewhere else, the address
+bar gets refocused when clicking on the toolbar and again when clicking
+elsewhere. Here’s a quick video demo:
+
+<figure>
+  <video
+    src={address_bar_1_mp4}
+    height="1308"
+    preload="metadata"
+    width="2472"
+    controls
+    playsInline
+  ></video>
+</figure>
+
+## The address bar gets stuck after interrupting a search
+
+If you navigate to another folder in the middle of a search, the address bar
+gets stuck on ‘Search Results’:
+
+<figure>
+  <video
+    src={search_2_mp4}
+    height="1392"
+    preload="metadata"
+    width="2472"
+    controls
+    playsInline
+  ></video>
+</figure>
+
+## Text is misaligned in the address bar
+
+It’s only one pixel off – but I noticed that ‘This PC’ and ‘Windows (C:)’ are
+misaligned, just by eyeballing:
+
+<figure>
+  <PostImage
+    src={explorer_alignment_cropped_png}
+    alt="A screenshot showing misaligned text in the File Explorer address bar."
+  />
+</figure>
+
+## Other applications are redrawn when opening File Explorer
+
+This one is bizarre, and was
+[initially noticed on the foobar2000 forums](https://hydrogenaud.io/index.php/topic,124874).
+For some reason, opening a new File Explorer window or tab causes other
+applications to receive a
+[WM_SYNCPAINT message](https://devblogs.microsoft.com/oldnewthing/20120723-00/?p=7073),
+causing them to erase and redraw their windows. A lot of redundant work, and
+visually noticeable in some programs.
+
+## None of the old bugs have been fixed
+
+Since the file list is essentially unchanged from previous version, all the old
+bugs relating to it are still present.
+
+Here are a few of those:
+
+- the ‘Extra large icons’ view has too much spacing at 225% DPI:
+
+<figure>
+  <PostImage
+    src={explorer_225_jpg}
+    alt="A screenshot showing excess horizontal padding between icons in File Explorer."
+  />
+</figure>
+
+- thumbnail spacing randomly changes (in this example, I delete a file and then
+  press F5 to restore the initial spacing):
+
+<figure>
+  <video
+    src={icon_size_1_mp4}
+    height="1304"
+    preload="metadata"
+    width="2472"
+    controls
+    playsInline
+  ></video>
+</figure>
+
+- thumbnails sometimes become cropped after changing the view (in this case,
+  using Ctrl+mouse wheel, and finally pressing F5 to correct the thumbnail size
+  again):
+
+<figure>
+  <video
+    src={square_2_mp4}
+    height="1304"
+    preload="metadata"
+    width="2472"
+    controls
+    playsInline
+  ></video>
+</figure>
+
+## Will any of these get fixed?
+
+I’ve reported all of these via the Feedback Hub. Sadly, bugs don’t seem to get
+picked up unless there is a lot of noise around them, so I wouldn’t bet on fixes
+any time soon.

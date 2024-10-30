@@ -1,0 +1,170 @@
+---
+import { experimental_AstroContainer } from "astro/container"
+import mdxRenderer from "astro/jsx/server.js"
+import { format } from "date-fns"
+import { convert as htmlToText } from "html-to-text"
+
+import { Comments } from "@/components"
+import Layout from "@/layouts/Layout.astro"
+import { getPosts } from "@/lib"
+
+export async function getStaticPaths() {
+  function getPostSlug(post: Awaited<ReturnType<typeof getPosts>>[0]) {
+    return `${post.data.slugPrefix}/${post.slug}`
+  }
+
+  const posts = await getPosts()
+
+  return posts.map((post, index) => {
+    const previousPost = posts[index - 1]
+    const nextPost = posts[index + 1]
+
+    return {
+      params: {
+        slug: getPostSlug(post),
+      },
+      props: {
+        post,
+        index,
+        previous: previousPost
+          ? { ...previousPost, url: `/${getPostSlug(previousPost)}/` }
+          : undefined,
+        next: nextPost
+          ? { ...nextPost, url: `/${getPostSlug(nextPost)}/` }
+          : undefined,
+      },
+    }
+  })
+}
+
+const { index, next, post, previous } = Astro.props
+
+const homePageNumber = Math.floor(index / 20) + 1
+const homePagePath = homePageNumber == 1 ? "/" : `/${homePageNumber}/`
+
+const { Content } = await post.render()
+
+const container = await experimental_AstroContainer.create()
+container.addServerRenderer({ renderer: mdxRenderer, name: "MDX" })
+
+const postHtml = await container.renderToString(Content)
+const postText = htmlToText(postHtml, { wordwrap: false })
+const readingTime = Math.max(
+  1,
+  Math.round(postText.trim().split(/\s+/).length / 238),
+)
+---
+
+<Layout
+  description={post.data.excerpt}
+  ogPublishedTime={post.data.date}
+  ogType="article"
+  postReturnUrl={`${homePagePath}#${post.slug}`}
+  title={post.data.title}
+>
+  <h1>{post.data.title}</h1>
+  <p class="date-reading-time">
+    <time datetime={post.data.date.toISOString()}>
+      {format(post.data.date, "d MMMM yyyy")}
+    </time><span class="bullet"> • </span><span>{readingTime} min read</span>
+  </p>
+  <Content />
+  <Comments
+    id={post.data.commentId}
+    title={post.data.title}
+    url={Astro.url}
+    client:load
+  />
+  <div class="prev-next-links">
+    {
+      previous && (
+        <a href={previous.url}>
+          <i class="fa-solid fa-arrow-left" />
+          {previous.data.title}
+        </a>
+      )
+    }
+    {!previous && <span />}
+    {!next && <span />}
+    {
+      next && (
+        <a class="next-page" href={next.url}>
+          {next.data.title}
+          <i class="fa-solid fa-arrow-right" />
+        </a>
+      )
+    }
+  </div>
+
+  <style>
+    a {
+      font-family: var(--sans-serif-font-family);
+
+      &:hover {
+        &,
+        i {
+          text-decoration-thickness: 12%;
+        }
+      }
+
+      &,
+      i {
+        text-decoration: underline;
+        text-underline-offset: 0.25em;
+        text-decoration-thickness: 7%;
+      }
+    }
+
+    .date-reading-time {
+      font-family: var(--monospace-font-family);
+      font-weight: 500;
+      color: white;
+    }
+
+    .bullet {
+      margin: 0 0.2rem;
+    }
+
+    .prev-next-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      column-gap: 1rem;
+      row-gap: 1.1rem;
+      margin-top: 2rem;
+
+      @media print {
+        display: none;
+      }
+
+      > span {
+        display: block;
+        visibility: hidden;
+      }
+
+      > a {
+        display: flex;
+        align-items: center;
+        column-gap: 0.5rem;
+        padding: 1rem 1rem;
+        line-height: 1.65;
+        background: #333;
+        border-radius: 5px;
+
+        &,
+        i {
+          text-decoration: none;
+        }
+
+        &:hover {
+          background: #444;
+          text-decoration: none;
+        }
+      }
+
+      .next-page {
+        justify-content: right;
+        text-align: right;
+      }
+    }
+  </style>
+</Layout>
