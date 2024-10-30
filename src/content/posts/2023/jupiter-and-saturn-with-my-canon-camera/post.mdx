@@ -1,0 +1,200 @@
+---
+title: "Jupiter and Saturn with my Canon camera"
+slug: jupiter-and-saturn-with-my-canon-camera
+date: 2023-11-07T00:06:03.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-65480f01d1ab7a9d15d3668d
+tags:
+  - photography
+excerpt: |-
+  I recently bought a Canon RF 800mm F11 IS STM lens for my Canon EOS R camera.
+
+  While the lens is light for an 800mm lens, it’s still too large and heavy to take out and about on a whim (for me, at least). But there are still interesting things to take photos of from my back garden. In this case, that’s Jupiter and Saturn.
+
+
+  Jupiter
+
+  Finding Jupiter with the naked eye is usually pretty easy as it’s exceptionally bright. Manually pointing an 800mm lens at Jupiter is trickier: the small angle of vi
+---
+
+import { PostImage } from "@/components"
+
+import jupiter_sharpened_png from "./jupiter-sharpened.png"
+import jupiter_single_png from "./jupiter-single.png"
+import jupiter_stacked_png from "./jupiter-stacked.png"
+import jupiter_stellarium_png from "./jupiter-stellarium.png"
+import saturn_sharpened_png from "./saturn-sharpened.png"
+import saturn_single_png from "./saturn-single.png"
+import saturn_stacked_png from "./saturn-stacked.png"
+import saturn_stellarium_png from "./saturn-stellarium.png"
+
+I recently bought a Canon RF 800mm F11 IS STM lens for my Canon EOS R camera.
+
+While the lens is light for an 800mm lens, it’s still too large and heavy to
+take out and about on a whim (for me, at least). But there are still interesting
+things to take photos of from my back garden. In this case, that’s Jupiter and
+Saturn.
+
+## Jupiter
+
+Finding Jupiter with the naked eye is usually pretty easy as it’s exceptionally
+bright. Manually pointing an 800mm lens at Jupiter is trickier: the small angle
+of view and fixed focal length mean you have to be very precise.
+
+Vibrations are also magnified, so I controlled the camera using Canon’s mobile
+app for the most part to avoid inducing shake by touching the camera. (A nice
+feature of the app is that you can make very precise manual focus adjustments.
+That, along with the 10x live view zoom, make focusing much easier.)
+
+I took a series of photos using continuous shooting, stopping when the camera
+pauses to take a breather (usually after about 50 shots). Here’s a crop of an
+above average photo from that series (with sharpening turned off, and the image
+resized to three times the original size):
+
+<figure>
+  <PostImage
+    src={jupiter_single_png}
+    alt="A single photo of Jupiter from the run of 50 photos."
+  />
+  <figcaption>
+    <span>Definitely not a biscuit</span>
+  </figcaption>
+</figure>
+
+That was taken at a shutter speed of 1/250 seconds and at ISO 400. It’s a bit
+noisy, but you can make out some of Jupiter’s bands.
+
+To get a better result, I stacked most of the 50 photos using
+[AutoStakkert!](https://www.autostakkert.com):
+
+<figure>
+  <PostImage
+    src={jupiter_stacked_png}
+    alt="The 50 photos of Jupiter stacked into a single image."
+  />
+  <figcaption>
+    <span>I never did like noise</span>
+  </figcaption>
+</figure>
+
+The result is a soft but less noisy image. I enabled the
+[Drizzle algorithm](<https://en.wikipedia.org/wiki/Drizzle_(image_processing)>)
+in AutoStakkert! to produce an image three times the original size.
+
+To combat the softness, the last thing I did was apply some
+[wavelet sharpening](https://siril.readthedocs.io/en/latest/processing/atrouwavelets.html)
+using [Siril](https://siril.org):
+
+<figure>
+  <PostImage
+    src={jupiter_sharpened_png}
+    alt="A sharpened version of the stacked image of Jupiter."
+  />
+  <figcaption>
+    <span>Detail is good, though</span>
+  </figcaption>
+</figure>
+
+Like magic, the blurriness is mostly gone.
+
+As a comparison to what Jupiter actually looked like, here’s a screenshot from
+[Stellarium Web](https://stellarium-web.org/) at the same time and location:
+
+<figure>
+  <PostImage
+    src={jupiter_stellarium_png}
+    alt="A screenshot showing what Jupiter looked like in Stellarium for the same date, time and location."
+  />
+  <figcaption>
+    <span>Stellarium is a very useful tool</span>
+  </figcaption>
+</figure>
+
+Ganymede, one of Jupiter’s moons, is in the sharpened photo at the top-right.
+The sharpened photo also has a small smudge in a similar location to Io and its
+shadow. (Two other moons, Europa and Callisto, are also visible outside of the
+crop above.)
+
+## Saturn
+
+I’d never tried to take a photo of Saturn before, but it was the next most
+obvious thing in the night sky to try and photograph with my kit. I went through
+the same process as I did for Jupiter. Saturn is not as bright as Jupiter, so I
+used a much higher ISO setting of 1250. (It was also not as high in the sky as
+Jupiter, making
+[atmospherical seeing](https://en.wikipedia.org/wiki/Astronomical_seeing) more
+of a problem.)
+
+Here’s an above average shot from the series of photos I took:
+
+<figure>
+  <PostImage
+    src={saturn_single_png}
+    alt="A single photo of Saturn from the run of 50 photos."
+  />
+  <figcaption>
+    <span>I honestly wasn’t expecting to make out the rings</span>
+  </figcaption>
+</figure>
+
+It’s only really a shape – but that’s good enough to make out the rings (not
+individually, of course!)
+
+Here’s the result of stacking the series of photos:
+
+<figure>
+  <PostImage
+    src={saturn_stacked_png}
+    alt="50 photos of Saturn stacked into a single image."
+  />
+  <figcaption>
+    <span>And the noise is gone</span>
+  </figcaption>
+</figure>
+
+Sharpening Saturn was not quite the same as sharpening Jupiter – there isn’t
+much detail to sharpen, so instead we’re trying to sharpen the shape. Here’s
+what I ended up with:
+
+<figure>
+  <PostImage
+    src={saturn_sharpened_png}
+    alt="A sharpened version of the stacked image of Saturn."
+  />
+  <figcaption>
+    <span>Definitely not a wrapped sweet</span>
+  </figcaption>
+</figure>
+
+A screenshot from Stellarium as a comparison:
+
+<figure>
+  <PostImage
+    src={saturn_stellarium_png}
+    alt="A screenshot showing what Saturn looked like in Stellarium for the same date, time and location."
+  />
+  <figcaption>
+    <span>Yes, the angle of my camera was slightly off</span>
+  </figcaption>
+</figure>
+
+## Wrapping up
+
+This was just a bit of fun, but the results were better than I imagined. Better
+photos can be taken with an appropriate telescope and specialised astronomical
+camera, but I don’t have those and am not in a rush to buy them.
+
+Some ideas for improving the results with my kit are:
+
+- using an [equatorial mount](https://en.wikipedia.org/wiki/Equatorial_mount)
+  that rotates with the earth, allowing slightly longer exposures and hence
+  lower ISO settings
+- using either the Canon RF 1.4x or 2x extender to magnify the image
+- upgrading my camera to a higher-resolution one like the Canon EOS R5
+- experimenting further with stacking
+- trying some specialised software to capture images from the camera with a
+  computer connected by USB
+
+If I ever get noticeably better photos, I’m sure I’ll be back here posting
+again...

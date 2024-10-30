@@ -1,0 +1,230 @@
+---
+title: "The ten-month-old SSD that ate my data"
+slug: the-ten-month-old-ssd-that-ate-my-data
+date: 2021-12-23T00:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-61c0e37fddf2bdf431b46b1a
+tags:
+  - hardware
+excerpt: |-
+  I recently noticed that the audio player I use, foobar2000, was refusing to play
+  a certain song in my media library. It complained that the file was corrupt. In
+  fact, it wasn’t just one file – there were four files in a row that wouldn’t
+  play.
+
+  I knew these files used to play fine (they were in my music library, after all)
+  but I had no idea why they suddenly were unplayable. I first checked an older
+  version of foobar2000, just in case it was related to an update to it. The older
+  version gave the
+---
+
+import { PostImage } from "@/components"
+
+import _870_evo_error_1_no_serial_png from "./870-evo-error-1-no-serial.png"
+import _870_evo_error_2_no_serial_png from "./870-evo-error-2-no-serial.png"
+import _870_evo_event_viewer_png from "./870-evo-event-viewer.png"
+import _870_evo_HxD_png from "./870-evo-HxD.png"
+import _870_evo_magician_full_scan_no_serial_png from "./870-evo-magician-full-scan-no-serial.png"
+import _870_evo_magician_smart_png from "./870-evo-magician-smart.png"
+import _870_evo_smart_highlighted_2_png from "./870-evo-smart---highlighted-2.png"
+
+I recently noticed that the audio player I use, foobar2000, was refusing to play
+a certain song in my media library. It complained that the file was corrupt. In
+fact, it wasn’t just one file – there were four files in a row that wouldn’t
+play.
+
+I knew these files used to play fine (they were in my music library, after all)
+but I had no idea why they suddenly were unplayable. I first checked an older
+version of foobar2000, just in case it was related to an update to it. The older
+version gave the same error. I was becoming suspicious, so I thought I’d try to
+open one of the files in the HxD hex editor. It greeted me with this:
+
+<figure>
+  <a href={_870_evo_HxD_png.src}>
+    <PostImage
+      src={_870_evo_HxD_png}
+      alt="A dialogue box saying ‘Stream read error.’"
+    />
+  </a>
+  <figcaption>Nope, that didn’t look good</figcaption>
+</figure>
+
+That wasn’t quite what I was expecting. Fearing a hardware problem, I had a look
+in the Windows Event Viewer:
+
+<figure>
+  <a href={_870_evo_event_viewer_png.src}>
+    <PostImage
+      src={_870_evo_event_viewer_png}
+      alt="A long list of errors stating that ‘[t]he device, \HardDisk0\DR0, has a bad block’"
+    />
+  </a>
+  <figcaption>
+    These errors started on 5 December, but not once did Windows tell me there
+    was a problem
+  </figcaption>
+</figure>
+
+That didn’t look fantastic. On the plus side, the clues were pointing in the
+same direction: towards the 2TB Samsung 870 EVO solid-state drive the files in
+question were stored on.
+
+I then stopped by
+[CrystalDiskInfo](https://crystalmark.info/en/software/crystaldiskinfo/) to
+check the drive’s SMART data. When I’ve had failing drives in the past,
+CrystalDiskInfo would play a warning sound and give the drive in question an
+amber blob. For this drive, things looked OK at first glance. But on closer
+inspection, there were a few numbers that looked suspicious:
+
+<figure>
+  <a href={_870_evo_smart_highlighted_2_png.src}>
+    <PostImage
+      src={_870_evo_smart_highlighted_2_png}
+      alt="A list of SMART data for the drive, with the entries for ‘Reallocated Sector Count’, ‘Runtime Bad Block (Total)’, ‘Uncorrectable Error Count’ and ‘ECC Error Rate’ highlighted."
+    />
+  </a>
+  <figcaption>
+    I’ve never been particularly fond of reallocated sectors
+  </figcaption>
+</figure>
+
+Still wondering what exactly was going on, I turned to Samsung’s SSD management
+software – the
+[Samsung Magician](https://www.samsung.com/semiconductor/minisite/ssd/product/consumer/magician/).
+I fired it up, but it didn’t immediately highlight a problem. I thought I’d try
+a short SMART self-test. That failed after 20 seconds, first showing this:
+
+<figure>
+  <a href={_870_evo_error_1_no_serial_png.src}>
+    <PostImage
+      src={_870_evo_error_1_no_serial_png}
+      alt="Samsung Magician showing the error ‘Defects have been detected from the device. Please check Help.’"
+    />
+  </a>
+  <figcaption>The advert next to the error banner is a nice touch</figcaption>
+</figure>
+
+And then this when returning to the same screen later:
+
+<figure>
+  <a href={_870_evo_error_2_no_serial_png.src}>
+    <PostImage
+      src={_870_evo_error_2_no_serial_png}
+      alt="Samsung Magician showing a ‘Failing LBA’ error"
+    />
+  </a>
+  <figcaption>There was a ‘Failing LBA’, it seems</figcaption>
+</figure>
+
+At this point, I searched online to look for reports of similar problems with
+the same drive model. I quickly found a
+[thread on Reddit](https://www.reddit.com/r/techsupport/comments/og701s/should_i_rma_my_samsung_870_evo_2tb/)
+with messages from a handful of other people whose 870 EVOs were displaying
+eerily similar symptoms. (And there are other similar threads online, for
+example
+[this one](https://www.reddit.com/r/unRAID/comments/r4rcqg/warning_multiple_870_evo_failures_often_many_ssds/),
+[this one](https://www.techpowerup.com/forums/threads/samsung-870-evo-2tb-bad-sectors-what-should-i-do.286616/)
+or
+[this one](https://linustechtips.com/topic/1368115-should-i-return-this-ssd-uncorrectable-errors-issue/).)
+
+At this point, I thought I’d spent enough time trying to diagnose the problem
+and I kicked off a full backup of the drive (configuring my backup software to
+ignore bad sectors to avoid any interruptions). Luckily for me, this was just a
+data drive and there wasn’t anything too important on it that wasn’t already
+backed up.
+
+One question that had so far remained unanswered was: what and how many files
+were now unreadable? I was reluctant to run `chkdsk /r` just yet (in case it
+fixed the problems without telling me which files were affected), so I wrote a
+small script to look for problematic files (simply by trying to read every file
+on the drive and seeing what read errors occurred). Once I had a rough list of
+affected files, I went ahead and ran `chkdsk /r`. As it turned out, it did list
+the affected files (albeit in DOS-style short file names), before ending with an
+error (the same error mentioned in the first Reddit thread linked above):
+
+```
+Stage 4: Looking for bad clusters in user file data ...
+Windows replaced bad clusters in file 18F3
+of name \Music\MP3\BL3143~1.MP3.
+Windows replaced bad clusters in file 18F4
+of name \Music\MP3\BL226B~1.MP3.
+
+(similar messages omitted)
+
+  2129392 files processed.
+File data verification completed.
+ Phase duration (User file recovery): 1.83 hours.
+An unspecified error occurred (75736e6a726e6c2e 500).
+```
+
+In total, chkdsk listed eleven affected files (which seemed to tally up with
+what my script found).
+
+After that, I went back to the Samsung Magician to try the one scan I hadn’t run
+yet: the full diagnostic scan. This one scanned the entire drive, displaying the
+results in visual form:
+
+<figure>
+  <a href={_870_evo_magician_full_scan_no_serial_png.src}>
+    <PostImage
+      src={_870_evo_magician_full_scan_no_serial_png}
+      alt="A diagram showing six red squares amongst many blue squares"
+    />
+  </a>
+  <figcaption>Yes, this is another scan showing errors</figcaption>
+</figure>
+
+Like the SMART self-tests, it found errors. But it also showed a Recovery button
+that it recommended using. I obliged and clicked on the button. It immediately
+started the recovery process. Alas, it quickly finished and displayed the error
+‘Recovery failed. Check the disk connection and perform a Diagnostic Scan again’
+(not quite magic, it seems).
+
+I also found where to view SMART data in the Samsung Magician (on the Drive
+Dashboard page, which was the last place I thought it would be). Curiously, this
+did have a critical status for two attributes (though it’s unclear what criteria
+is being used to determine this):
+
+<figure>
+  <a href={_870_evo_magician_smart_png.src}>
+    <PostImage
+      src={_870_evo_magician_smart_png}
+      alt="SMART data in the Samsung Magician"
+    />
+  </a>
+  <figcaption>Lots of uncorrected errors aren’t good, it seems</figcaption>
+</figure>
+
+By now, the SMART reallocated sector count had climbed to 60 (in decimal) and it
+seems to have stabilised there.
+
+(If you’re particularly observant, you’d have noticed there’s a new SMART
+attribute at the bottom in the previous screenshot. It appeared after applying
+the recently released SVT02B6Q firmware update for the drive. I don’t know what
+the attribute is and neither does the Magician, it seems. I also have no idea
+what the firmware update does as Samsung haven’t provided any release notes. The
+update certainly didn’t help with my problems, but it was probably too late for
+it to anyway.)
+
+My advice? If you have an 870 EVO, run the diagnostic scans in Samsung Magician
+now and at regular intervals (but not the scan named ‘Short Scan’, that one
+seems fairly useless) in case the drive decides to eat your files.
+
+For what it’s worth, my drive was manufactured in January 2021 and bought in
+February 2021 (10 months ago). It was installed in a desktop PC and has only had
+what I’d call light use.
+
+I’m now near the start of Samsung’s European RMA process, awaiting a returns
+label and hopefully a replacement drive.
+
+**Update 30 December 2021**
+
+My SSD was picked up on Christmas Eve, and I received a replacement this
+morning. I think that’s pretty good going considering the time of year. The
+replacement drive was manufactured this month, and interestingly made in China
+(my original drive was made in Korea).
+
+However, I realised there is a second M.2 slot on my motherboard that I hadn’t
+noticed (it was hiding under a pre-installed heatsink), so I’m going to say
+goodbye to the 870 EVO and get a second NVMe drive instead.

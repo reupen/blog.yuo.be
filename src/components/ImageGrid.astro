@@ -1,0 +1,60 @@
+---
+import type { ImageMetadata } from "astro"
+import { chunk, sum } from "lodash-es"
+
+import { PostImage } from "@/components"
+
+export interface Props {
+  images: {
+    image: ImageMetadata
+    alt: string
+  }[]
+  rowSize?: number
+}
+
+const { images, rowSize = 2 } = Astro.props
+---
+
+<figure>
+  <div class="grid">
+    {
+      chunk(images, rowSize).map((chunk) => {
+        const imageARs = chunk.map(({ image }) => image.width / image.height)
+        const totalAR = sum(imageARs)
+
+        return (
+          <div
+            class="grid-row"
+            style={{
+              gridTemplateColumns: `${imageARs.map((aR) => `${aR / totalAR}fr`).join(" ")}`,
+            }}
+          >
+            {chunk.map(({ image, alt }) => (
+              <a href={image.src}>
+                <PostImage src={image} alt={alt} class="image" />
+              </a>
+            ))}
+          </div>
+        )
+      })
+    }
+  </div>
+  <figcaption>
+    <slot />
+  </figcaption>
+</figure>
+
+<style>
+  .grid {
+    display: flex;
+    flex-direction: column;
+    column-gap: 0.5rem;
+  }
+
+  .grid-row {
+    @media (min-width: 400px) {
+      display: grid;
+      column-gap: 0.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+title: "A message from my bank"
+slug: a-message-from-my-bank
+date: 2022-04-04T23:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-624b36fd87d8f138bf57ca54
+tags:
+  - tech
+excerpt: |-
+  I recently tried to move money between two accounts held with the same business
+  bank. I did everything as I usually would, using the relevant mobile banking
+  app. But after confirming the transfer, instead of a success message, I got
+  this:
+
+  I’ve heard much better things about error 8178Yes, that’s my bank returning an
+  exception and Oracle database error straight to my phone. (And not any
+  exception, but a MicroserviceException.)
+
+  If you’re particularly observant, you may have worked out that the b
+---
+
+import { PostImage } from "@/components"
+
+import Screenshot_20220308_212333_png from "./Screenshot_20220308-212333.png"
+
+I recently tried to move money between two accounts held with the same business
+bank. I did everything as I usually would, using the relevant mobile banking
+app. But after confirming the transfer, instead of a success message, I got
+this:
+
+{
+
+<figure>
+  <PostImage
+    src={Screenshot_20220308_212333_png}
+    alt="We weren&#x27;t able to do that. Com.bs.proteo.microservices.architecture.core.exceptions.MicroserviceException: ORA-08177: can’t serialize access for this transaction"
+  />
+  <figcaption>I’ve heard much better things about error 8178</figcaption>
+</figure>
+}
+
+Yes, that’s my bank returning an exception and Oracle database error straight to
+my phone. (And not any exception, but a _MicroserviceException_.)
+
+If you’re particularly observant, you may have worked out that the bank in
+question is TSB – the same TSB that was
+[in the news in 2018 following a botched migration between banking platforms](<https://en.wikipedia.org/wiki/TSB_Bank_(United_Kingdom)#Migration_to_the_Sabadell_Proteo_banking_platform>).
+
+This isn’t the first time I’ve had this error; it’s happened a handful of times
+over the last year and a half. Each time I’m left wondering if the transfer did
+or did not happen (or worse: whether I still had the money at all).
+
+Another amusing fact is that if you
+[search Google for `com.bs.proteo`](https://www.google.co.uk/search?q=%22com.bs.proteo%22),
+it returns a handful of questions and posts (and even bits of code) from people
+who presumably have worked on the code base.
+
+Alas, I’m otherwise happy with the bank, so I haven’t been in any rush to move
+my company to a different bank (although, I may well have another look round
+having posted this).

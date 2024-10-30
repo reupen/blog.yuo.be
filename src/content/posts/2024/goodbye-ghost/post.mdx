@@ -1,0 +1,152 @@
+---
+title: "Goodbye, Ghost"
+slug: goodbye-ghost
+date: 2024-10-31
+comment_id: goodbye-ghost
+is_draft: false
+tags:
+  - web
+excerpt: |-
+  I’ve turned the blog into a static site and given it a facelift.
+---
+
+import { ImageGrid } from "../../../../components"
+import indexNewPng from "./index-new.png"
+import indexOldPng from "./index-old.png"
+import postNewPng from "./post-new.png"
+import postOldPng from "./post-old.png"
+
+Once upon a time, this blog was on Blogger.[^1]
+
+When Blogger started to feel a bit long in the tooth, I moved the blog to a
+self-hosted copy of [Ghost](https://ghost.org).
+
+Alas, over time, I’ve grown annoyed with Ghost. Some of the things I haven’t
+liked include:
+
+- changes that have happened to Ghost over time, such as the move away from
+  Markdown and SQLite, and changes to the default theme (that ultimately led me
+  to fork the theme)
+- that fact that if I replace an image on a post, the old image (and any resized
+  copies of it) stay on the server unless I manually delete them (which is a
+  faff)
+- the fact that it
+  [still doesn’t support AVIF images in posts](https://forum.ghost.org/t/support-for-avif-image-format/16864/)
+- having had some upgrade failures that were difficult to recover from
+- various other minor niggles that I won’t bother to mention
+
+I was finally pushed over the edge recently when I had scheduled several posts
+to be published, and I found, some time later, that none of them had actually
+been published (and it took some clicking around to make them publish‥)
+
+I’ve wanted to move the blog to a static site for some time. And so after the
+scheduled post snafu, I bit the bullet and put some effort into making that
+dream happen. And just over a week later, you’re looking at the result.
+
+Here’s the old and new home pages compared:
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: indexOldPng,
+      alt: "The old index page, with a list of posts in a grid layout",
+    },
+    {
+      image: indexNewPng,
+      alt: "The old index page, with a simple vertical list of posts",
+    },
+  ]}
+>
+  While the grid is gone on my blog, Microsoft’s Dev Blogs sadly{" "}
+  <a href="https://devblogs.microsoft.com/blog/introducing-the-new-dev-blogs-a-modern-streamlined-and-engaging-experience">
+    has switched to cards in a masonry layout
+  </a>
+</ImageGrid>
+}
+
+The home page is now a simple (and much more readable) list of posts.
+
+The posts themselves looks very similar to how they previously did:
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: postOldPng,
+      alt: "A post titled ‘__init_subclass__ – a simpler way to implement class registries in Python’ on the old blog",
+    },
+    {
+      image: postNewPng,
+      alt: "A post titled ‘__init_subclass__ – a simpler way to implement class registries in Python’ on the new blog",
+    },
+  ]}
+>
+  That underline glitch in the old post only shows up in screenshots taken by
+  Firefox
+</ImageGrid>
+}
+
+## What else has improved
+
+Here’s some of the things I like about the new set-up:
+
+- images are stored alongside posts. It’s clear where they are being used, and
+  any unused images have been pruned during the move
+- I no longer need to run any server-side software for the blog. That includes
+  not having to run a database server, and not having to worry about backups in
+  the same way
+- I have full control over the site. That includes data structures (posts are no
+  longer stored in that weird card format), styling, the types of content I can
+  embed in a post and being able to make customisations for a particular post
+- the accessibility of the site has improved
+- automated testing. I can use Playwright, or any other similar tool, to test
+  functionality, test for visual regressions and to perform accessibility checks
+- posts are now primarily back in Markdown (either on its own, or using the MDX
+  format). I can use footnotes again. Syntax highlighting of code blocks is much
+  improved
+
+Some things have been lost:
+
+- it’s more difficult to have committed private drafts. This has only really
+  been lost because the site is open source
+- scheduled posts requires a bit more effort (using GitHub Actions, for example)
+
+## How I migrated data from the old site
+
+The blog posts from Blogger had previously been shoe-horned into Ghost (largely
+staying in HTML). Ghost itself has gone through various changes in how posts are
+stored, from Markdown to various iterations of its ‘cards’.
+
+So the data was a bit of a mess (even if it mostly rendered okay), and migrating
+it into Astro was somewhat painful.
+
+I wrote a script that merged a data export from Ghost with the output from
+[Ghost’s Content API](https://ghost.org/docs/content-api/), and ran some
+[Unified](https://unifiedjs.com/) pipelines on the HTML or Markdown for each
+post (depending on what was available for the post). That pipeline wrote a new
+MDX or Markdown file for each post, compatible with Astro and with things like
+the post title and date stored in
+[front matter](https://mdxjs.com/guides/frontmatter/).
+
+The pipeline also extracted all URLs of images and other media used in posts,
+downloaded that media, and saved the downloaded files next to the post they
+related to. The pipeline then rewrote the image URLs in each post to use Astro’s
+native image handling (for MDX, this often meant importing the image file, and
+using the
+[Astro `Picture` component](https://docs.astro.build/en/guides/images/)).
+
+There were various other bits of fiddling required to get the script to output
+working and correct posts in all cases.
+
+There were still some manual fixes required after all that for things like Ghost
+image gallery cards, videos and audio.
+
+As usual,
+[the site is open source for curious eyes](https://github.com/reupen/blog.yuo.be).
+
+[^1]:
+    In fact,
+    [that version of the blog still exists](https://whyiseverytitletaken.blogspot.com/)

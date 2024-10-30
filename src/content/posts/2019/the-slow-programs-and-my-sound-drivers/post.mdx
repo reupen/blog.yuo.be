@@ -1,0 +1,139 @@
+---
+title: "The slow programs and my sound drivers"
+slug: the-slow-programs-and-my-sound-drivers
+date: 2019-10-25T23:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-5db34f2d743a427e0512f5db
+tags:
+  - Windows
+  - Nahimic
+excerpt: |-
+  I recently noticed that some programs on my Windows PC were taking a long time
+  to start. I knew, for example, foobar2000 should start instantly. And yet, it
+  was frustratingly taking several seconds. I then realised that other programs
+  were affected: Firefox and Chrome were also taking a long time to start. I
+  started investigating.
+
+  I used Microsoft’s Process Monitor
+  [https://docs.microsoft.com/en-us/sysinternals/downloads/procmon] to log what
+  foobar2000 was doing when it was starting. To my surp
+---
+
+import { PostImage } from "@/components"
+
+import foobar2000_Process_Monitor_png from "./foobar2000-Process-Monitor.png"
+import nahimic_services_png from "./nahimic-services.png"
+import Windows_Update_png from "./Windows-Update.png"
+
+I recently noticed that some programs on my Windows PC were taking a long time
+to start. I knew, for example, foobar2000 should start instantly. And yet, it
+was frustratingly taking several seconds. I then realised that other programs
+were affected: Firefox and Chrome were also taking a long time to start. I
+started investigating.
+
+I used Microsoft’s
+[Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)
+to log what foobar2000 was doing when it was starting. To my surprise, it spent
+much time accessing registry keys relating to something called Nahimic:
+
+<figure>
+  <a href={foobar2000_Process_Monitor_png.src}>
+    <PostImage
+      src={foobar2000_Process_Monitor_png}
+      alt="A screenshot of Process Monitor showing foobar2000 was accessing Nahimic registry keys"
+    />
+  </a>
+  <figcaption>foobar2000 was not its usual self</figcaption>
+</figure>
+
+I recognised this as software that came with the audio drivers for my Asus
+motherboard. In fact, I had previously seen the word ‘Nahimic’ come up in a
+foobar2000 crash log:
+
+```
+Illegal operation:
+Code: C0000005h, flags: 00000000h, address: 6CBFCEF8h
+Access violation, operation: read, address: 02611260h
+
+Call path:
+entry=>user_interface::init
+
+Crash location:
+Module: NahimicOSD
+Offset: CEF8h
+Symbol: "GetHotPatchInfo" (+2CC8h)
+
+Loaded modules:
+A-Volute.SonicStudio3DevProps2   loaded at 6D200000h - 6D2C6000h
+A-Volute.SonicRadar3DevProps2    loaded at 6BEB0000h - 6BF76000h
+NahimicOSD                       loaded at 6CBF0000h - 6CC4E000h
+(additional modules omitted)
+
+Stack dump analysis:
+Address: 6CC45D28h (NahimicOSD+55D28h), symbol: "GetHotPatchInfo" (+4BAF8h)
+Address: 6CBFA6A5h (NahimicOSD+A6A5h), symbol: "GetHotPatchInfo" (+475h)
+Address: 757D06F2h (KERNELBASE+1106F2h), symbol: "DisableThreadLibraryCalls" (+12h)
+Address: 5C1B0000h (dataexchange+0h)
+Address: 5C1BF4A8h (dataexchange+F4A8h), symbol: "DllGetClassObject" (+1E18h)
+Address: 5C1B0000h (dataexchange+0h)
+Address: 5C1B2AC8h (dataexchange+2AC8h)
+Address: 5C1BE30Dh (dataexchange+E30Dh), symbol: "DllGetClassObject" (+C7Dh)
+Address: 5C1B0000h (dataexchange+0h)
+Address: 5C1BE487h (dataexchange+E487h), symbol: "DllGetClassObject" (+DF7h)
+Address: 69D2E3FBh (dcomp+7E3FBh), symbol: "DCompositionCreateDevice3" (+41D1Bh)
+Address: 69CB0000h (dcomp+0h), symbol: "Ordinal1988" (+0h)
+Address: 5C1BE1D0h (dataexchange+E1D0h), symbol: "DllGetClassObject" (+B40h)
+(remainder of stack trace omitted)
+```
+
+Versions of Nahimic
+[had also been installed by Windows](https://www.catalog.update.microsoft.com/Search.aspx?q=a-volute):
+
+<figure>
+  <PostImage
+    src={Windows_Update_png}
+    alt="A screenshot of driver updates installed by Windows Update"
+  />
+  <figcaption>
+    These cryptically-named driver packages contained the Nahimic software
+  </figcaption>
+</figure>
+
+I went to Task Manager to check what Nahimic-related processes and services were
+running. I found five processes (of which one was a service):
+
+<figure>
+  <PostImage
+    src={nahimic_services_png}
+    alt="A screenshot of Task Manager showing Nahimic processes"
+  />
+  <figcaption>The Nahimic-related processes that were running</figcaption>
+</figure>
+
+I stopped the service and killed the other Nahimic processes that were still
+running. I checked my programs: once again, they started instantly.
+
+I then searched Google and
+[quickly found similar Nahimic complaints from others](https://rog.asus.com/forum/showthread.php?107802-Nahimic-Service-causing-programs-to-startup-slow).
+I also found reported fixes –
+[most recently this one that mysteriously only exists in a quote](<https://rog.asus.com/forum/showthread.php?105341-DRIVERS-Realtek-HD-Audio-(UAD)/page71#post786895>).
+That same thread also
+[contains, again only in a quote, an explanation of what Nahimic is](<https://rog.asus.com/forum/showthread.php?105341-DRIVERS-Realtek-HD-Audio-(UAD)#post738112>):
+
+> Nahimic is a subsidiary of A-Volute that produces the Nahimic 3 software for
+> managing audio effects, Nahimic supplied Nahimic 3 to ASUS for its high-end
+> motherboards that called it Sonic Studio 3. So, Sonic Studio 3 = Nahimic 3 for
+> ASUS ROG high-end motherboards.\
+> \
+> Nahimic web site : [https://www.nahimic.com](https://www.nahimic.com)
+
+(The terminology there is perhaps a bit confusing: I didn’t have the Sonic
+Studio software itself installed.)
+
+The reported fix indirectly suggests that recent versions of Nahimic don’t
+suffer from this slow down. Nonetheless, I wasn’t keen on having this software
+on my PC. I uninstalled and
+[removed all traces of my motherboard’s sound drivers](https://github.com/lostindark/DriverStoreExplorer)
+(leaving me with the default Microsoft driver). Nahimic was gone, hasn’t
+returned, and my programs don’t take an age to start.

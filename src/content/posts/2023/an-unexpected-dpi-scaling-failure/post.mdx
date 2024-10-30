@@ -1,0 +1,70 @@
+---
+title: "An unexpected DPI-scaling failure"
+slug: an-unexpected-dpi-scaling-failure
+date: 2023-01-17T00:00:44.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-63bf1ba94dffe005912da0b4
+tags:
+  - software
+excerpt: |-
+  Recently, I printed this colour chart using X-Rite’s i1Profiler calibration software:
+
+  I was creating some calibrated ICC profiles for my printer for the first time using an X-Rite i1Pro 2 spectrophotometer. But something looked odd with the chart: the text was overlapping things it shouldn’t be. It looked suspiciously like a display scaling (DPI) problem that was managing to affect something destined for the printer.
+
+  I decided to change the high-DPI compatibility settings for the program and o
+---
+
+import { PostImage } from "@/components"
+
+import _2023_01_16_png from "./2023-01-16.png"
+import PXL_20221127_111457209_1_jpg from "./PXL_20221127_111457209-1.jpg"
+import PXL_20221127_111509637_1_jpg from "./PXL_20221127_111509637-1.jpg"
+
+Recently, I printed this colour chart using
+[X-Rite’s i1Profiler calibration software](https://www.xrite.com/categories/formulation-and-quality-assurance-software/i1profiler):
+
+<figure>
+  <PostImage
+    src={PXL_20221127_111457209_1_jpg}
+    alt="An A4 colour chart printed by i1Profiler with incorrectly scaled text"
+  />
+  <figcaption>
+    You can easily use a lot of paper and ink printing these
+  </figcaption>
+</figure>
+
+I was creating some calibrated
+[ICC profiles](https://en.wikipedia.org/wiki/ICC_profile) for my printer for the
+first time using an X-Rite i1Pro 2 spectrophotometer. But something looked odd
+with the chart: the text was overlapping things it shouldn’t be. It looked
+suspiciously like a display scaling (DPI) problem that was managing to affect
+something destined for the printer.
+
+I decided to change the high-DPI compatibility settings for the program and
+override the scaling mode to ‘System (Enhanced)’:
+
+<figure>
+  <PostImage
+    src={_2023_01_16_png}
+    alt="The Windows high-DPI compatibility settings dialogue box for i1Profiler."
+  />
+  <figcaption>
+    Surprisingly, an obscure dialogue box in Windows has a cut-off sentence
+  </figcaption>
+</figure>
+
+With that done, a reprinted chart looked much better:
+
+<figure>
+  <PostImage
+    src={PXL_20221127_111509637_1_jpg}
+    alt="The bug exists in the current version of i1Profiler, 3.6.0"
+  />
+  <figcaption>
+    An A4 colour chart printed by i1Profiler with correctly sized text
+  </figcaption>
+</figure>
+
+Alas, this instead caused scaling problems in the application itself. Oh well,
+one can’t win them all.

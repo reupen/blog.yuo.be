@@ -1,0 +1,99 @@
+---
+title: "I’ve finally got fibre to the premises"
+slug: ive-finally-got-fibre-to-the-premises
+date: 2024-06-29T23:00:50.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-66803a4a3ae32947959f0160
+tags:
+  - broadband
+excerpt: |-
+  I recently posted about how Community Fibre were installing their kit in my area. Well, things have changed since then – Community Fibre abandoned their roll-out on my road (and in other areas), and Openreach pulled their finger out and installed their kit ahead of schedule.
+
+  And so I’m now sitting here with 1 Gbps (advertised as 900Mbps) Openreach-based FTTP from EE.
+
+
+  Installation
+
+  Installation took an hour and a half. It wasn’t done by an Openreach engineer – the job was outsourced to a compa
+---
+
+import { ImageGrid } from "@/components"
+
+import PXL_20240620_091131166_jpg from "./PXL_20240620_091131166.jpg"
+import PXL_20240620_091201741_jpg from "./PXL_20240620_091201741.jpg"
+import PXL_20240620_091207556_jpg from "./PXL_20240620_091207556.jpg"
+import PXL_20240629_191834234_jpg from "./PXL_20240629_191834234.jpg"
+
+[I recently posted about how Community Fibre were installing their kit in my area.](/2024/01/29/fibre-is-almost-in-my-area/)
+Well, things have changed since then – Community Fibre abandoned their roll-out
+on my road (and in other areas), and Openreach pulled their finger out and
+installed their kit ahead of schedule.
+
+And so I’m now sitting here with 1 Gbps (advertised as 900Mbps) Openreach-based
+FTTP from EE.
+
+## Installation
+
+Installation took an hour and a half. It wasn’t done by an Openreach engineer –
+the job was outsourced to a company called Morrison Telecom Services (MTS). The
+engineer also didn’t completely remove the old copper phone line (as he had no
+instruction to do so). He did cut the cable, though, allowing him to reuse the
+existing hole in the wall for the fibre. The end result is that there’s a
+useless cut phone line attached to the property. (I believe Openreach will
+remove it if asked.)
+
+The optical network terminal (ONT) that was installed is a dinky 2.5 GbE Adtran
+SDX 611q:
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: PXL_20240629_191834234_jpg,
+      alt: "An Openreach optical network terminal (ONT)",
+    },
+    {
+      image: PXL_20240620_091131166_jpg,
+      alt: "The label on the box for the ONT, showing the model number",
+    },
+    {
+      image: PXL_20240620_091201741_jpg,
+      alt: "The front side of the instructions sheet",
+    },
+    {
+      image: PXL_20240620_091207556_jpg,
+      alt: "The reverse of the instructions sheet",
+    },
+  ]}
+>
+  Do you like ONTs?
+</ImageGrid>
+
+}
+
+## Pings
+
+Here in outer London, pings to London servers are around 3 to 4ms. Here’s Google
+(near Heathrow Airport, at a guess):
+
+```shell
+$ ping www.google.co.uk
+PING www.google.co.uk (142.250.187.227) 56(84) bytes of data.
+64 bytes from lhr25s34-in-f3.1e100.net (142.250.187.227): icmp_seq=1 ttl=57 time=2.25 ms
+64 bytes from lhr25s34-in-f3.1e100.net (142.250.187.227): icmp_seq=2 ttl=57 time=3.10 ms
+64 bytes from lhr25s34-in-f3.1e100.net (142.250.187.227): icmp_seq=3 ttl=57 time=3.13 ms
+64 bytes from lhr25s34-in-f3.1e100.net (142.250.187.227): icmp_seq=4 ttl=57 time=3.14 ms
+```
+
+## Speed tests
+
+Speed tests come back around 930Mbps down (though around 700 to 800Mbps for a
+single-thread download) and 110Mbps up. A nice bump from my old FTTC service
+(which achieved around 73Mbps down and 18Mbps up).
+
+## Conclusion
+
+Everything seems to be in order from the comparisons I could find online. (And
+there’s now another set of stats for other people to compare with.)

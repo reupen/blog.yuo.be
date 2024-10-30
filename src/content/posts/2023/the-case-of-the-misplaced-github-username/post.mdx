@@ -1,0 +1,202 @@
+---
+title: "The case of the misplaced GitHub username"
+slug: the-case-of-the-misplaced-github-username
+date: 2023-07-19T23:00:09.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-64b8451540cbf5dd03beccd0
+tags:
+  - web
+  - css
+excerpt: |-
+  Recently, when using GitHub’s global code search, I noticed something amiss with one of the results:
+
+
+
+  The file path of the result was somewhat confused. Taking the path literally, there seemed to be a directory named ‘ui_extension.cpp’, as if it were a file, and a C++ source file named simply ‘9060’. After clicking on the search result, however, it was apparent that the search result wasn’t quite correct – 9060 was in fact the owner of the repository that the search result relates to and wasn’
+---
+
+import { PostImage } from "@/components"
+
+import image_10_png from "./image-10.png"
+import image_11_png from "./image-11.png"
+import image_12_png from "./image-12.png"
+import image_13_png from "./image-13.png"
+import image_2_png from "./image-2.png"
+import image_6_png from "./image-6.png"
+import image_8_png from "./image-8.png"
+import image_9_png from "./image-9.png"
+import image_png from "./image.png"
+
+Recently, when using GitHub’s global code search, I noticed something amiss with
+one of the results:
+
+{
+
+<figure>
+  <PostImage
+    src={image_png}
+    alt="A search result where the file path appears to be foobar2000/columns_ui-sdk/ui_extension.cpp/9060."
+  />
+  <figcaption>
+    <span>A very confusing search result</span>
+  </figcaption>
+</figure>
+}
+
+The file path of the result was somewhat confused. Taking the path literally,
+there seemed to be a directory named ‘ui_extension.cpp’, as if it were a file,
+and a C++ source file named simply ‘9060’. After clicking on the search result,
+however, it was apparent that the search result wasn’t quite correct – 9060 was
+in fact the owner of the repository that the search result relates to and wasn’t
+part of the file path.
+
+Normally, the repo owner appears at the beginning of that line of text:
+
+{
+
+<figure>
+  <PostImage
+    src={image_2_png}
+    alt="A search result where the repo owner appears just before the repo name."
+  />
+  <figcaption>
+    <span>This code is actually very old</span>
+  </figcaption>
+</figure>
+}
+
+It was slightly bewildering that the repo owner could somehow be appended to the
+file path instead. I looked at the HTML markup of the problematic result to try
+and work out why this was happening. There wasn’t anything obviously amiss. I
+then copied the text into a code editor to look for any invisible Unicode
+characters:
+
+{
+
+<figure>
+  <PostImage
+    src={image_13_png}
+    alt="A text snippet showing left-to-right marks appear either side of the real file path."
+  />
+  <figcaption>
+    <span>9060 was suddenly back in the right place</span>
+  </figcaption>
+</figure>
+}
+
+There were in fact two – both Unicode code point 200E, which is a
+[left-to-right mark](https://en.wikipedia.org/wiki/Left-to-right_mark) used to
+control text direction. But that just raised more questions: where were those
+marks coming from, and why would left-to-right marks move text to the right?
+
+I wondered if there were any invisible characters in the GitHub user’s username.
+Nope – there was no trace of any anywhere. I then checked the search results for
+another GitHub search whose username consists entirely of numbers:
+
+{
+
+<figure>
+  <PostImage
+    src={image_10_png}
+    alt="Another search result rendering incorrectly, with the file path this time displaying as README/9061. The repo name is Spoon-Knife, and the content of the file is ‘All that&#x27;s missing is the fork. Heh.’"
+  />
+  <figcaption>
+    <span>I do want more cutlery in life</span>
+  </figcaption>
+</figure>
+}
+
+Aha – the same problem was present. At that point, I started playing with the
+browser’s DOM inspector. I noticed that that adding a letter to the start of the
+username was enough to make the problem go away:
+
+{
+
+<figure>
+  <PostImage
+    src={image_11_png}
+    alt="The previous search result with the username changed from 9061 to a9061. It now renders correctly."
+  />
+  <figcaption>
+    <span>I did also try adding a fork emoji</span>
+  </figcaption>
+</figure>
+}
+
+It seemed like it was purely a rendering (rather than data) problem, so I turned
+to the styles section of the DOM inspector. I quickly found the cause of the
+problem:
+
+{
+
+<figure>
+  <PostImage
+    src={image_6_png}
+    alt="Styles applied to the text, including direction: rtl."
+  />
+  <figcaption>
+    <span>That look suspicious</span>
+  </figcaption>
+</figure>
+}
+
+There’s a CSS rule applying the `direction: rtl` style to the text (‘rtl’
+meaning right-to-left). Disabling that rule fixes the glitch:
+
+{
+
+<figure>
+  <PostImage
+    src={image_12_png}
+    alt="The previous search result now with the username in the correct place."
+  />
+  <figcaption>
+    <span>Still without a fork, though</span>
+  </figcaption>
+</figure>
+}
+
+The last remaining question was, why is right-to-left text being used here? It
+made little sense given the characters that were being displayed. I wondered if
+it was something to do with the mobile layout. A good contender for the precise
+reason quickly became apparent: it affects how text is truncated.
+
+Here’s a search result (with the `direction: rtl` style) in a narrow window:
+
+{
+
+<figure>
+  <PostImage
+    src={image_8_png}
+    alt="A search result with the repo name truncated from the left, followed by an untruncated file path."
+  />
+  <figcaption>
+    <span>The odd text direction stuff did have a purpose</span>
+  </figcaption>
+</figure>
+}
+
+And here’s that same result with `direction: rtl` removed:
+
+{
+
+<figure>
+  <PostImage
+    src={image_9_png}
+    alt="A search result with an untruncated repo name, followed by an truncated file path."
+  />
+  <figcaption>
+    <span>
+      If anything, truncating the directory name would probably be more useful
+    </span>
+  </figcaption>
+</figure>
+}
+
+Mystery solved, I believe. I’ve reported the bug to GitHub, so there’s a chance
+it’ll be fixed (sweepstake on when, anyone?)
+
+**Update 13 August 2023**
+
+The bug has now been fixed.

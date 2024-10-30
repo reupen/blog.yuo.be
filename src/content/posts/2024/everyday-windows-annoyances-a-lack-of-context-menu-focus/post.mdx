@@ -1,0 +1,117 @@
+---
+title: "Everyday Windows annoyances:   A lack of context menu focus"
+slug: everyday-windows-annoyances-a-lack-of-context-menu-focus
+date: 2024-09-22T23:00:58.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-66f0386d7847c586789dc014
+tags:
+  - Windows
+excerpt: |-
+  I recently noticed a new annoyance with the Windows 11 File Explorer and desktop context menus. The colour of the selected items changes when right-clicking on items:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  0:00
+
+  /0:10
+
+
+  1×
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  This problem doesn’t exist with the old context menu (accessed by holding Shift while right-clicking, or by using the ‘Show more options’ item). The technical reason the problem happens is that the keyboard focus shifts from the list of files (called a list view) to the cont
+---
+
+import { PostImage } from "@/components"
+
+import desktop_context_menu_cropped_png from "./desktop-context-menu-cropped.png"
+import explorer_context_menu_item_colour_mp4 from "./explorer-context-menu-item-colour.mp4"
+
+I recently noticed a new annoyance with the Windows 11 File Explorer and desktop
+context menus. The colour of the selected items changes when right-clicking on
+items:
+
+{
+
+<figure>
+  <video
+    src={explorer_context_menu_item_colour_mp4}
+    height="1088"
+    preload="metadata"
+    width="1690"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  ></video>
+  <figcaption>
+    Somehow, both old and new context menus manage to be a mess
+  </figcaption>
+</figure>
+}
+
+This problem doesn’t exist with the old context menu (accessed by holding Shift
+while right-clicking, or by using the ‘Show more options’ item). The technical
+reason the problem happens is that the keyboard focus shifts from the list of
+files (called a list view) to the context menu, and so the colours used in the
+list view change to indicate that it’s no longer focused.
+
+But it’s obviously undesirable (and distracting) for that colour shift to happen
+when displaying the context menu, and so the old context menu has special logic
+to stop it happening. For whatever reason, that logic hasn’t been implemented in
+the new context menu.
+
+The problem is worse in other areas, such as in the left-hand pane in File
+Explorer, and on the desktop. In those cases, the selection shading disappears
+completely while the context menu is open:
+
+<figure>
+  <PostImage
+    src={desktop_context_menu_cropped_png}
+    alt="A screenshot of the Windows 11 desktop, with the context menu open for some items. There is no visual indication which items these are in the screenshot"
+  />
+  <figcaption>
+    <span>Which items did I right-click on? Hint: It was more than one</span>
+  </figcaption>
+</figure>
+
+This lack of attention to detail is prevalent in a lot of new functionality
+turning up in Windows, and it’s sad.

@@ -1,0 +1,51 @@
+---
+title: "Google Pay and the useless error message"
+slug: google-pay-and-the-useless-error-message
+date: 2024-09-02T23:00:05.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-66d605077847c586789dbfd8
+tags:
+  - Google
+excerpt: |-
+  I was buying something online, using Firefox on my desktop. When I got to the checkout page, I thought I’d use the ‘Checkout with GPay’ button.
+
+  Except, when I clicked on it, I got this message:
+
+  Eh? I am in a browser. The message doesn’t mean I need on a mobile, because the same thing works in desktop Chrome or Edge (activating some weird modal dialogue on top of the page).
+
+  There isn’t even a link to go back to the retailer’s site so that I can try a different payment method.
+
+  (Even more confu
+---
+
+import { PostImage } from "@/components"
+
+import Screenshot_2024_09_01_at_13_34_30_Google_Pay_cropped_png from "./Screenshot-2024-09-01-at-13-34-30-Google-Pay-cropped.png"
+
+I was buying something online, using Firefox on my desktop. When I got to the
+checkout page, I thought I’d use the ‘Checkout with GPay’ button.
+
+Except, when I clicked on it, I got this message:
+
+<figure>
+  <PostImage
+    src={Screenshot_2024_09_01_at_13_34_30_Google_Pay_cropped_png}
+    alt="An error message saying ‘To make this purchase using Google Pay, open this website in a browser app, such as Chrome or Safari. [OR_BIBED_15] OR_BIBED_15’"
+  />
+  <figcaption>
+    <span>What is that picture meant to be telling me, Google?</span>
+  </figcaption>
+</figure>
+
+Eh? I am in a browser. The message doesn’t mean I need on a mobile, because the
+same thing works in desktop Chrome or Edge (activating some weird modal dialogue
+on top of the page).
+
+There isn’t even a link to go back to the retailer’s site so that I can try a
+different payment method.
+
+(Even more confusingly, the Google Pay documentation
+[suggests that error `OR_BIBED_15` has a cause unrelated to the error message](https://developers.google.com/pay/api/web/support/troubleshooting).)
+
+Well, that’s a button I won’t bother clicking on again.

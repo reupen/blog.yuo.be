@@ -1,0 +1,144 @@
+---
+title: "The mystery of the slow downloads folder"
+slug: the-mystery-of-the-slow-downloads-folder
+date: 2021-03-14T21:12:40.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-604a87eabfb4a505be5b415f
+tags:
+  - Windows
+excerpt: |-
+  I keep my downloads folder sorted by date, with the most recent downloads first.
+  However, recently, I had been having a problem where Windows Explorer would
+  spend a long time loading when opening the downloads folder:
+
+  A real-time video of the phenomenonWhen opening the folder, first files would be
+  sorted by name, and they wouldn’t be sorted by date until over a minute and a
+  half later, when the loading had finished. I became sufficiently annoyed enough
+  to investigate.
+
+  The first thing I noted w
+---
+
+import { PostImage } from "@/components"
+
+import downloads_png from "./downloads.png"
+import image_2_png from "./image-2.png"
+import image_3_png from "./image-3.png"
+import image_png from "./image.png"
+import pictures_png from "./pictures.png"
+import slowDownloadsWebm from "./slow-downloads.webm"
+
+I keep my downloads folder sorted by date, with the most recent downloads first.
+However, recently, I had been having a problem where Windows Explorer would
+spend a long time loading when opening the downloads folder:
+
+<figure>
+  <video width="1500" autoPlay controls loop muted playsInline>
+    <source src={slowDownloadsWebm} type="video/webm" />
+  </video>
+  <figcaption>A real-time video of the phenomenon</figcaption>
+</figure>
+
+When opening the folder, first files would be sorted by name, and they wouldn’t
+be sorted by date until over a minute and a half later, when the loading had
+finished. I became sufficiently annoyed enough to investigate.
+
+The first thing I noted was that the problem would only happen when accessing
+the folder for the first time since boot, or when the folder hadn’t been
+accessed for a while. I also knew the folder was relatively large.
+
+Based on the symptoms, I assumed file access was the problem. I knew Resource
+Monitor could quickly be used to find files being subjected to large reads, so I
+opened it while Windows was taking its time to sort my downloads:
+
+<figure>
+  <PostImage src={downloads_png} alt="A screenshot of Resource Monitor" />
+  <figcaption>Some of these files are quite old</figcaption>
+</figure>
+
+With the bottom list sorted by the Read (B/sec) column in descending order, I
+immediately saw that a large number of files in my downloads folder were being
+virus scanned by Windows.
+
+However, it was not clear why. I knew that, because they were downloads, most of
+the files would’ve been marked as ‘blocked’ and wondered if that was part of the
+problem.
+
+<figure>
+  <PostImage
+    src={image_png}
+    alt="A screenshot of the Security section of the properties for a blocked file"
+  />
+  <figcaption>
+    What a blocked file looks like when viewing its properties
+  </figcaption>
+</figure>
+
+I decided to unblock all the files in my downloads folder to see if it fixes the
+problem. Immediately, I hit a snag: Windows Explorer doesn’t show the option to
+unblock files when viewing the properties for multiple files at once:
+
+<figure>
+  <PostImage
+    src={image_3_png}
+    alt="A screenshot of the properties opened for multiple blocked files"
+  />
+  <figcaption>
+    The option to unblock files mysteriously disappears when viewing the
+    properties for multiple files
+  </figcaption>
+</figure>
+
+I resorted to using a short PowerShell command:
+
+```
+Get-ChildItem E:\Downloads\Web | Unblock-File
+```
+
+The command ran and Windows Explorer no longer showed any of the files as being
+blocked. But, to my dismay, the downloads folder was still slow to open.
+
+At this point, it seemed like the problem wasn’t related to the folder
+containing downloaded files. At the same time, I couldn’t recall seeing the
+problem when viewing other folders. I decided to double-check: I navigated to
+another large folder, the Windows system folder (commonly C:\Windows\System32),
+and sorted it by ‘Date modified’. This was instant. What was going on?
+
+I visually compared the two folder windows and noticed a difference: in the
+downloads folder, I was sorting by the Date column, while in the system
+directory, I was sorting by Date modified.
+
+I reconfigured the downloads folder to use and sort by Date modified instead of
+Date:
+
+<figure>
+  <PostImage
+    src={image_2_png}
+    alt="The context menu of the column titles with options to show and hide columns"
+  />
+  <figcaption>The context menu of the column titles</figcaption>
+</figure>
+
+I rebooted my PC to test the fix. The problem was gone.
+
+The slow sorting hadn’t always been a problem, so I wondered – how did it arise
+in the first place? There is a probable clue in the first video in this post –
+the age-old problem of Windows randomly deciding to treat folders as if they
+contained pictures had struck:
+
+<figure>
+  <PostImage
+    src={pictures_png}
+    alt="The Customise tab of the properties for the folder"
+  />
+</figure>
+
+So, at some point, the folder view (large icons, details etc.), columns and
+sorting perhaps spontaneously changed. I’d probably then have changed the view
+and sorting back to how I wanted them to be, without noticing that a different
+date column was being shown.
+
+After all that, I thought, ‘Surely, other people have encountered this problem.’
+[A quick Google search](https://www.google.co.uk/search?q=windows+10+sort+by+date+slow)
+gives an answer.

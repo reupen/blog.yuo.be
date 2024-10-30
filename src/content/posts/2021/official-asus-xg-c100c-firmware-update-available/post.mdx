@@ -1,0 +1,111 @@
+---
+title: "Official Asus XG-C100C firmware update available"
+slug: official-asus-xg-c100c-firmware-update-available
+date: 2021-03-19T17:32:02.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-6054d95b2ce63f37ac76f61f
+tags:
+  - hardware
+excerpt: |-
+  I’ve had the Asus XG-C100C 10Gbps Ethernet card for a while but only really
+  started making use of networking speeds faster than 1Gbps when I recently bought
+  a QNAP QSW-1105-5T 2.5Gbps switch.
+
+  Since then, however, I’ve been having repeated network connectivity problems on
+  my PC, particularly after coming out of sleep (requiring the network adaptor to
+  be disabled and enabled in Windows). (The typical symptom would be web browsing
+  not working, despite the network connection showing as being connec
+---
+
+import { PostImage } from "@/components"
+
+import asus_network_gbps_png from "./asus-network-gbps.png"
+import image_4_png from "./image-4.png"
+
+I’ve had the Asus XG-C100C 10Gbps Ethernet card for a while but only really
+started making use of networking speeds faster than 1Gbps when I recently bought
+a QNAP QSW-1105-5T 2.5Gbps switch.
+
+Since then, however, I’ve been having repeated network connectivity problems on
+my PC, particularly after coming out of sleep (requiring the network adaptor to
+be disabled and enabled in Windows). (The typical symptom would be web browsing
+not working, despite the network connection showing as being connected.)
+
+The chipset of the card is the Marvell (previously Aquantia) AQC107, and there
+are plenty of reports that firmware updates help with similar problems. Marvell
+make firmware updates available on their website, however, their update packages
+only (officially) support a handful of cards and that doesn’t include the Asus
+card.
+
+To date, Asus hadn’t provided a firmware update. I contacted their support
+yesterday asking about firmware updates due to the problems I was having, and to
+my surprise, they’ve today made a firmware update available:
+
+<figure>
+  <PostImage
+    src={image_4_png}
+    alt="A screenshot of the firmware update details on Asus’s website"
+  />
+</figure>
+
+The new version is 3.1.88. This isn’t that new (the latest on Marvell’s site is
+3.1.118), but my card came with 3.0.33 so it would still seem to be a fair bit
+newer than that.
+
+The download is available from
+[the support page for the card](https://www.asus.com/Networking-IoT-Servers/Wired-Networking/All-series/XG-C100C/helpdesk_Download/)
+– it’s still propagating through their site so you may need to go through a few
+of the OS options to see it at the moment.
+
+The process to update is to run `atlflashupdate.exe` as an administrator and
+follow the prompts. I’ve just done this without problem – will now keep an eye
+on things to see if my problems are fixed...
+
+### Update 19 March 2021
+
+OK, this version seems to be a dud. After coming out of sleep mode, I’m often
+greeted by this (combined with no network connectivity):
+
+<figure>
+  <PostImage
+    src={asus_network_gbps_png}
+    alt="A screenshot of the status for the network connection showing an 412.3 Gbps speed"
+  />
+  <figcaption>I wish it were 412.3 Gbps</figcaption>
+</figure>
+
+However, on another manufacturer’s website, I managed to find a copy of the
+3.1.118 firmware update with support for the Asus card’s device instance ID. I’m
+going to take the plunge and see if that version is any better. (If it is, I’ll
+post a link...)
+
+### Further update 19 March 2021
+
+I’ve gone through several sleep and resume cycles with version 3.1.118 and it
+seems like it’s a winner.
+
+I found the version compatible with the Asus XG-C100C on
+[the support site for a thunderbolt Ethernet adaptor](http://www.sonnettech.com/support/kb/kb.php?cat=537&expand=_a13_b1063_a3&action=a3).
+The file needed is _atlflashupdate_1.4.2_3.1.118.zip_, (SHA-256:
+`3193b4c4a4c3dd9358304dd738ef1dd1a8014b26c9cb6bd211662b17ecd158dc`) and it’ll
+update the XG-C100C without any modifications. (After updating, I had to
+manually disable and re-enable the network adaptor to get things working again.)
+
+(Note: As the file isn’t directly from Asus, use it at your own risk. I’ve
+emailed Asus back to report that 3.1.88 is no good, but I don’t know what
+they’ll reply to me with.)
+
+### Update 1 April 2021
+
+Firmware version 3.1.118 has continued to work well, and, so far, seems to have
+fixed all the problems I was experiencing with the card.
+
+Asus didn’t come back with anything useful – in fact they denied the newer
+firmware version even existed.
+
+### Update 24 July 2022
+
+The _atlflashupdate_1.4.2_3.1.118.zip_ file on the site linked to above has been
+replaced with a newer version which no longer supports the Asus card (without
+modding).

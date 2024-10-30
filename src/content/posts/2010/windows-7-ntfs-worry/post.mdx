@@ -1,0 +1,86 @@
+---
+title: "Windows 7 NTFS worry..."
+slug: windows-7-ntfs-worry
+date: 2010-01-20T20:00:00.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-295
+excerpt: |-
+  Out of the blue, my Windows 7 install decided to run chkdsk on my system drive
+  on startup (once). It didn't find any problems.
+
+  A little bit more digging revealed Ntfs event number 55 had been logged last
+  time the computer was on:
+  "The file system structure on the disk is corrupt and unusable. Please run the
+  chkdsk utility on the volume [volume name]."
+
+  Obviously a little bit worrying. Since chkdsk didn't find anything actually
+  wrong, I did a little bit of stress testing to double check for any
+---
+
+import ahha_png from "./ahha.png"
+
+Out of the blue, my Windows 7 install decided to run chkdsk on my system drive
+on startup (once). It didn't find any problems.
+
+A little bit more digging revealed Ntfs event number 55 had been logged last
+time the computer was on: "The file system structure on the disk is corrupt and
+unusable. Please run the chkdsk utility on the volume \[volume name]."
+
+Obviously a little bit worrying. Since chkdsk didn't find anything actually
+wrong, I did a little bit of stress testing to double check for any stability
+issues - but those seemed fine. The drive in question is a Samsung SLC SSD,
+again no real sign of any issues there - S.M.A.R.T. data is OK, and actually the
+normalised wear-levelling attribute is still at 99 (!).
+
+So I decided to leave it at that and wait to see if it reoccurs. (Actually, I
+decided to switch my SATA controller into AHCI mode which unleashed some
+separate problems, but I'll write about those separately).
+
+Occur again it did - several days later. This time I caught the message in the
+event log before I shut down the computer. Indeed I checked the dirty flag of
+the volume, and it was set. Similarly, chkdsk wasn't flagging up anything as
+wrong.
+
+Seemed to me that something must have changed recently to start triggering this.
+There were a few things I could think of, but I simply disabled the real-time
+protection of my anti-virus (MSE "Ongoing Beta"). Some weeks later and it hasn't
+reoccurred - but that may well be a coincidence. Not sure what to make of it,
+but I will have to continue to monitor it..
+
+Update: The Windows photo importing functionality seems to be something that
+likes to trigger this (see comments). Still investigating whether MSE is
+relevant or not.
+
+Update: It likes to happen when importing the photos but not always reliably. So
+far it has only happened with MSE real-time protection enabled. The photo
+importer is set to import to the "My Pictures" folder, and also picture
+'streaming' is enabled. You might also get the dreaded
+“{<a href={ahha_png.src}>The file or directory is corrupted and unreadable</a>}”
+message as well. I will also add that I tested on Windows 7 64-bit.
+
+Looks like an OS bug anyway, I don't see why anti-virus should cause this type
+of error.
+
+Some relevant links:
+[http://groups.google.com/group/tortoisesvn/browse_thread/thread/69f3e36e6bbf7389?pli=1](http://groups.google.com/group/tortoisesvn/browse_thread/thread/69f3e36e6bbf7389?pli=1)
+(note the post title, easy to miss..)
+[http://social.technet.microsoft.com/Forums/en/w7itprogeneral/thread/6c3ed415-704b-482d-a20b-69277f6cd4ad](http://social.technet.microsoft.com/Forums/en/w7itprogeneral/thread/6c3ed415-704b-482d-a20b-69277f6cd4ad)
+(my god there are some idiotic replies)
+
+First one seems interesting, some issue with file locks according to it.
+
+Update: A statement from a Microsoft employee from the
+[TechNet forums](http://social.technet.microsoft.com/Forums/fi-FI/w7itprogeneral/thread/df935a52-a0a9-4f67-ac82-bc39e0585148):
+
+> "This is a known regression in Windows 7 in the NTFS file system. It occurs
+> when doing a superceding rename over a file that has an atomic oplock on it
+> (atomic oplocks are a new feature in Windows 7). The indexer uses atomic
+> oplocks which is why it helped when you disabled the indexer. Explorer also
+> uses atomic oplocks which is why you are still seeing the issue. When this
+> occurs STATUS_FILE_CORRUPT is incorrectly returned and the volume is marked
+> "dirty" which is a signal to the system that chkdsk needs to be run. No actual
+> corruption has occured.\
+> \
+> Neal Christiansen\
+> NTFS Development Lead"

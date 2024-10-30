@@ -1,0 +1,145 @@
+---
+title: "‘Your business contact information is processed by Lusha Systems Inc.’"
+slug: your-business-contact-information-is-processed-by-lusha-systems-inc
+date: 2023-01-29T00:00:40.000Z
+is_auto_excerpt: true
+is_imported: true
+comment_id: ghost-63d57a4cf9b2f21049ff93fc
+tags:
+  - privacy
+excerpt: |-
+  A few days ago, I received this text message:
+
+  The sender was simply a mysterious ‘Privacy’. Was this a genuine notification about some company having my data, was it plain spam, or was it even phishing?
+
+  The URL in the text redirects to https://www.lushaprivacy.com/opt-out-phone/ and goes straight to an opt-out form. But it’s not a straightforward opt-out: they not only want you to enter your phone number, they also want to verify it with a one-time code sent by text message.
+
+  The company Lusha
+---
+
+import { PostImage } from "@/components"
+
+import image_3_png from "./image-3.png"
+import image_png from "./image.png"
+
+A few days ago, I received this text message:
+
+{
+
+<figure>
+  <PostImage
+    src={image_png}
+    alt="Privacy notice: Your business contact information is processed by Lusha Systems Inc. For info &#x26; exercise your rights: luu.sh/un."
+  />
+  <figcaption>A new definition of privacy</figcaption>
+</figure>
+}
+
+The sender was simply a mysterious ‘Privacy’. Was this a genuine notification
+about some company having my data, was it plain spam, or was it even phishing?
+
+The URL in the text redirects to `https://www.lushaprivacy.com/opt-out-phone/`
+and goes straight to an opt-out form. But it’s not a straightforward opt-out:
+they not only want you to enter your phone number, they also want to verify it
+with a one-time code sent by text message.
+
+The company [Lusha](https://www.lusha.com/) is a US company selling business
+contacts. But their website is `lusha.com` – a different domain from
+`lushaprivacy.com`. Both of those domains show as registered by ‘Identity
+Protection Service’, with a PO box address in the UK (presumably belonging to
+the identity protection service). Neither of those domains is new. And the WHOIS
+details for `luu.sh` only show ‘REDACTED FOR PRIVACY’. Whoever owns these
+domains really wants to keep their details private (though I have no idea why a
+company would be allowed to keep their details private).
+
+I had a look around online for other information about the text message. I
+noticed that when typing ‘your business contact’ (words from the mesage I
+received) in the search box Google, the first suggested message is about Lusha:
+
+{
+
+<figure>
+  <PostImage
+    src={image_3_png}
+    alt="Google search suggestions for ‘your business contact’, with the first suggestion being ‘your business contact information is processed by lusha’."
+  />
+  <figcaption>A curiously specific first search suggestion</figcaption>
+</figure>
+}
+
+There are actually less than a page’s worth of results for
+`“your business contact information is process by lusha”` (in quotes). It
+suggests that there’s another factor causing that phrase to rank highly (such as
+lots of people searching for those words).
+
+Among the search results for that phrase is
+[their Trustpilot page](https://uk.trustpilot.com/review/lusha.com), where
+plenty of people are complaining about their data being used by Lusha. Some say
+their details were scraped from LinkedIn.
+
+One of the other search results is
+[a thread on Reddit](https://www.reddit.com/r/privacy/comments/yuuojs/text_message_from_lusha_systems_privacy_out_of/).
+Unfortunately, the original thread was deleted by the subreddit moderators
+(which makes little sense for a subreddit supposedly devoted to privacy).
+
+There are also complaints on Twitter – including this tweet with a screenshot of
+the same message I received:
+
+{
+
+<figure>
+  <blockquote className="twitter-tweet">
+    <p dir="ltr" lang="nl">
+      Hey{" "}
+      <a href="https://twitter.com/ministryprivacy?ref_src=twsrc%5Etfw">
+        @ministryprivacy
+      </a>{" "}
+      , gisteren kreeg ik een email en vandaag een sms bericht van hetzelfde
+      bedrijf (Lusha Systems Inc.) uit de VS, om te melden dat ze mijn gegevens
+      verwerken. <br />
+      <br />
+      Naast de vraag hoe ze zelfs aan mijn gegevens geraakt zijn, hoe legaal is
+      dit? <a href="https://t.co/uMhTdKMRjo">pic.twitter.com/uMhTdKMRjo</a>
+    </p>
+    &mdash; Wesley Cabus (@WesleyCabus){" "}
+    <a href="https://twitter.com/WesleyCabus/status/1593536686755020800">
+      November 18, 2022
+    </a>
+  </blockquote>
+  <script src="https://platform.twitter.com/widgets.js" async></script>
+</figure>
+
+}
+
+The French data protection body, CNIL,
+[dismissed a case against Lusha](https://www.cnil.fr/fr/extension-pour-navigateur-lusha-la-formation-restreinte-de-la-cnil-estime-que-le-rgpd-nest-pas)
+(link in French). That case appears to have been related to browser extensions
+(but it bizarrely also mentions an app named ‘Cleaner Pro’). Similarly,
+[complaints have been made in the UK](https://www.whatdotheyknow.com/request/744556/response/1910021/attach/html/2/Information%20request%20response.pdf.html),
+but no further action has been taken due to the company being based in the US.
+
+Unfortunately, none of this information is enough to confirm that the text
+message I received is genuine. My impression is that it’s genuine, but I have no
+proof. And the opt-out process is a pretty risky one – particularly as you have
+to receive and enter a one-time code by text message when you don’t trust the
+other party. You have no way of verifying that the other party is, in fact, the
+one sending you the code – for all you know, they are doing something with your
+phone number elsewhere, and getting you to relay the code (especially if there’s
+nothing in the message to indicate who it’s from).
+
+As it turns out, the opt-out form is actually an `<iframe>`, and the form itself
+is hosted by a company called [OneTrust](https://www.onetrust.com/) (who, it
+seems, are the ones that send the one-time code). The form looks similar to
+[ones provided by OneTrust service called CookiePro](https://community.cookiepro.com/s/article/UUID-04ac8810-0a54-9d7c-4ea5-91ca4bda72c5).
+Regretfully, the text message sent by the Lusha opt-out form is in the default
+format mentioned in the previous link (and does not name Lusha):
+
+> Your Phone verification code is: XXXXXX. Don't share this code with anyone;
+> our employees will never ask for the code.
+
+While it is a bit more reassuring that OneTrust (seemingly a reputable company
+providing data protection compliance software as a service) is involved here, I
+have no idea why they’d want to be involved in such a flawed process.
+
+There are, at least, some alternative contact details at the bottom of the form.
+(Whether messages sent to them go anywhere useful is another matter.)
