@@ -48,7 +48,7 @@
     "@axe-core/playwright": "^4.10.0",
     "@date-fns/tz": "^1.1.2",
     "@jsdevtools/rehype-url-inspector": "^2.0.2",
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.48.2",
     "@tryghost/content-api": "^1.11.21",
     "@types/html-to-text": "^9.0.4",
     "@types/lodash-es": "^4.17.12",
