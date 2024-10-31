@@ -52,7 +52,7 @@
     "@tryghost/content-api": "^1.11.21",
     "@types/html-to-text": "^9.0.4",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^20.14.2",
+    "@types/node": "^22.8.4",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",
     "astro-compress": "^2.3.1",
