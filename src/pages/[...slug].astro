@@ -118,7 +118,7 @@ const readingTime = Math.max(
     .date-reading-time {
       font-family: var(--monospace-font-family);
       font-weight: 500;
-      color: white;
+      color: var(--text-colour);
     }
 
     .bullet {
@@ -146,8 +146,8 @@ const readingTime = Math.max(
         column-gap: 0.55rem;
         padding: 1rem 1rem;
         line-height: 1.65;
-        background: #333;
-        border-radius: 5px;
+        background: var(--post-navigation-background);
+        border-radius: 6px;
 
         &,
         i {
@@ -155,7 +155,7 @@ const readingTime = Math.max(
         }
 
         &:hover {
-          background: #444;
+          background: var(--post-navigation-background-hover);
           text-decoration: none;
         }
       }

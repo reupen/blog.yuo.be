@@ -18,6 +18,15 @@ export default defineConfig({
     mdx(),
     react(),
   ],
+  markdown: {
+    shikiConfig: {
+      defaultColor: false,
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  },
   trailingSlash: "always",
   vite: {
     assetsInclude: ["**/*.7z"],

@@ -44,12 +44,34 @@
 }
 
 :root {
+  color-scheme: light dark;
+
+  --body-background: light-dark(#fefefe, #1d1d1d);
+  --caption-text-colour: light-dark(#404040, #a9a8a8);
+  --code-background: light-dark(#ececec, #121212);
+  --code-text-colour: light-dark(#222, #e1e4e8);
+  --custom-shiki-background-light: #f4f4f4;
+  --emphasis-text-colour: light-dark(#000, #f1f1f1);
   --max-body-width: 700px;
   --sans-serif-font-family: "Noto Sans Variable", system-ui, sans-serif;
   --serif-font-family: "Noto Serif Variable", serif;
+  --nav-background: light-dark(#f7f7f7, #000);
+  --nav-text-colour: light-dark(#000, #fff);
   --monospace-font-family: "Noto Sans Mono Variable", ui-monospace, monospace;
-  --text-accent-colour: #ff8049;
-  --text-accent-colour-light: #ffaf47;
+  --post-navigation-background: light-dark(#f7f7f7, #333);
+  --post-navigation-background-hover: light-dark(#eee, #444);
+  --text-accent-colour: light-dark(#2365c9, #ff8049);
+  --text-accent-colour-highlight: light-dark(#10489f, #ffaf47);
+  --text-colour: light-dark(#000, #fff);
+  --text-colour-muted: light-dark(#151515, #d3d3d3);
+
+  &.dark {
+    color-scheme: dark;
+  }
+
+  &.light {
+    color-scheme: light;
+  }
 }
 
 *,
@@ -59,8 +81,8 @@
 }
 
 html {
-  background: #1d1d1d;
-  color: #fff;
+  background: var(--body-background);
+  color: var(--text-colour);
   font-family: var(--serif-font-family);
   font-feature-settings: "salt";
   font-size: 18px;
@@ -129,7 +151,7 @@ a,
   }
 
   &:hover {
-    color: var(--text-accent-colour-light);
+    color: var(--text-accent-colour-highlight);
     text-decoration-thickness: 12%;
   }
 }
@@ -143,7 +165,7 @@ a,
 p,
 li {
   line-height: 1.75;
-  color: #d3d3d3;
+  color: var(--text-colour-muted);
 }
 
 ol,
@@ -166,7 +188,7 @@ iframe {
 
 em,
 strong {
-  color: #f1f1f1;
+  color: var(--emphasis-text-colour);
 }
 
 li {
@@ -224,8 +246,8 @@ code {
 }
 
 :not(pre) > code {
-  background: #121212;
-  color: #e1e4e8;
+  background: var(--code-background);
+  color: var(--code-text-colour);
   padding: 0.1rem 0.2rem;
 }
 
@@ -246,7 +268,7 @@ figcaption {
 
   &,
   p {
-    color: #a9a8a8;
+    color: var(--caption-text-colour);
   }
 }
 
@@ -304,4 +326,39 @@ audio {
 
 .fa-solid {
   text-underline-offset: inherit;
+}
+
+.astro-code {
+  &,
+  span {
+    color: var(--shiki-light);
+    background-color: var(--custom-shiki-background-light);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+    text-decoration: var(--shiki-light-text-decoration);
+  }
+}
+
+.dark .astro-code {
+  &,
+  span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .auto .astro-code {
+    &,
+    span {
+      color: var(--shiki-dark);
+      background-color: var(--shiki-dark-bg);
+      font-style: var(--shiki-dark-font-style);
+      font-weight: var(--shiki-dark-font-weight);
+      text-decoration: var(--shiki-dark-text-decoration);
+    }
+  }
 }
