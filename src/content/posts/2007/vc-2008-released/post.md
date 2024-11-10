@@ -6,9 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-339
 excerpt: |-
-  ...And incremental linking is apparently broken
-  [https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=311732]
-  ! What great fun!
+  ...And incremental linking is apparently broken! What great fun!
 ---
 
 ...And incremental linking is apparently

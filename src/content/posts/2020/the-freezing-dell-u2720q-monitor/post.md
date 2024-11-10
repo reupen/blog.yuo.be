@@ -1,6 +1,6 @@
 ---
 title: "The freezing Dell U2720Q monitor"
-slug: the-freezing-u2020q
+slug: the-freezing-dell-u2720q-monitor
 date: 2020-08-05T20:36:47.000Z
 is_auto_excerpt: true
 is_imported: true
@@ -8,7 +8,7 @@ comment_id: ghost-5f21dcf93beb750cc5cd9bb0
 tags:
   - tech
 excerpt: |-
-  I recently bought a Dell u2720Q 4k monitor. However, I had a curious problem: when using my desktop PC, the monitor would occasionally lock up. The screen would turn black and the monitor would become unresponsive to anything other than the power button. Pressing the power button twice (i.e. turning the monitor off and on again) would get the monitor working again.
+  I recently bought a Dell U2720Q 4k monitor. However, I had a curious problem: when using my desktop PC, the monitor would occasionally lock up. The screen would turn black and the monitor would become unresponsive to anything other than the power button. Pressing the power button twice (i.e. turning the monitor off and on again) would get the monitor working again.
 
   The desktop PC was connected to the monitor via HDMI, and the problem didn’t occur when I was using laptops connected via DisplayPo
 ---

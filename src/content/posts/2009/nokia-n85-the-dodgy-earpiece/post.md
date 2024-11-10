@@ -6,8 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-313
 excerpt: |-
-  I quite liked my N85. Then I read about how various recent Nokia phones
-  [http://www.mobile-review.com/articles/2009/5800-brak-en.shtml] made before Feb
+  I quite liked my N85. Then I read about how various recent Nokia phones made before Feb
   2009 had a problem with a faulty earpiece part. Naturally, that followed with my
   earpiece breaking: it would cut out and in if you tapped the area around it.
 

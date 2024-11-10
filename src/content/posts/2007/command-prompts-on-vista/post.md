@@ -6,8 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-346
 excerpt: |-
-  I learnt of a neat trick on Vista through another blog
-  [http://blogs.msdn.com/oldnewthing/archive/2007/08/22/4500831.aspx] - if you
+  I learnt of a neat trick on Vista through another blog - if you
   hold down shift whilst right clicking on a folder on Vista you get an extra
   entry: "Open Command Window Here" (in general you get some extra entries, folder
   or file). Very useful - previously on XP I had to install a PowerToy (as I

@@ -7,7 +7,7 @@ is_imported: true
 comment_id: ghost-294
 excerpt: |-
   I recently decided to switch my SATA controller into AHCI mode. With this
-  [http://support.microsoft.com/kb/922976] information that was easy enough.
+  information that was easy enough.
 
   What followed though were "BSODs"/stop errors, mainly on resuming from standby.
   Sadly, minidumps weren't created for these - but the errors were either

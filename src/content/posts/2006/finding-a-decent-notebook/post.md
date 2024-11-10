@@ -36,13 +36,13 @@ So far I have only found about four matches:
   Mobility Radeon x1600.
 - \~£1430
 
-#### **[Acer TravelMate 8215WLMi](http://www.savastore.com/productinfo/product.aspx?catalog_name=Savastore&product_id=10291243&pid=44)**
+#### [Acer TravelMate 8215WLMi](http://www.savastore.com/productinfo/product.aspx?catalog_name=Savastore&product_id=10291243&pid=44)
 
 - Core 2 Duo T7200 2 GHz, 2GB RAM, 160GB hard drive, 15.4" WSXGA+ screen, ATI
   Mobility Radeon x1600 .
 - \~£1550
 
-#### **[Acer Ferrari 5005WLMi](http://www.savastore.com/productinfo/product.aspx?catalog_name=Savastore&product_id=10291241&pid=44)**
+#### [Acer Ferrari 5005WLMi](http://www.savastore.com/productinfo/product.aspx?catalog_name=Savastore&product_id=10291241&pid=44)
 
 - Turion 64 X2 TL-60 2 GHz, 2GB RAM, 160GB hard drive, 15.4" WSXGA+ screen, ATI
   Mobility Radeon x1600, HD DVD-ROM.
