@@ -75,7 +75,7 @@ const readingTime = Math.max(
     url={Astro.url}
     client:load
   />
-  <div class="prev-next-links">
+  <div class="prev-next-links no-print">
     {
       previous && (
         <a href={previous.url}>
@@ -97,24 +97,6 @@ const readingTime = Math.max(
   </div>
 
   <style>
-    a {
-      font-family: var(--sans-serif-font-family);
-
-      &:hover {
-        &,
-        i {
-          text-decoration-thickness: 12%;
-        }
-      }
-
-      &,
-      i {
-        text-decoration: underline;
-        text-underline-offset: 0.25em;
-        text-decoration-thickness: 7%;
-      }
-    }
-
     .date-reading-time {
       font-family: var(--monospace-font-family);
       font-weight: 500;
@@ -131,8 +113,8 @@ const readingTime = Math.max(
       row-gap: 1.1rem;
       margin-top: 2rem;
 
-      @media print {
-        display: none;
+      a {
+        font-family: var(--sans-serif-font-family);
       }
 
       > span {

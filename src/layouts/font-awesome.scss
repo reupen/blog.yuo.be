@@ -1,5 +1,11 @@
 @use "@fortawesome/fontawesome-free/scss/fontawesome";
 
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+
+@use "@fortawesome/fontawesome-free/scss/brands" with (
+  $fa-font-path: $fa-font-path
+);
+
 @use "@fortawesome/fontawesome-free/scss/solid" with (
-  $fa-font-path: "@fortawesome/fontawesome-free/webfonts"
+  $fa-font-path: $fa-font-path
 );

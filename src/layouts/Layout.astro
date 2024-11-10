@@ -71,24 +71,18 @@ const computedTitle =
         }
         {
           postReturnUrl && (
-            <a class="small" href={postReturnUrl}>
+            <a class="small no-print" href={postReturnUrl}>
               <i class="fa-solid fa-chevron-left" />
               All posts
             </a>
           )
         }
-        <div class="small right">
-          <button id="toggle-mode" hidden>
-            <i class="fa-solid fa-circle-half-stroke"></i>
-            <i class="fa-regular fa-sun"></i>
-            <i class="fa-solid fa-moon"></i>
-            <span class="visually-hidden" id="toggle-mode-text"></span>
-          </button>
-          <a href={new URL("rss.xml", Astro.site)}>
-            <i class="fa-solid fa-rss"></i>
-            RSS
-          </a>
-        </div>
+        <button id="toggle-mode" class="small right no-print" hidden>
+          <i class="fa-solid fa-circle-half-stroke"></i>
+          <i class="fa-regular fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+          <span id="toggle-mode-text" class="visually-hidden"></span>
+        </button>
       </nav>
     </header>
     <section class="section">
@@ -96,46 +90,91 @@ const computedTitle =
         <main><slot /></main>
       </div>
     </section>
+    <footer class="no-print">
+      <ul class="container">
+        <li>
+          <a href={new URL("rss.xml", Astro.site)}>
+            <i class="fa-solid fa-rss"></i>
+            RSS
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/reupen/blog.yuo.be">
+            <i class="fa-brands fa-github"></i>
+            Source
+          </a>
+        </li>
+      </ul>
+    </footer>
   </body>
 
   <style>
+    footer,
+    header {
+      font-weight: 500;
+      overflow-x: auto;
+    }
+
+    header nav,
+    footer ul {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+      text-wrap: nowrap;
+    }
+
     header {
       background: var(--nav-background);
       font-family: var(--sans-serif-font-family);
       font-size: 20px;
-      font-weight: 500;
       padding: 0.75rem 1.5rem;
 
       a {
         color: var(--nav-text-colour);
-        text-decoration: none;
+        text-decoration-line: none;
 
         &:hover {
-          text-decoration: underline;
-          text-decoration-thickness: 12%;
+          text-decoration-line: underline;
         }
       }
 
       nav {
-        display: flex;
-        align-items: baseline;
-        column-gap: 1rem;
-        justify-content: space-between;
-
-        i {
-          text-decoration: inherit;
-        }
-
         .right {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.85rem;
           margin-left: auto;
         }
 
         .small {
           font-size: 16px;
+        }
+      }
+    }
+
+    footer {
+      font-family: var(--sans-serif-font-family);
+      font-size: 16px;
+      padding: 0.75rem 1.5rem 1.25rem;
+
+      @media (min-width: calc(700px + 3rem)) {
+        padding: 0.75rem 1.5rem 2rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        display: inline;
+        padding: 0;
+        margin: 0;
+        line-height: inherit;
+      }
+
+      a:not(:hover) {
+        &,
+        i {
+          text-decoration-line: none;
         }
       }
     }

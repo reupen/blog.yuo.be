@@ -24,6 +24,7 @@
     "start": "astro dev",
     "pretest": "npm run build",
     "test": "python scripts/run_in_playwright_container.py \"npm ci && npm exec --no -- playwright test\"",
+    "test:report": "playwright show-report test/e2e/output/html",
     "pretest:update": "npm run build",
     "test:update": "python scripts/run_in_playwright_container.py \"npm ci && npm exec --no -- playwright test --update-snapshots\""
   },
