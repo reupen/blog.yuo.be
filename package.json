@@ -46,7 +46,7 @@
     "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.0",
+    "@axe-core/playwright": "^4.10.1",
     "@date-fns/tz": "^1.2.0",
     "@playwright/test": "^1.48.2",
     "@types/html-to-text": "^9.0.4",
