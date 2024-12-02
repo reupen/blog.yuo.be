@@ -3,10 +3,13 @@ import { experimental_AstroContainer } from "astro/container"
 import mdxRenderer from "astro/jsx/server.js"
 import { format } from "date-fns"
 import { convert as htmlToText } from "html-to-text"
+import { chunk } from "lodash-es"
 
 import { Comments } from "@/components"
 import Layout from "@/layouts/Layout.astro"
-import { getPosts } from "@/lib"
+import { getCommentCounts, getPosts } from "@/lib"
+
+import "./_comentario.pcss"
 
 export async function getStaticPaths() {
   function getPostSlug(post: Awaited<ReturnType<typeof getPosts>>[0]) {
@@ -14,6 +17,22 @@ export async function getStaticPaths() {
   }
 
   const posts = await getPosts()
+
+  const allPaths = posts.map((post) => `/${getPostSlug(post)}/`)
+
+  let commentCounts = {}
+
+  if (!Astro.site) {
+    throw new Error("Astro.site is undefined")
+  }
+
+  for (const pathsChunk of chunk(allPaths, 32)) {
+    const chunkCommentCounts = await getCommentCounts(
+      Astro.site.host,
+      pathsChunk,
+    )
+    commentCounts = { ...commentCounts, ...chunkCommentCounts }
+  }
 
   return posts.map((post, index) => {
     const previousPost = posts[index - 1]
@@ -24,6 +43,7 @@ export async function getStaticPaths() {
         slug: getPostSlug(post),
       },
       props: {
+        commentCounts,
         post,
         index,
         previous: previousPost
@@ -37,7 +57,7 @@ export async function getStaticPaths() {
   })
 }
 
-const { index, next, post, previous } = Astro.props
+const { commentCounts, index, next, post, previous } = Astro.props
 
 const homePageNumber = Math.floor(index / 20) + 1
 const homePagePath = homePageNumber == 1 ? "/" : `/${homePageNumber}/`
@@ -70,10 +90,9 @@ const readingTime = Math.max(
   </p>
   <Content />
   <Comments
-    id={post.data.commentId}
-    title={post.data.title}
-    url={Astro.url}
     client:load
+    initialCommentCounts={commentCounts}
+    pathname={Astro.url.pathname}
   />
   <div class="prev-next-links no-print">
     {
@@ -149,3 +168,5 @@ const readingTime = Math.max(
     }
   </style>
 </Layout>
+
+<script is:inline src="https://comments.yuo.be/comentario.js" defer></script>

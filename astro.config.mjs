@@ -5,7 +5,10 @@ import compress from "astro-compress"
 import { defineConfig } from "astro/config"
 
 export default defineConfig({
-  site: "https://blog.yuo.be",
+  site:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:4321"
+      : "https://blog.yuo.be",
   integrations: [
     sitemap(),
     compress({

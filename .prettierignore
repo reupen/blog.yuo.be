@@ -1,4 +1,5 @@
-package.json
-package-lock.json
+/.venv/
 /dist/
 /test/e2e/output/
+package.json
+package-lock.json

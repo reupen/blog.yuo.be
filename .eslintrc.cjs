@@ -66,7 +66,7 @@ module.exports = {
       "error",
       {
         customGroups: {
-          prioritised: ["id", "name", "property", "src"],
+          prioritised: ["client:*", "is:*", "id", "name", "property", "src"],
         },
         groups: ["prioritised", "unknown", "shorthand"],
       },

@@ -1,36 +1,51 @@
-import { CommentCount, DiscussionEmbed } from "disqus-react"
 import { useState } from "react"
+import useSWR from "swr"
 
-interface CommentsProps {
-  id: string
-  title: string
-  url: URL
+import { getCommentCounts } from "@/lib"
+
+interface Props {
+  initialCommentCounts: Record<string, number> | undefined
+  pathname: string
 }
 
-export function Comments({ id, title, url }: CommentsProps) {
-  const [hasComments, setHasComments] = useState<boolean>(false)
-
-  const config = {
-    identifier: id,
-    title: title,
-    url: url.toString(),
-  }
+export function Comments({ initialCommentCounts, pathname }: Props) {
+  const [isCommentsVisible, setIsCommentsVisible] = useState<boolean>(false)
+  const { data } = useSWR(
+    `comment-counts-${pathname}`,
+    async () => getCommentCounts(window.location.host, [pathname]),
+    { fallbackData: initialCommentCounts },
+  )
+  const commentCount = data?.[pathname]
+  const commentsLoaded = Boolean(data)
 
   return (
     <>
-      {!hasComments && (
+      {!isCommentsVisible && (
         <div
           className="comments-link"
           onClick={() => {
-            setHasComments(true)
+            setIsCommentsVisible(true)
           }}
         >
-          <CommentCount config={config} shortname="reupen">
-            Post a comment
-          </CommentCount>
+          {!commentsLoaded && <>Show comments</>}
+          {commentsLoaded && !commentCount && <>Post a comment</>}
+          {commentCount && (
+            <>
+              Show {commentCount} comment{commentCount !== 1 && "s"}
+            </>
+          )}
         </div>
       )}
-      {hasComments && <DiscussionEmbed config={config} shortname="reupen" />}
+      {isCommentsVisible && (
+        <>
+          <h2>Comments</h2>
+          <comentario-comments
+            page-id={pathname}
+            theme="custom"
+            no-fonts
+          ></comentario-comments>
+        </>
+      )}
     </>
   )
 }

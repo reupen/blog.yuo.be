@@ -1,0 +1,100 @@
+comentario-comments[theme="custom"] {
+  color-scheme: inherit;
+  font-family: var(--sans-serif-font-family);
+  font-size: 14px;
+
+  --cmntr-bg: light-dark(#fff, #000);
+  --cmntr-bg-shade: light-dark(#eee, #333);
+  --cmntr-bg-highlight: light-dark(#91bcff, #3e6ddc);
+  --cmntr-bg-blink: light-dark(#ffe0b1, #8c9500);
+  --cmntr-danger-bg: light-dark(#ffbebe, #c54848);
+  --cmntr-deleted-bg: light-dark(#ffbec9, #8f0019);
+  --cmntr-dlg-header-bg: light-dark(#bbb, #333);
+  --cmntr-input-bg: light-dark(#fff, #000);
+  --cmntr-pending-bg: light-dark(#555, #555);
+  --cmntr-placeholder-bg: light-dark(#ddd, #888);
+  --cmntr-placeholder-mask: light-dark(#999, #999);
+  --cmntr-rejected-bg: light-dark(#ffbebe, #c54848);
+  --cmntr-success-bg: light-dark(#bcffbc, #007c00);
+  --cmntr-warning-bg: light-dark(#ffe0b1, #8c9500);
+
+  --cmntr-color: var(--text-colour-muted);
+  --cmntr-danger-color: light-dark(#000, #fff);
+  --cmntr-input-color: var(--text-colour-muted);
+  --cmntr-input-disabled-color: light-dark(#ddd, #888);
+  --cmntr-label-color: light-dark(#000, #fff);
+  --cmntr-input-ph-color: light-dark(#000, #fff);
+  --cmntr-link-color: var(--text-accent-colour);
+  --cmntr-link-hover-color: var(--text-accent-colour-highlight);
+  --cmntr-muted-color: light-dark(#000, #fff);
+  --cmntr-score-color: light-dark(#555, #aaa);
+  --cmntr-score-up-color: light-dark(#00af00, #00ba00);
+  --cmntr-score-down-color: light-dark(#ff6200, #ff7708);
+  --cmntr-sticky-color: light-dark(#ffb700, #ffc800);
+  --cmntr-success-color: light-dark(#028002, #95ff95);
+  --cmntr-warning-color: light-dark(#bd7b00, #ffff25);
+
+  --cmntr-card-border: light-dark(#333, #ddd);
+  --cmntr-dlg-border: light-dark(#333, #ddd);
+  --cmntr-pending-border: light-dark(#ffe0b1, #8c9500);
+  --cmntr-table-border: light-dark(#333, #ddd);
+
+  .comentario-root {
+    margin-bottom: 2.5rem;
+
+    textarea:focus {
+      box-shadow: none;
+    }
+
+    .comentario-error .comentario-btn {
+      --cmntr-btn-color: var(--cmntr-danger-color);
+      --cmntr-btn-hover-color: var(--cmntr-danger-color);
+    }
+
+    .comentario-toolbar .comentario-btn-tool {
+      opacity: 0.8;
+    }
+
+    .comentario-deleted {
+      opacity: 0.45;
+    }
+  }
+
+  .comentario-btn-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 7%;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      text-decoration-thickness: 12%;
+    }
+  }
+
+  .comentario-card {
+    border-top: none;
+    margin-top: 1rem;
+  }
+
+  .comentario-card-expand-spacer {
+    display: none;
+  }
+
+  .comentario-card-expand-toggler {
+    display: none;
+  }
+
+  .comentario-card-children {
+    border-left: 2px solid #999;
+    padding-left: 1rem;
+
+    .comentario-card-children {
+      border: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+
+  .comentario-footer {
+    display: none;
+  }
+}
