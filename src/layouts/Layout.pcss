@@ -94,13 +94,22 @@ body {
 
 h1 {
   font-size: 50px;
-  margin: 1rem 0 2.5rem;
+  font-weight: 675;
+  margin: 0 0 1.5rem;
   line-height: 1.15;
+
+  @media (min-width: calc(700px + 3rem)) {
+    margin: 0 0 1.75rem;
+  }
 }
 
 h2 {
   font-size: 32px;
   margin: 2.4rem 0 0.6rem;
+
+  &:first-child {
+    margin-top: 1rem;
+  }
 
   + h3 {
     margin-top: 1.6rem;
@@ -128,7 +137,12 @@ h2,
 h3,
 h4 {
   font-family: var(--sans-serif-font-family);
-  font-weight: 600;
+}
+
+h2,
+h3,
+h4 {
+  font-weight: 625;
 }
 
 h1,
@@ -314,10 +328,10 @@ audio {
 }
 
 .section {
-  padding: 1.5rem 1.5rem 2rem;
+  padding: 1.5rem 1.5rem 1.5rem;
 
   @media (min-width: calc(700px + 3rem)) {
-    padding: 2.5rem 1.5rem 2rem;
+    padding: 2rem 1.5rem 1.75rem;
   }
 }
 

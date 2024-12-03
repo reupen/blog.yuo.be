@@ -84,91 +84,110 @@ const readingTime = Math.max(
   postReturnUrl={`${homePagePath}#${post.id}`}
   title={post.data.title}
 >
-  <h1>{post.data.title}</h1>
-  <p class="date-reading-time">
-    <time datetime={post.data.date.toISOString()}>
-      {format(post.data.date, "d MMMM yyyy")}
-    </time><span class="bullet"> • </span><span>{readingTime} min read</span>
-  </p>
-  <Content />
-  <Comments
-    client:load
-    initialCommentCounts={commentCounts}
-    pathname={Astro.url.pathname}
-  />
-  <div class="prev-next-links no-print">
-    {
-      previous && (
-        <a href={previous.url}>
-          <i class="fa-solid fa-arrow-left" />
-          {previous.data.title}
-        </a>
-      )
-    }
-    {!previous && <span />}
-    {!next && <span />}
-    {
-      next && (
-        <a class="next-page" href={next.url}>
-          {next.data.title}
-          <i class="fa-solid fa-arrow-right" />
-        </a>
-      )
-    }
+  <div class="post-header section">
+    <div class="container">
+      <h1>{post.data.title}</h1>
+      <p class="date-reading-time">
+        <time datetime={post.data.date.toISOString()}>
+          {format(post.data.date, "d MMMM yyyy")}
+        </time><span class="bullet"> • </span><span>{readingTime} min read</span
+        >
+      </p>
+    </div>
   </div>
-
-  <style>
-    .date-reading-time {
-      font-family: var(--monospace-font-family);
-      font-weight: 500;
-      color: var(--text-colour);
-    }
-
-    .bullet {
-      margin: 0 0.2rem;
-    }
-
-    .prev-next-links {
-      display: grid;
-      column-gap: 1rem;
-      row-gap: 1.1rem;
-      margin-top: 2rem;
-
-      a {
-        font-family: var(--sans-serif-font-family);
-      }
-
-      > span {
-        display: block;
-        visibility: hidden;
-      }
-
-      > a {
-        display: flex;
-        align-items: center;
-        column-gap: 0.55rem;
-        padding: 1rem 1rem;
-        line-height: 1.65;
-        background: var(--post-navigation-background);
-        border-radius: 6px;
-
-        &,
-        i {
-          text-decoration: none;
+  <div class="section">
+    <div class="container">
+      <Content />
+      <Comments
+        client:load
+        initialCommentCounts={commentCounts}
+        pathname={Astro.url.pathname}
+      />
+      <div class="prev-next-links no-print">
+        {
+          previous && (
+            <a href={previous.url}>
+              <i class="fa-solid fa-arrow-left" />
+              {previous.data.title}
+            </a>
+          )
         }
-
-        &:hover {
-          background: var(--post-navigation-background-hover);
-          text-decoration: none;
+        {!previous && <span />}
+        {!next && <span />}
+        {
+          next && (
+            <a class="next-page" href={next.url}>
+              {next.data.title}
+              <i class="fa-solid fa-arrow-right" />
+            </a>
+          )
         }
-      }
-
-      .next-page {
-        justify-content: right;
-        text-align: right;
-      }
-    }
-  </style>
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .post-header {
+    background: var(--nav-background);
+    padding: 1.75rem 1.5rem 1.75rem;
+
+    @media (min-width: calc(700px + 3rem)) {
+      padding: 2rem 1.5rem 2rem;
+    }
+  }
+
+  .date-reading-time {
+    font-family: var(--monospace-font-family);
+    font-weight: 500;
+    color: var(--text-colour);
+    margin: unset;
+  }
+
+  .bullet {
+    margin: 0 0.2rem;
+  }
+
+  .prev-next-links {
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 1.1rem;
+    margin-top: 2rem;
+
+    a {
+      font-family: var(--sans-serif-font-family);
+    }
+
+    > span {
+      display: block;
+      visibility: hidden;
+    }
+
+    > a {
+      display: flex;
+      align-items: center;
+      column-gap: 0.55rem;
+      padding: 1rem 1rem;
+      line-height: 1.65;
+      background: var(--post-navigation-background);
+      border-radius: 6px;
+
+      &,
+      i {
+        text-decoration: none;
+      }
+
+      &:hover {
+        background: var(--post-navigation-background-hover);
+        text-decoration: none;
+      }
+    }
+
+    .next-page {
+      justify-content: right;
+      text-align: right;
+    }
+  }
+</style>
 
 <script is:inline src="https://comments.yuo.be/comentario.js" defer></script>

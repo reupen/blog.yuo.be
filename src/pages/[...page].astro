@@ -24,63 +24,80 @@ const description = "My personal blog, full of random musings"
   description={description}
   title={page.currentPage > 1 ? `Page ${page.currentPage}` : undefined}
 >
-  <h1>
-    {
-      page.currentPage > 1 ? (
-        <>Posts (page {page.currentPage})</>
-      ) : (
-        <>Reupen’s blog</>
-      )
-    }
-  </h1>
-  {
-    page.data.map((post, index) => (
-      <>
-        {(post.isNewMonth || index === 0) && (
-          <h2>
-            {format(post.data.date, "MMMM yyyy")}
-            {index === 0 && !post.isNewMonth && " (continued)"}
-          </h2>
-        )}
-        <ol>
-          <li id={post.id}>
-            <a href={`/${post.data.slugPrefix}/${post.id}/`}>
-              {post.data.title}
-            </a>
-            <p>{post.data.excerpt}</p>
-          </li>
-        </ol>
-      </>
-    ))
-  }
-  <Pagination
-    entryName="posts"
-    nextHref={page.url.next}
-    previousHref={page.url.prev}
-  />
-
-  <style>
-    ol {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      padding-left: 0;
-      margin-bottom: 1rem;
-      line-height: 1.7;
-
-      a {
-        font-size: 22px;
-        font-family: var(--sans-serif-font-family);
-        font-weight: 600;
+  <div class="post-header section">
+    <div class="container">
+      <h1>
+        {
+          page.currentPage > 1 ? (
+            <>Posts (page {page.currentPage})</>
+          ) : (
+            <>Reupen’s blog</>
+          )
+        }
+      </h1>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      {
+        page.data.map((post, index) => (
+          <>
+            {(post.isNewMonth || index === 0) && (
+              <h2>
+                {format(post.data.date, "MMMM yyyy")}
+                {index === 0 && !post.isNewMonth && " (continued)"}
+              </h2>
+            )}
+            <ol>
+              <li id={post.id}>
+                <a href={`/${post.data.slugPrefix}/${post.id}/`}>
+                  {post.data.title}
+                </a>
+                <p>{post.data.excerpt}</p>
+              </li>
+            </ol>
+          </>
+        ))
       }
-
-      p {
-        font-size: 18px;
-        margin-top: 0.25rem;
-        line-height: 1.7;
-      }
-    }
-  </style>
+      <Pagination
+        entryName="posts"
+        nextHref={page.url.next}
+        previousHref={page.url.prev}
+      />
+    </div>
+  </div>
 </Layout>
+
+<style>
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    padding-left: 0;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+
+    a {
+      font-size: 22px;
+      font-family: var(--sans-serif-font-family);
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 0.25rem;
+      line-height: 1.7;
+    }
+  }
+
+  .post-header {
+    background: var(--nav-background);
+    padding: 2rem 1.5rem 1.5rem;
+
+    @media (min-width: calc(700px + 3rem)) {
+      padding: 1rem 1.5rem 1rem;
+    }
+  }
+</style>
