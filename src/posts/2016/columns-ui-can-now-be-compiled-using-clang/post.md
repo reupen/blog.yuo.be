@@ -90,7 +90,7 @@ it won't take too much effort to get it to work with new tools in the future.
 Trying to compile with Clang 3.8.0 64-bit in release mode results in the
 following:
 
-```none
+```
          Unwind edges out of a funclet pad must have the same unwind dest
            %94 = cleanuppad within none [], !dbg !787
            cleanupret from %100 unwind to caller, !dbg !839
@@ -107,7 +107,7 @@ fine for release builds.
 Debug builds with both 3.8.0 and snapshot build r268958 yield the following,
 though:
 
-```none
+```
 CL : fatal error : error in backend: assembler label 'L?query_cpu_feature_set@pfc@@YA_NI@Z$parent_frame_offset' can not be undefined [F:\foobar2000\columns_ui\pfc\pfc.vcxproj]
 ```
 
@@ -164,7 +164,7 @@ default checks), and `-fix` applies any available fixes.
 
 It _almost_ works:
 
-```none
+```
 C:\Program Files (x86)\Windows Kits\10\include\10.0.10586.0\um\winnt.h:935:5: error: MS-style inline assembly is not available: Unable to find target for this triple (no targets are registered) [clang-diagnostic-error]
     __asm    {
     ^
