@@ -1,9 +1,13 @@
 import { tz } from "@date-fns/tz"
 import { z, defineCollection } from "astro:content"
+import { glob } from "astro/loaders"
 import { format } from "date-fns"
 
 const posts = defineCollection({
-  type: "content",
+  loader: glob({
+    base: "./src/content/posts",
+    pattern: "**/*.md{x,}",
+  }),
   schema: z
     .object({
       comment_id: z.string(),

@@ -1,19 +1,21 @@
 ---
+import mdxRenderer from "@astrojs/mdx/server.js"
+import { render } from "astro:content"
 import { experimental_AstroContainer } from "astro/container"
-import mdxRenderer from "astro/jsx/server.js"
 import { format } from "date-fns"
 import { convert as htmlToText } from "html-to-text"
 import { chunk } from "lodash-es"
 
-import { Comments } from "@/components"
+import { Comments } from "@/components/client"
 import Layout from "@/layouts/Layout.astro"
-import { getCommentCounts, getPosts } from "@/lib"
+import { getCommentCounts } from "@/lib"
+import { getPosts } from "@/lib/server"
 
 import "./_comentario.pcss"
 
 export async function getStaticPaths() {
   function getPostSlug(post: Awaited<ReturnType<typeof getPosts>>[0]) {
-    return `${post.data.slugPrefix}/${post.slug}`
+    return `${post.data.slugPrefix}/${post.id}`
   }
 
   const posts = await getPosts()
@@ -62,7 +64,7 @@ const { commentCounts, index, next, post, previous } = Astro.props
 const homePageNumber = Math.floor(index / 20) + 1
 const homePagePath = homePageNumber == 1 ? "/" : `/${homePageNumber}/`
 
-const { Content } = await post.render()
+const { Content } = await render(post)
 
 const container = await experimental_AstroContainer.create()
 container.addServerRenderer({ renderer: mdxRenderer, name: "MDX" })
@@ -79,7 +81,7 @@ const readingTime = Math.max(
   description={post.data.excerpt}
   ogPublishedTime={post.data.date}
   ogType="article"
-  postReturnUrl={`${homePagePath}#${post.slug}`}
+  postReturnUrl={`${homePagePath}#${post.id}`}
   title={post.data.title}
 >
   <h1>{post.data.title}</h1>

@@ -4,7 +4,7 @@ import { format } from "date-fns"
 
 import Pagination from "@/components/Pagination.astro"
 import Layout from "@/layouts/Layout.astro"
-import { getPosts } from "@/lib"
+import { getPosts } from "@/lib/server"
 
 export async function getStaticPaths({
   paginate,
@@ -43,8 +43,8 @@ const description = "My personal blog, full of random musings"
           </h2>
         )}
         <ol>
-          <li id={post.slug}>
-            <a href={`/${post.data.slugPrefix}/${post.slug}/`}>
+          <li id={post.id}>
+            <a href={`/${post.data.slugPrefix}/${post.id}/`}>
               {post.data.title}
             </a>
             <p>{post.data.excerpt}</p>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import useSWR from "swr"
 
-import { getCommentCounts } from "@/lib"
+import { getCommentCounts } from "@/lib/getCommentCounts.ts"
 
 interface Props {
   initialCommentCounts: Record<string, number> | undefined

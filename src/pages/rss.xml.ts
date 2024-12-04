@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss"
 import type { APIContext } from "astro"
 
-import { getPosts } from "@/lib"
+import { getPosts } from "@/lib/server"
 
 export async function GET(context: APIContext) {
   if (!context.site) {
@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.excerpt,
-      link: `/${post.data.slugPrefix}/${post.slug}`,
+      link: `/${post.data.slugPrefix}/${post.id}`,
     })),
     customData: `<language>en-gb</language>`,
   })
