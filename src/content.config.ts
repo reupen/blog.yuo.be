@@ -5,7 +5,7 @@ import { format } from "date-fns"
 
 const posts = defineCollection({
   loader: glob({
-    base: "./src/content/posts",
+    base: "./src/posts",
     pattern: "**/*.md{x,}",
   }),
   schema: z
