@@ -10,7 +10,7 @@ const posts = defineCollection({
   }),
   schema: z
     .object({
-      comment_id: z.string(),
+      comment_id: z.string().optional(),
       date: z.date(),
       is_draft: z.boolean().default(false),
       excerpt: z.string(),

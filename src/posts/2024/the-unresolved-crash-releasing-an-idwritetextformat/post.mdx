@@ -1,0 +1,181 @@
+---
+title: "The unresolved crash releasing an IDWriteTextFormat"
+slug: the-unresolved-crash-releasing-an-idwritetextformat
+date: 2024-12-07
+tags:
+  - win32
+excerpt: |-
+  No, I don’t like infinitely recursive loops.
+---
+
+import { PostImage } from "@/components"
+
+import directwrite_debugger_png from "./directwrite-debugger.png"
+
+I’ve been working on adding
+[DirectWrite](https://en.wikipedia.org/wiki/DirectWrite) support to
+[Columns UI](https://yuo.be/columns-ui) since June. And, generally speaking,
+it’s been working fine. But, semi-recently, I had an odd-looking crash when
+closing foobar2000.
+
+The crash was a stack overflow, and the output of `!analyze` in WinDbg for the
+relevant minidump looked like this:
+
+```
+*******************************************************************************
+*                                                                             *
+*                        Exception Analysis                                   *
+*                                                                             *
+*******************************************************************************
+
+
+PROCESS_NAME:  foobar2000.exe
+
+ERROR_CODE: (NTSTATUS) 0xc00000fd - A new guard page for the stack cannot be created.
+
+SYMBOL_NAME:  DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+4e
+
+MODULE_NAME: DWrite
+
+IMAGE_NAME:  DWrite.dll
+
+FAILURE_BUCKET_ID:  STACK_OVERFLOW_c00000fd_DWrite.dll!ComObject_DWriteTextLayout,DeleteOnZeroReference_::Release
+
+FAILURE_ID_HASH:  {0c3bbb68-6cac-fa46-21d9-8d80628a9476}
+
+Followup:     MachineOwner
+---------
+```
+
+The most recent frames of the call stack looked like this:
+
+```
+ # Child-SP          RetAddr               Call Site
+00 00000058`31ab3fa0 00007ffd`8bdab001     ntdll!RtlpFreeHeapInternal+0x796
+01 00000058`31ab4060 00007ffd`8baecadc     ntdll!RtlFreeHeap+0x51
+02 00000058`31ab40a0 00007ffd`82e51037     msvcrt!free+0x1c
+03 00000058`31ab40d0 00007ffd`82e2e29d     DWrite!RunFormat::~RunFormat+0x7f
+04 00000058`31ab4100 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x15
+05 00000058`31ab4130 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+06 00000058`31ab4160 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+07 00000058`31ab4190 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+08 00000058`31ab41c0 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+09 00000058`31ab41f0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+0a 00000058`31ab4220 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+0b 00000058`31ab4250 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+0c 00000058`31ab4280 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+0d 00000058`31ab42b0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+0e 00000058`31ab42e0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+0f 00000058`31ab4310 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+10 00000058`31ab4340 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+11 00000058`31ab4370 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+12 00000058`31ab43a0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+13 00000058`31ab43d0 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+14 00000058`31ab4400 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+15 00000058`31ab4430 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+16 00000058`31ab4460 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+17 00000058`31ab4490 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+18 00000058`31ab44c0 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+19 00000058`31ab44f0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+1a 00000058`31ab4520 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+1b 00000058`31ab4550 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+1c 00000058`31ab4580 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+1d 00000058`31ab45b0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+1e 00000058`31ab45e0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+1f 00000058`31ab4610 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+20 00000058`31ab4640 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+21 00000058`31ab4670 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+22 00000058`31ab46a0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+23 00000058`31ab46d0 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+24 00000058`31ab4700 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+25 00000058`31ab4730 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+26 00000058`31ab4760 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+27 00000058`31ab4790 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+28 00000058`31ab47c0 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+29 00000058`31ab47f0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+2a 00000058`31ab4820 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+2b 00000058`31ab4850 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+2c 00000058`31ab4880 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+2d 00000058`31ab48b0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+2e 00000058`31ab48e0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+2f 00000058`31ab4910 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+30 00000058`31ab4940 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+31 00000058`31ab4970 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+32 00000058`31ab49a0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+33 00000058`31ab49d0 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+34 00000058`31ab4a00 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+35 00000058`31ab4a30 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+36 00000058`31ab4a60 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+37 00000058`31ab4a90 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+38 00000058`31ab4ac0 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+39 00000058`31ab4af0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+3a 00000058`31ab4b20 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+3b 00000058`31ab4b50 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+3c 00000058`31ab4b80 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+3d 00000058`31ab4bb0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+...
+```
+
+Those last four lines repeat another 5,307 times, after which things start to
+diverge. At frame 0x532d, you can see what called DirectWrite:
+
+```
+...
+5322 00000058`31bad6a0 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+5323 00000058`31bad6d0 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+5324 00000058`31bad700 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+5325 00000058`31bad730 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+5326 00000058`31bad760 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+5327 00000058`31bad790 00007ffd`82e2e2c7     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+5328 00000058`31bad7c0 00007ffd`82e2e3fe     DWrite!MutableTextLayout::~MutableTextLayout+0x3f
+5329 00000058`31bad7f0 00007ffd`82e2c8d7     DWrite!ComObject<DWriteTextLayout,DeleteOnZeroReference>::Release+0x4e
+532a 00000058`31bad820 00007ffd`82e4f419     DWrite!ComObject<InlineLayout,DeleteOnZeroReference>::Release+0x57
+532b 00000058`31bad850 00007ffd`82e2dbda     DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref+0x29
+*** WARNING: Unable to verify checksum for foo_ui_columns.dll
+532c 00000058`31bad880 00007ffd`20f231a9     DWrite!ComObject<DWriteTextFormat,DeleteOnZeroReference>::Release+0x4a
+532d (Inline Function) --------`--------     foo_ui_columns!wil::com_ptr_t<IDWriteTextFormat,wil::err_exception_policy>::{dtor}+0xf [G:\foobar2000\columns_ui\vcpkg_installed\x64-windows-static\x64-windows-static\include\wil\com.h @ 263]
+532e 00000058`31bad8b0 00007ffd`2105efac     foo_ui_columns!uih::direct_write::TextFormat::~TextFormat+0x69
+532f 00000058`31bad8e0 00007ffd`21049e3f     foo_ui_columns!uih::ListView::on_message+0x25ec [G:\foobar2000\columns_ui\ui_helpers\list_view\list_view_msgproc.cpp @ 82]
+5330 (Inline Function) --------`--------     foo_ui_columns!std::_Func_class<__int64,HWND__ *,unsigned int,unsigned __int64,__int64>::operator()+0x26 [C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\functional @ 920]
+5331 00000058`31bada90 00007ffd`21049caa     foo_ui_columns!uih::ContainerWindow::on_message+0x15f [G:\foobar2000\columns_ui\ui_helpers\container_window.cpp @ 111]
+5332 00000058`31badb10 00007ffd`8b0583f1     foo_ui_columns!uih::ContainerWindow::s_on_message+0x7a [G:\foobar2000\columns_ui\ui_helpers\container_window.cpp @ 60]
+...
+```
+
+While handling a `WM_DESTROY` window message, Columns UI released an
+`IDWriteTextFormat` object. That, seemingly, triggered an endless recursive loop
+while DirectWrite was trying to release some other referenced objects.
+
+This has happened to me twice, two months apart. So, it’s not frequent, but I
+know it’s not just me as a crash report of the same thing has been submitted by
+a user.
+
+I’m pretty sure this started when I added support for customising variable fonts
+axes using newer DirectWrite interfaces in combination with the
+[typographic font family model](https://learn.microsoft.com/en-us/windows/win32/directwrite/font-selection#typographic-font-family-model).
+
+I ran a script that opens and closes foobar2000 in a loop for half an hour, and
+it didn’t crash. I also checked what happens during a normal exit. What I
+discovered is that this recursion is always happening, but it’s not normally
+infinite:
+
+<figure>
+  <a href={directwrite_debugger_png.src}>
+    <PostImage
+      src={directwrite_debugger_png}
+      alt={
+        "A screenshot of the Visual Studio debugger, showing the call stack " +
+        "during an IDWriteTextFormat::Release call with similar recursion as above"
+      }
+    />
+  </a>
+  <figcaption>What is this, DirectWrite?</figcaption>
+</figure>
+
+All three crash reports were when foobar2000 had been open for a couple of hours
+or so, so perhaps what’s happening isn’t actually infinite recursion, but
+instead resources building up over time that are, for some reason, released
+recursively.
+
+At least I’ve got some vague trail to continue following, so hopefully I’ll work
+out how to fix or mitigate this.
