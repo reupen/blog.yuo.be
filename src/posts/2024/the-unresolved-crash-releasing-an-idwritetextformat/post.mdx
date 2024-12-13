@@ -179,3 +179,37 @@ recursively.
 
 At least I’ve got some vague trail to continue following, so hopefully I’ll work
 out how to fix or mitigate this.
+
+## 13 December 2024 update
+
+After an evening of debugging, I managed to get to the bottom of this.
+
+The first thing to note is that the stack trace above is a bit misleading – the
+calls to `DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref()` are actually
+calls to `DWrite!ComPtr<IDWriteInlineObject>::Deref()`. (Presumably the two
+functions were deduplicated and have the same address – thought the disassembly
+in [IDA](https://en.wikipedia.org/wiki/Interactive_Disassembler) shows the
+correct function).
+
+I realised that this inline object was the ellipsis trimming sign that Columns
+UI was setting on some text formats. In order to create the trimming sign,
+Columns UI was passing a text format to
+`IDWriteFactory::CreateEllipsisTrimmingSign()`. It was then calling the
+`IDWriteTextFormat::SetTrimming()` method on that text format, passing it the
+`IDWriteInlineObject` object that was returned by
+`IDWriteFactory::CreateEllipsisTrimmingSign()`. _Suddenly, the recursion starts
+to make sense._
+
+I’ve fixed the problem by configuring trimming on text layouts instead of text
+formats. (`IDWriteTextLayout` inherits from `IDWriteTextFormat`, and so has the
+same `SetTrimming` method available.) From testing, doing this breaks the
+reference cycle. (It’s more convenient and logical to set it on the text layout
+as well.)
+
+Sadly, being able to cause this problem so easily seems to be a bit of a footgun
+in the API. Many examples and uses of
+`IDWriteFactory::CreateEllipsisTrimmingSign()` found online also follow the
+pattern above that was problematic in Columns UI (including some Microsoft code
+samples). What remains unclear is why the recursion that occurred when releasing
+text formats using the problematic pattern was infinite (causing a stack
+overflow) only on the odd occasion.
