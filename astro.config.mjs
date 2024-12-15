@@ -3,6 +3,7 @@ import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
 import compress from "astro-compress"
 import { defineConfig } from "astro/config"
+import rehypeExternalLinks from "rehype-external-links"
 
 export default defineConfig({
   site:
@@ -22,6 +23,14 @@ export default defineConfig({
     react(),
   ],
   markdown: {
+    rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        {
+          rel: ["noreferrer"],
+        },
+      ],
+    ],
     shikiConfig: {
       defaultColor: false,
       themes: {
