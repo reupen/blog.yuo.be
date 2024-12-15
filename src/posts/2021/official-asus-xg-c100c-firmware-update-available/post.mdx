@@ -62,7 +62,7 @@ The process to update is to run `atlflashupdate.exe` as an administrator and
 follow the prompts. I’ve just done this without problem – will now keep an eye
 on things to see if my problems are fixed...
 
-### Update 19 March 2021
+### 19 March 2021 update
 
 OK, this version seems to be a dud. After coming out of sleep mode, I’m often
 greeted by this (combined with no network connectivity):
@@ -80,7 +80,7 @@ However, on another manufacturer’s website, I managed to find a copy of the
 going to take the plunge and see if that version is any better. (If it is, I’ll
 post a link...)
 
-### Further update 19 March 2021
+### 19 March 2021 update
 
 I’ve gone through several sleep and resume cycles with version 3.1.118 and it
 seems like it’s a winner.
@@ -96,7 +96,7 @@ manually disable and re-enable the network adaptor to get things working again.)
 emailed Asus back to report that 3.1.88 is no good, but I don’t know what
 they’ll reply to me with.)
 
-### Update 1 April 2021
+### 1 April 2021 update
 
 Firmware version 3.1.118 has continued to work well, and, so far, seems to have
 fixed all the problems I was experiencing with the card.
@@ -104,8 +104,27 @@ fixed all the problems I was experiencing with the card.
 Asus didn’t come back with anything useful – in fact they denied the newer
 firmware version even existed.
 
-### Update 24 July 2022
+### 24 July 2022 update
 
 The _atlflashupdate_1.4.2_3.1.118.zip_ file on the site linked to above has been
 replaced with a newer version which no longer supports the Asus card (without
 modding).
+
+### 15 December 2024 update
+
+While investigating a problem updating to Windows 11 24H2, I realised that the
+_atlflashupdate_1.4.2_3.1.118.zip_ file I previously mentioned included unsigned
+firmware files that cause a
+[Secure Boot](https://en.wikipedia.org/wiki/UEFI#Secure_Boot)) violation (when
+Secure Boot is enabled).
+
+I gave in and modded the official Marvell 3.1.121a firmware update to support
+the XG-C100C. I edited `updatedata.xml` and inserted the required `<pciid>`
+entry in the same group that it’s in for firmware update packages that do
+support the XG-C100C. For my card, that meant adding a
+`<pciid vid="1d6a" did="07b1" sdid="8741" svid="1043" />` entry to the group
+starting with `<pciid vid="1d6a" did="d107" sdid="0001" svid="1d6a" />`. The
+firmware update went through fine, and the card is Secure Boot compliant again.
+
+Also, there are now V2 and V3 variants of the XG-C100C. Everything in this post
+only applies to the original version of the card.
