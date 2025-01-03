@@ -1,0 +1,151 @@
+---
+title: "The squished iPlayer picture on my Sony TV"
+slug: the-squished-iplayer-picture-on-my-sony-tv
+date: 2025-01-04
+tags:
+  - technology
+excerpt: |-
+  No, Sony, I don’t like my TV picture squished, stretched and cropped at the same time.
+---
+
+import { PostImage } from "@/components"
+
+import sky_q_jpg from "./sky-q.jpg"
+import sony_after_jpg from "./sony-after.jpg"
+import sony_before_jpg from "./sony-before.jpg"
+
+I was recently using the iPlayer app on my Sony A84L Google TV. I noticed
+something odd: people were looking rather slim.
+
+Here’s an example from BBC series Asia:
+
+<figure>
+  <PostImage
+    src={sony_before_jpg}
+    alt="A photo of a Sony TV showing a squished picture in the centre and a stretched picture near the left and right edges."
+  />
+  <figcaption>
+    <span>A rather healthy rendition of Sir David</span>
+  </figcaption>
+</figure>
+
+Sir David Attenborough is squished. But, conversely, the BBC logo in the corner
+is stretched, and positioned more to the left than it should be.
+
+Clearly, such scaling makes no sense for natively widescreen content[^1]. You
+also can’t access display settings while in the iPlayer app, so it’s not at all
+clear how to fix this.
+
+Thankfully, the internet has some clues. First, Sony and the BBC have articles
+hinting at the problem:
+
+- [Why is playback cropped or zoomed-in on my Sony TV? | iPlayer help](https://www.bbc.co.uk/iplayer/help/issues/connected-tv/sony-cropped)
+- [How to solve: BBC iPlayer picture is cropped and the full image isn't being displayed | Sony UK](https://www.sony.co.uk/electronics/support/articles/00286315)
+
+Second, there are various forum threads discussing the problem. Here are a
+couple:
+
+- [Sony A8 BBC iplayer UHD images seem stretched/ jelly effect | AVForums](https://www.avforums.com/threads/sony-a8-bbc-iplayer-uhd-images-seem-stretched-jelly-effect.2436890/)
+- [Sony A80J BBC iPlayer/Youview Catch up Issues - Sony](https://community.sony.co.uk/t5/android-tv/sony-a80j-bbc-iplayer-youview-catch-up-issues/td-p/3867976)
+
+Only the AVSForum thread accurately describes the non-uniform distortion of the
+picture.
+
+The Sony support article makes the solution sound simple. But when it says
+_‘Launch your TV app to watch broadcasted [sic] content’_, the discussion online
+suggests that it specifically means TV via the built-in tuner (using an
+aerial).[^2]
+
+I didn’t have an aerial connected, so I bought a cheap indoor aerial and managed
+to tune a few channels in. I switched the TV to one of those channels and
+checked the Display area setting. _To my surprise, it was already set to +1._ I
+checked iPlayer again, and the picture was still distorted. I tried changing the
+Wide mode setting to Full instead of the default (which I think was Auto). That
+didn’t help either. I fiddled around with various other settings, but with no
+luck.
+
+I parked the problem until today. I reconnected the aerial, switched to an SD
+digital TV channel and changed the Display area setting from +1 to Normal and
+opened up iPlayer. I played the same episode of Asia I had used to test earlier.
+It was still distorted.
+
+I then went back to the digital TV channel, changed the Display area setting to
++1, and played Asia in the iPlayer app again. To my surprise, the picture was no
+longer distorted:
+
+<figure>
+  <PostImage
+    src={sony_after_jpg}
+    alt="A photo of a Sony TV showing a similar scene as in the previous photo, but without distortion."
+  />
+  <figcaption>
+    <span>Back to normal</span>
+  </figcaption>
+</figure>
+
+Here’s how it looks in the Sky Q iPlayer app, as a comparison:
+
+<figure>
+  <PostImage
+    src={sky_q_jpg}
+    alt="A photo of a Sony TV showing a similar scene as in the first previous photo, but without distortion."
+  />
+  <figcaption>
+    <span>Via the Sky Q iPlayer app, it just works</span>
+  </figcaption>
+</figure>
+
+That certainly looks promising. I then switched my TV back to the HDMI input for
+my Sky Q box (which is assigned as the primary TV input on the TV) and played
+Asia on the iPlayer app on the TV once more. To my dismay, it was back to being
+distorted.
+
+The logical conclusion is that the problem also depends on which input is active
+when the iPlayer app is launched in some capacity. With the Sky Q box set to
+2160p, the Display area and Wide mode settings are unavailable on the TV. So I
+changed my Sky Q box to output 576p, changed Display area to +1 on the TV, and
+fired up the iPlayer app. I now had more of the picture, but it was still
+distorted (albeit slightly less obviously, as the logo had moved in a bit).
+
+I then went back to the HDMI input for the Sky Q box, changed Wide mode to Full
+and fired up the iPlayer app once more. Success. It was back to being
+undistorted and uncropped. I set my Sky Q box back to 2160p, and checked the
+iPlayer app again. It was still undistorted and uncropped.
+
+As a final test, I turned on my Nintendo Switch, switched over to that HDMI
+input and fired up the iPlayer app and played Asia again. It was distorted.
+
+So, in summary, if you have this problem:
+
+- you probably don’t need to get an aerial to fix it if you don’t have one
+- the behaviour depends on which input is in use when iPlayer is launched
+- getting an undistorted and uncropped picture specifically seems to need
+  Display area set to +1 and Wide mode set to Full for a lower-resolution video
+  mode such as 576i, 576p or 720p[^3] on the input in use when iPlayer is
+  launched
+- this is definitely nonsensical behaviour of the TV (and it’s quite frankly
+  disappointing that Sony and the BBC haven’t properly investigated and fixed
+  it)
+
+The above is true for my A84L TV at time of writing (at least as far as I can
+work out). There are several Sony TV series (including A80J, A80K and A80L) that
+run the same software, so I imagine the above would extend to those too.
+
+Hopefully, someone at Sony (or the BBC) will pull their finger out and fix this
+properly. (With any luck, it’ll get fixed when they finally move this set on
+from Android 10…)
+
+[^1]:
+    It reminds me of a ‘Smart’ scaling mode some old Sony widescreen CRTs had
+    for 4:3 content, where the picture would be stretched non-uniformly to fit
+    the screen.
+
+[^2]:
+    You can configure the main TV input to be a set-top box (or ‘TV box’ as the
+    TV calls it) rather than the built-in tuner, so the wording of the support
+    article isn’t particularly clear.
+
+[^3]:
+    1080i also allows you to set Wide mode to Full, but it won’t let you set
+    Display area to the required +1 setting (instead the TV offers Full pixel,
+    at least via HDMI, which doesn’t help with the problem).
