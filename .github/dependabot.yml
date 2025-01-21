@@ -19,15 +19,18 @@ updates:
     groups:
       astro:
         patterns:
+          - "@astrojs/*"
           - "astro"
           - "astro-*"
-          - "@astrojs/*"
       eslint:
         patterns:
+          - "@typescript-eslint/*"
           - "eslint"
           - "eslint-*"
-          - "@typescript-eslint/*"
       postcss:
         patterns:
           - "postcss*"
           - "cssnano"
+    ignore:
+      - dependency-name: eslint
+        versions: [">8"]
