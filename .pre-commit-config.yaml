@@ -1,4 +1,13 @@
+ci:
+  skip:
+    - prettier
+    - eslint
+    - astro-check
+    - ruff-check
+    - ruff-format
+
 exclude: ^.subset-chars$
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
