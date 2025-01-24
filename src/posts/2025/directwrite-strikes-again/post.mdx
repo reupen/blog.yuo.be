@@ -1,0 +1,37 @@
+---
+title: "DirectWrite strikes again"
+slug: directwrite-strikes-again
+date: 2025-01-24
+tags:
+  - win32
+excerpt: |-
+  Unique things should be, erm, unique.
+---
+
+I was debugging an odd-looking Columns UI crash from a Windows 8.1 device. The
+crash was odd because it looked like something that should be impossible. In
+fact, however, it was easily reproducible.
+
+The reason became obvious when examining the DirectWrite headers. Compare the
+start of the declaration of the
+[`IDWriteFont2`](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite_2/nn-dwrite_2-idwritefont2)
+interface:
+
+```cpp
+interface DWRITE_DECLARE_INTERFACE("29748ed6-8c9c-4a6a-be0b-d912e8538944") IDWriteFont2 : public IDWriteFont1
+```
+
+…with the start of the declaration of the
+[`IDWriteFont3`](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite_3/nn-dwrite_3-idwritefont3)
+interface:
+
+```cpp
+interface DWRITE_DECLARE_INTERFACE("29748ED6-8C9C-4A6A-BE0B-D912E8538944") IDWriteFont3 : public IDWriteFont2
+```
+
+Notice anything odd? I did – they both have the same UUID as their IID. That
+means, you can successfully query a COM object for the `IDWriteFont3` interface,
+when it in fact only supports `IDWriteFont2`. _And that’s exactly what happens
+on Windows 8.1._
+
+Sheesh.
