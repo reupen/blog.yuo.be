@@ -4,7 +4,17 @@ import type { ComponentProps } from "astro/types"
 
 export type Props = ComponentProps<typeof Picture>
 
-const { formats = ["avif", "webp"], quality = 90, ...rest } = Astro.props
+const {
+  fallbackFormat = "webp",
+  formats = ["avif", "webp"],
+  quality = 90,
+  ...rest
+} = Astro.props
 ---
 
-<Picture formats={formats} quality={quality} {...rest} />
+<Picture
+  fallbackFormat={fallbackFormat}
+  formats={formats}
+  quality={quality}
+  {...rest}
+/>
