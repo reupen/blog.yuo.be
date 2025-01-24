@@ -10,6 +10,11 @@ export default defineConfig({
     process.env.NODE_ENV === "development"
       ? "http://localhost:4321"
       : "https://blog.yuo.be",
+  image: {
+    service: {
+      entrypoint: "./src/lib/imageService",
+    },
+  },
   integrations: [
     sitemap(),
     compress({
