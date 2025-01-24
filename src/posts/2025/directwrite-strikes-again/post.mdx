@@ -8,12 +8,13 @@ excerpt: |-
   Unique things should be, erm, unique.
 ---
 
-I was debugging an odd-looking Columns UI crash from a Windows 8.1 device. The
-crash was odd because it looked like something that should be impossible. In
-fact, however, it was easily reproducible.
+I was debugging an odd-looking Columns odd-looking crash from a Windows 8.1
+device. The crash was odd because it looked like it should be impossible with
+the code in question – it was caused by a pure virtual function call when trying
+to call a `IDWriteFont3` method.
 
-The reason became obvious when examining the DirectWrite headers. Compare the
-start of the declaration of the
+The reason it was happening became obvious when examining the DirectWrite
+headers. Compare the start of the declaration of the
 [`IDWriteFont2`](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite_2/nn-dwrite_2-idwritefont2)
 interface:
 
