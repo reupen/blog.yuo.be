@@ -45,7 +45,7 @@ module.exports = {
     "perfectionist/sort-imports": [
       "error",
       {
-        internalPattern: ["@/**"],
+        internalPattern: ["^@/"],
         groups: [
           ["type", "builtin", "external"],
           ["internal-type", "internal"],
@@ -66,7 +66,7 @@ module.exports = {
       "error",
       {
         customGroups: {
-          prioritised: ["client:*", "is:*", "id", "name", "property", "src"],
+          prioritised: ["^(client|is):", "^(id|name|property|src)$"],
         },
         groups: ["prioritised", "unknown", "shorthand"],
       },
