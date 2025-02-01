@@ -31,6 +31,12 @@ updates:
         patterns:
           - "postcss*"
           - "cssnano"
+      react:
+        patterns:
+          - "@types/react"
+          - "@types/react-dom"
+          - "react"
+          - "react-dom"
     ignore:
       - dependency-name: eslint
         versions: [">8"]
