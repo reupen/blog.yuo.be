@@ -1,0 +1,139 @@
+---
+title: "Civilization VII: It needs some love"
+slug: civilization-vii-it-needs-some-love
+date: 2025-02-09
+tags:
+  - gaming
+excerpt: |-
+  A bit of attention to detail wouldn’t hurt, either.
+---
+
+import { CaptionedImage } from "@/components"
+
+import continue_game_avif from "./continue-game.avif"
+import excuse_me_avif from "./excuse-me.avif"
+import journal_avif from "./journal.avif"
+import large_font_touching_text_png from "./large-font-touching-text.png"
+import pantheon_avif from "./pantheon.avif"
+import scrolling_mp4 from "./scrolling.mp4"
+import the_spacing_png from "./the-spacing.png"
+import ui_scaled_avif from "./ui-scaled.avif"
+import ui_unscaled_avif from "./ui-unscaled.avif"
+
+I liked Civilization V. And I liked Civilization VI. And so I was looking
+forward to Civilization VII enough to pre-order it, and play it a few days ahead
+of general release.
+
+Alas, that decision to pre-order it was probably a mistake. Like many others, my
+main problem with the game is the unpolished and unfinished UI.
+
+My first, and largest annoyance, is the lack of control over UI scaling. The
+choice you’re given is to scale the UI, or to not scale the UI. At a 4k
+resolution, you’re picking between everything being massive:
+
+<CaptionedImage
+  src={ui_scaled_avif}
+  alt="An in-game screenshot of Civilization VII with scaling on, showing the city build menu taking up a third of the screen."
+>
+  So much scrolling in that list
+</CaptionedImage>
+
+...or being tiny:
+
+<CaptionedImage
+  src={ui_unscaled_avif}
+  alt="An in-game screenshot of Civilization VII with scaling of, showing the city build menu taking up a ninth of the screen."
+>
+  I’m starting to think Goldilocks was misunderstood
+</CaptionedImage>
+
+Maybe the font scale setting will help? Nope! With UI scaling on and font scale
+on extra small, everything is still too big (just with more empty space). And
+with UI scaling off and font scale on extra large, all the controls are still
+too small, while the text starts to have problems in places due to fixed
+positioning:
+
+<CaptionedImage
+  src={large_font_touching_text_png}
+  alt="A screenshot of city yields without any space between some of the values."
+>
+  That’s not how spacing is meant to work, Firaxis
+</CaptionedImage>
+
+Scaling, though, isn’t the only UI problem. My next annoyance is that something
+about the text style and rendering often makes it horrible to read. Take the
+screen that shows when you start or resume a game:
+
+<CaptionedImage
+  src={continue_game_avif}
+  alt="A screenshot of the main game loading screen containing lots of text."
+>
+  This screen really needs a bit of design thought into the layout
+</CaptionedImage>
+
+For some reason, someone’s fiddled with the character spacing of the second and
+third paragraphs, while managing to leave the first paragraph alone. Compare the
+‘the’ from the first and second paragraphs, for example:
+
+<CaptionedImage
+  src={the_spacing_png}
+  alt="A screenshot comparing the rendering of the word ‘the’ from the first and second paragraph."
+>
+  Why?
+</CaptionedImage>
+
+The journal text, meanwhile, sometimes clashes with the map:
+
+<CaptionedImage
+  src={journal_avif}
+  alt="A screenshot of showing the journal text clashing with the game map."
+>
+  Did anyone put any thought into that ‘Turns remaining’ text?
+</CaptionedImage>
+
+And there are frequent text alignment, positioning and spacing problems. Here’s
+a screenshot of the pantheon selection screen with various problems highlighted:
+
+<CaptionedImage
+  src={pantheon_avif}
+  alt="A screenshot of ‘Select a pantheon’ screen showing various text alignment and spacing problem."
+>
+  Weird alignment and spacing problems are scattered throughout the game
+</CaptionedImage>
+
+In that one screenshot, you have graphics overlapping text, dodgy word wrapping,
+an icon messing up line spacing, and some uneven spacing around that same icon.
+
+And, here’s a video of me scrolling a list and the map at the same time with the
+mouse wheel:
+
+<figure>
+  <video width="2560" autoPlay controls loop muted playsInline>
+    <source src={scrolling_mp4} type="video/mp4" />
+  </video>
+  <figcaption>I usually prefer to scroll one thing at a time</figcaption>
+</figure>
+
+So far, the actual game mechanics seen decent. But this is still spoiled by
+poorly thought-out interactions. It took me a while to work out how to make
+friends with an independent power, because I wasn’t clicking where it wanted me
+to (clicking on the hex title itself brings up the relevant screen, but clicking
+on the floating name banner above the tile does nothing).
+
+Another example is the game yelling ‘SETTLEMENT IS IN UNREST!’ Okay, but what
+can I do about it? Maybe the Civilopedia will tell me? _Nope, there’s no entry
+for unrest._
+
+And there was this odd and pointless bit of dialogue I got after negotiating
+peace with Xerxes:
+
+<CaptionedImage
+  src={excuse_me_avif}
+  alt="A screenshot of the screen showing dialogue between two leaders, with Xerxes saying ‘Indeed. Now if you will excuse me’"
+>
+  And, of course, the continue button text is misaligned
+</CaptionedImage>
+
+I hope the game improves over time. But it’s not worth the up to £120 asking
+price in its current state, and I doubt I’ll be playing it much until it’s had
+some needed polish.
