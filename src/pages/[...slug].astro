@@ -107,7 +107,7 @@ const readingTime = Math.max(
         {
           previous && (
             <a href={previous.url}>
-              <i class="fa-solid fa-arrow-left" />
+              <i aria-hidden="true" class="fa-solid fa-arrow-left" />
               {previous.data.title}
             </a>
           )
@@ -118,7 +118,7 @@ const readingTime = Math.max(
           next && (
             <a class="next-page" href={next.url}>
               {next.data.title}
-              <i class="fa-solid fa-arrow-right" />
+              <i aria-hidden="true" class="fa-solid fa-arrow-right" />
             </a>
           )
         }

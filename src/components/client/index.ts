@@ -1,3 +1,2 @@
-import { Comments } from "./Comments.tsx"
-
-export { Comments }
+export * from "./Comments.tsx"
+export * from "./ThemeSelector.tsx"

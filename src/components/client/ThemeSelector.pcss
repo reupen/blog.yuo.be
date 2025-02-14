@@ -1,0 +1,61 @@
+.theme-selector-button {
+  font-size: 16px;
+
+  &,
+  label {
+    cursor: pointer;
+  }
+
+  label {
+    display: flex;
+    column-gap: 0.4rem;
+    align-items: baseline;
+
+    i {
+      align-self: center;
+      font-size: 13px;
+    }
+  }
+}
+
+.theme-selector-menu {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.4rem;
+  background: var(--body-background);
+  border-radius: 5px;
+  padding: 0;
+  font-size: 15px;
+
+  li {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: center;
+    cursor: default;
+    margin: 0;
+    padding: 0.3rem 0.5rem;
+    list-style: none;
+    color: var(--nav-text-colour);
+
+    &:first-child {
+      border-radius: 5px 5px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 5px 5px;
+    }
+
+    &.highlight {
+      background: color-mix(
+        in srgb,
+        var(--body-background) 90%,
+        var(--text-colour)
+      );
+    }
+
+    i {
+      font-size: 13px;
+    }
+  }
+}

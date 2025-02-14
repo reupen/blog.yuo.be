@@ -1,4 +1,6 @@
 ---
+import { ThemeSelector } from "@/components/client"
+
 import "./font-awesome.scss"
 import "./Layout.pcss"
 
@@ -29,7 +31,7 @@ const computedTitle =
 <html class="auto" lang="en" {...rest}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href={new URL("sitemap-index.xml", Astro.site)} rel="sitemap" />
     <link href={canonicalURL} rel="canonical" />
@@ -72,17 +74,12 @@ const computedTitle =
         {
           postReturnUrl && (
             <a class="small no-print" href={postReturnUrl}>
-              <i class="fa-solid fa-chevron-left" />
+              <i aria-hidden="true" class="fa-solid fa-chevron-left" />
               All posts
             </a>
           )
         }
-        <button id="toggle-mode" class="small right no-print" hidden>
-          <i class="fa-solid fa-circle-half-stroke"></i>
-          <i class="fa-regular fa-sun"></i>
-          <i class="fa-solid fa-moon"></i>
-          <span id="toggle-mode-text" class="visually-hidden"></span>
-        </button>
+        <ThemeSelector client:only="react" className="right no-print" />
       </nav>
     </header>
     <main><slot /></main>
@@ -90,13 +87,13 @@ const computedTitle =
       <ul class="container">
         <li>
           <a href={new URL("rss.xml", Astro.site)}>
-            <i class="fa-solid fa-rss"></i>
+            <i aria-hidden="true" class="fa-solid fa-rss"></i>
             RSS
           </a>
         </li>
         <li>
           <a href="https://github.com/reupen/blog.yuo.be">
-            <i class="fa-brands fa-github"></i>
+            <i aria-hidden="true" class="fa-brands fa-github"></i>
             Source
           </a>
         </li>
@@ -174,91 +171,9 @@ const computedTitle =
         }
       }
     }
-
-    #toggle-mode {
-      border: none;
-      background: none;
-      cursor: pointer;
-      padding: 0;
-      font-size: 16px;
-    }
-
-    :global(.auto) {
-      #toggle-mode {
-        .fa-circle-half-stroke,
-        .fa-sun {
-          display: none;
-        }
-      }
-    }
-
-    :global(.light) {
-      #toggle-mode {
-        .fa-moon,
-        .fa-sun {
-          display: none;
-        }
-      }
-    }
-
-    :global(.dark) {
-      #toggle-mode {
-        .fa-circle-half-stroke,
-        .fa-moon {
-          display: none;
-        }
-      }
-    }
   </style>
 </html>
 
 <script>
   document.documentElement.className = localStorage.getItem("theme") ?? "auto"
-
-  const modeToggleButton = document.getElementById("toggle-mode")
-  const modeToggleButtonText = document.getElementById("toggle-mode-text")
-
-  function updateModeButton() {
-    const currentValue = localStorage.getItem("theme") ?? "auto"
-
-    const newLabel = (() => {
-      switch (currentValue) {
-        case "dark":
-          return "Switch to light mode"
-        case "light":
-          return "Switch to automatic light or dark mode"
-        default:
-          return "Switch to dark mode"
-      }
-    })()
-
-    if (modeToggleButtonText) {
-      modeToggleButtonText.innerText = newLabel
-    }
-
-    modeToggleButton?.setAttribute("title", newLabel)
-  }
-
-  modeToggleButton?.addEventListener("click", () => {
-    const currentValue = localStorage.getItem("theme") ?? "auto"
-
-    const newValue = (() => {
-      switch (currentValue) {
-        case "dark":
-          return "light"
-        case "light":
-          return "auto"
-        default:
-          return "dark"
-      }
-    })()
-
-    localStorage.setItem("theme", newValue)
-    document.documentElement.className = newValue
-
-    updateModeButton()
-  })
-
-  updateModeButton()
-  modeToggleButton?.removeAttribute("hidden")
 </script>
