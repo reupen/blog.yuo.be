@@ -96,7 +96,7 @@ const readingTime = Math.max(
     </div>
   </div>
   <div class="section">
-    <div class="container">
+    <div class="container content">
       <Content />
       <Comments
         client:load
@@ -142,6 +142,17 @@ const readingTime = Math.max(
     font-weight: 500;
     color: var(--text-colour);
     margin: unset;
+  }
+
+  .content {
+    font-family: var(--serif-font-family);
+
+    :global(h1),
+    :global(h2),
+    :global(h3),
+    :global(h4) {
+      font-family: var(--sans-serif-font-family);
+    }
   }
 
   .bullet {

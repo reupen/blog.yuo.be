@@ -11,7 +11,6 @@ const { class: class_, nextHref, previousHref, entryName } = Astro.props
 
 <style>
   .pagination {
-    font-family: var(--sans-serif-font-family);
     display: grid;
     grid-template-columns: 1fr 1fr;
     font-size: 20px;
@@ -23,6 +22,10 @@ const { class: class_, nextHref, previousHref, entryName } = Astro.props
 
     a {
       text-underline-offset: 0.25em;
+
+      &:not(:hover) {
+        text-decoration-line: none;
+      }
     }
   }
 </style>

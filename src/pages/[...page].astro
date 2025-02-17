@@ -77,17 +77,21 @@ const description = "My personal blog, full of random musings"
   li {
     padding-left: 0;
     margin-bottom: 1rem;
-    line-height: 1.7;
+    line-height: 1.5;
+    font-family: var(--sans-serif-font-family);
 
     a {
       font-size: 22px;
-      font-family: var(--sans-serif-font-family);
       font-weight: 600;
+
+      &:not(:hover) {
+        text-decoration-line: none;
+      }
     }
 
     p {
       font-size: 18px;
-      margin-top: 0.15rem;
+      margin-top: 0.1rem;
       line-height: 1.7;
     }
   }
