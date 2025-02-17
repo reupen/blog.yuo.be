@@ -15,7 +15,7 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
     async () => getCommentCounts(window.location.host, [pathname]),
     { fallbackData: initialCommentCounts },
   )
-  const commentCount = data?.[pathname]
+  const commentCount = data?.[pathname] ?? 0
   const commentsLoaded = Boolean(data)
 
   return (
@@ -28,8 +28,8 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
           }}
         >
           {!commentsLoaded && <>Show comments</>}
-          {commentsLoaded && !commentCount && <>Post a comment</>}
-          {commentCount && (
+          {commentsLoaded && commentCount === 0 && <>Post a comment</>}
+          {commentCount > 0 && (
             <>
               Show {commentCount} comment{commentCount !== 1 && "s"}
             </>
