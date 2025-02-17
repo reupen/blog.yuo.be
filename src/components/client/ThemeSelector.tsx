@@ -38,7 +38,7 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
   const { refs, floatingStyles } = useFloating({
     placement: "bottom-start",
     middleware: [
-      offset({ mainAxis: 10, crossAxis: -7 }),
+      offset({ mainAxis: 10, crossAxis: -10 }),
       shift({ padding: 10 }),
     ],
     whileElementsMounted: autoUpdate,
