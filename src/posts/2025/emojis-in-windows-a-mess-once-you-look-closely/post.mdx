@@ -1,0 +1,108 @@
+---
+title: "Emojis in Windows 11: A mess once you look closely"
+slug: emojis-in-windows-11-a-mess-once-you-look-closely
+date: 2025-03-22
+tags:
+  - windows
+excerpt: |-
+  And, I like to look closely.
+---
+
+import { CaptionedImage } from "@/components"
+
+import hearts_file_explorer_png from "./hearts-file-explorer.png"
+import hearts_notepad_png from "./hearts-notepad.png"
+import hearts_start_menu_png from "./hearts-start-menu.png"
+import keycap_png from "./keycap.png"
+
+Take the sequence of ❤❤︎❤️. This is U+2764 (HEAVY BLACK HEART) in default,
+explicit text (monochrome) presentation and explicit emoji (colourful)
+presentation.
+
+Here’s how that sequence of emojis renders in two different places in File
+Explorer:
+
+<CaptionedImage
+  src={hearts_file_explorer_png}
+  alt="A screenshot of File Explorer showing three monochrome hearts in the main items area and three colour hearts in the details pane"
+>
+  The inconsistency starts
+</CaptionedImage>
+
+Here’s how it renders in Notepad (in a tab and in the main typing area):
+
+<CaptionedImage
+  src={hearts_notepad_png}
+  alt="A screenshot of Notepad showing three colour hearts in a tab and two black hearts followed by a colour heart in the main typing area"
+>
+  Look closely, and you’ll also see that the red heart in the tab is not the
+  same as the one in the typing area
+</CaptionedImage>
+
+And here’s how it renders in the Start Menu search box and search results:
+
+<CaptionedImage
+  src={hearts_start_menu_png}
+  alt="A screenshot of the Start Menu after performing a search, showing three colour hearts in the search box and a colour heart following by a white heart and another colour heart in the search results area"
+>
+  Some features in Window 11 use React Native and WebViews, causing more
+  inconsistency
+</CaptionedImage>
+
+That’s no less than five different renderings of the same sequence of emojis.
+
+The basic reason for the differences is relatively simple: there’s a mix of
+technologies at play, including Win32, GDI, Uniscribe, DirectWrite, Direct2D,
+[RichEditD2D](https://devblogs.microsoft.com/math-in-office/richeditd2d-window-controls/)
+controls and WebView controls.
+
+The first relevant difference between those technologies is that they support
+different sets of glyph formats (such as normal monochrome glyphs,
+[COLR glyphs](https://learn.microsoft.com/en-gb/typography/opentype/spec/colr)
+and
+[SVG glyphs](https://learn.microsoft.com/en-gb/typography/opentype/spec/svg)),
+causing different glyphs for U+2764 from the Segoe UI Emoji font to be used.
+
+Support for
+[emoji variation selectors](https://en.wikipedia.org/wiki/Emoji#Emoji_versus_text_presentation)
+also affects how the second and third hearts render. Some emojis (such as ❤)
+have both text (monochrome) and emoji forms under the same code point. The two
+forms can be explicitly selected between by following the emoji code point by a
+variation selector (U+FE0E for the text form, and U+FE0F for the emoji form).
+However, most of the technologies previously mentioned don’t support emoji
+variation selectors, causing all three hearts to render identically. WebViews
+and seemingly RichEditD2DPT controls do support emoji variation selectors and
+hence render the two different forms of the emoji in question.
+
+Also note that when variation selectors are supported, the typical approach is
+to use Segoe UI Symbol for text presentation and Segoe UI Emoji for emoji
+presentation. This results in the text and emoji forms looking inconsistent (as
+the emojis in the two fonts do not have the same design). This inconsistent
+appearance also happens on Android, so perhaps isn’t that unexpected. It is,
+however, annoying, as Segoe UI Emoji has monochrome glyphs that are similar in
+design to the colour glyphs but are generally inaccessible in applications
+unless colour glyphs are disabled completely.
+
+Lastly, those technologies don’t all agree on what the default presentation of
+❤ is. According to the Unicode standard, ❤ has a text (monochrome)
+presentation by default (though the standard
+[allows varying default presentation modes depending on the purpose of the application e.g. suggesting chat apps could default to emoji presentation](https://unicode-org.github.io/unicode-reports/tr51/tr51.html#Presentation_Style)).
+Notepad sticks with a default text presentation, while DirectWrite itself uses a
+default emoji presentation for that emoji for some reason.
+
+There are other weird things that happen with some emoji sequences. Take this
+Start Menu search for 7️⃣7️⃣, for example:
+
+<CaptionedImage
+  src={keycap_png}
+  alt="A screenshot of the Start Menu showing incorrectly rendered keycap emojis, such as with overlapping boxes and numbers"
+>
+  No idea what’s going on here
+</CaptionedImage>
+
+As a user, this all just looks like a mess. As a developer, it’s frustrating
+that DirectWrite does not support variation selectors out of the box, and that
+the subject is not touched on in the documentation for DirectWrite.
+
+And, why do Direct2D-rendered SVG glyphs tend to have horrible jagged edges?
+Firefox does a much better job, for example.
