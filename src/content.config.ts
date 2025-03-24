@@ -13,6 +13,7 @@ const posts = defineCollection({
       comment_id: z.string().optional(),
       date: z.date(),
       is_draft: z.boolean().default(false),
+      is_wide: z.boolean().default(false),
       excerpt: z.string(),
       is_auto_excerpt: z.boolean().optional(),
       is_imported: z.boolean().optional(),
@@ -25,11 +26,13 @@ const posts = defineCollection({
         is_auto_excerpt,
         is_draft: isDraft,
         is_imported: isImported,
+        is_wide: isWide,
         ...data
       }) => ({
         ...data,
         commentId,
         isDraft,
+        isWide,
         excerpt:
           is_auto_excerpt && excerpt.length > 220
             ? excerpt.substring(0, excerpt.lastIndexOf(" ", 160)) + "…"

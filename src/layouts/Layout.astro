@@ -6,6 +6,7 @@ import "./Layout.pcss"
 
 export interface Props {
   description?: string
+  isWide?: boolean
   ogPublishedTime?: Date
   ogType?: string
   postReturnUrl?: string
@@ -17,6 +18,7 @@ const siteTitle = "Reupen’s blog"
 const siteAuthor = "Reupen Shah"
 const {
   description,
+  isWide,
   postReturnUrl,
   ogPublishedTime,
   title,
@@ -61,7 +63,7 @@ const computedTitle =
     <meta name="twitter:title" content={computedTitle} />
     {description && <meta name="twitter:description" content={description} />}
   </head>
-  <body class="blog">
+  <body class:list={["blog", isWide && "wide"]}>
     <header>
       <nav class="container">
         {

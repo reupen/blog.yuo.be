@@ -92,6 +92,10 @@ html {
 
 body {
   margin: 0;
+
+  &.wide {
+    --max-body-width: 900px;
+  }
 }
 
 h1 {
@@ -331,7 +335,7 @@ audio {
 }
 
 .container {
-  max-width: 700px;
+  max-width: var(--max-body-width);
   margin: 0 auto;
 }
 

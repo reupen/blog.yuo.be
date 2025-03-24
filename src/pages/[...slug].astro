@@ -79,6 +79,7 @@ const readingTime = Math.max(
 
 <Layout
   description={post.data.excerpt}
+  isWide={post.data.isWide}
   ogPublishedTime={post.data.date}
   ogType="article"
   postReturnUrl={`${homePagePath}#${post.id}`}
