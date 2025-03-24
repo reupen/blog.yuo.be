@@ -24,7 +24,6 @@ updates:
           - "astro-*"
       eslint:
         patterns:
-          - "@typescript-eslint/*"
           - "eslint"
           - "eslint-*"
       postcss:
@@ -37,6 +36,8 @@ updates:
           - "@types/react-dom"
           - "react"
           - "react-dom"
-    ignore:
-      - dependency-name: eslint
-        versions: [">8"]
+      typescript:
+        patterns:
+          - "@typescript-eslint/*"
+          - "typescript"
+          - "typescript-eslint"

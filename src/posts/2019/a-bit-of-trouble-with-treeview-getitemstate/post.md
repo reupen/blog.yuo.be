@@ -59,7 +59,7 @@ If you manage to find an old copy of the docs for the TreeView_GetItemState
 macro on MSDN, you’ll find they say:
 
 > Returns a **UINT** value that is equivalent to the state member of
->  [**TVITEMEX**](<https://msdn.microsoft.com/en-us/ie/bb773459(v=vs.100)>). The
+> [**TVITEMEX**](<https://msdn.microsoft.com/en-us/ie/bb773459(v=vs.100)>). The
 > state bits that are both true and were specified in **stateMask** will be set.
 
 The equivocality of that statement at least means that it’s not false (as it
