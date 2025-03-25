@@ -40,7 +40,7 @@
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "astro": "^5.5.4",
-    "downshift": "^9.0.8",
+    "downshift": "^9.0.9",
     "ky": "^1.7.4",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",

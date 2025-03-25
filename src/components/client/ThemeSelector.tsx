@@ -30,8 +30,9 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
     defaultSelectedItem:
       items.find((item) => item.id == currentTheme) ?? items[0],
     onSelectedItemChange: ({ selectedItem }) => {
-      localStorage.setItem("theme", selectedItem.id)
-      document.documentElement.className = selectedItem.id
+      const theme = selectedItem?.id ?? "auto"
+      localStorage.setItem("theme", theme)
+      document.documentElement.className = theme
     },
   })
 
