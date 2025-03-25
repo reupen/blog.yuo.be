@@ -39,7 +39,7 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
     placement: "bottom-start",
     middleware: [
       offset({ mainAxis: 10, crossAxis: -10 }),
-      shift({ padding: 10 }),
+      shift({ padding: 9 }),
     ],
     whileElementsMounted: autoUpdate,
   })
