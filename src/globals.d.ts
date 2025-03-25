@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 namespace React {
   namespace JSX {
     interface IntrinsicElements {
