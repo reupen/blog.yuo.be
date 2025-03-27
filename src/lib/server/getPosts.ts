@@ -16,3 +16,5 @@ export async function getPosts() {
       }),
   }))
 }
+
+export type Post = Awaited<ReturnType<typeof getPosts>>[0]

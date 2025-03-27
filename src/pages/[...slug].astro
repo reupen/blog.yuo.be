@@ -9,12 +9,12 @@ import { chunk } from "lodash-es"
 import { Comments } from "@/components/client"
 import Layout from "@/layouts/Layout.astro"
 import { getCommentCounts } from "@/lib"
-import { getPosts } from "@/lib/server"
+import { getPosts, type Post } from "@/lib/server"
 
 import "./_comentario.pcss"
 
 export async function getStaticPaths() {
-  function getPostSlug(post: Awaited<ReturnType<typeof getPosts>>[0]) {
+  function getPostSlug(post: Post) {
     return `${post.data.slugPrefix}/${post.id}`
   }
 
@@ -79,6 +79,7 @@ const readingTime = Math.max(
 
 <Layout
   description={post.data.excerpt}
+  image={post.data.image}
   isWide={post.data.isWide}
   ogPublishedTime={post.data.date}
   ogType="article"
