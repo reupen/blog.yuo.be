@@ -41,3 +41,10 @@ updates:
           - "@typescript-eslint/*"
           - "typescript"
           - "typescript-eslint"
+
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: monthly
+    versioning-strategy: increase
+    open-pull-requests-limit: 5
