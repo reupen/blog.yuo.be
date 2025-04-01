@@ -43,8 +43,8 @@
     "downshift": "^9.0.9",
     "ky": "^1.8.0",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-merge-refs": "^2.1.1",
     "swr": "^2.3.3",
     "typescript": "^5.8.2"
