@@ -42,3 +42,11 @@ Clubcard in Google Wallet can be used that way...)
 
 I haven’t had this problem for the past few visits to Tesco – it may be,
 finally, fixed...
+
+**Update 4 April 2025**
+
+This, unfortunately, has started happening again for me. A reliable way to fix
+it when it happens is to turn off NFC and turn it back on again, and then reopen
+Google Wallet if necessary. (I am using
+[NFC Quick Settings](https://play.google.com/store/apps/details?id=au.id.colby.nfcquicksettings)
+to make that easier.)
