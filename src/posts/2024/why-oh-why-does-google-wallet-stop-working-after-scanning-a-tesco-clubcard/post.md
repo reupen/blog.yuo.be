@@ -45,8 +45,8 @@ finally, fixed...
 
 **Update 4 April 2025**
 
-This, unfortunately, has started happening again for me. A reliable way to fix
-it when it happens is to turn off NFC and turn it back on again, and then reopen
-Google Wallet if necessary. (I am using
-[NFC Quick Settings](https://play.google.com/store/apps/details?id=au.id.colby.nfcquicksettings)
-to make that easier.)
+This, unfortunately, has started happening again for me. When it happens, I use
+one of two ways to fix it:
+
+- turn off NFC and turn it back on again, and then reopen Google Wallet
+- swipe to another payment card, wait a few seconds and then swipe back
