@@ -7,6 +7,16 @@ const posts = defineCollection({
   loader: glob({
     base: "./src/posts",
     pattern: "**/*.md{x,}",
+    generateId: ({ data: { date, is_imported: isImported, slug }, entry }) => {
+      const prefix = format(z.date().parse(date), "yyyy/MM/dd", {
+        in: isImported ? tz("UTC") : tz("Europe/London"),
+      })
+
+      const computedSlug =
+        slug || entry.replace(/\/index.mdx?$/, "").replace(/^.*\//, "")
+
+      return `${prefix}/${computedSlug}`
+    },
   }),
   schema: ({ image }) =>
     z
@@ -32,7 +42,7 @@ const posts = defineCollection({
           excerpt,
           is_auto_excerpt,
           is_draft: isDraft,
-          is_imported: isImported,
+          is_imported: _,
           is_wide: isWide,
           ...data
         }) => ({
@@ -44,9 +54,6 @@ const posts = defineCollection({
             is_auto_excerpt && excerpt.length > 220
               ? excerpt.substring(0, excerpt.lastIndexOf(" ", 160)) + "…"
               : excerpt,
-          slugPrefix: format(data.date, "yyyy/MM/dd", {
-            in: isImported ? tz("UTC") : tz("Europe/London"),
-          }),
         }),
       ),
 })

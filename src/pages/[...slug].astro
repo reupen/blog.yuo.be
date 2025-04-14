@@ -9,18 +9,14 @@ import { chunk } from "lodash-es"
 import { Comments } from "@/components/client"
 import Layout from "@/layouts/Layout.astro"
 import { getCommentCounts } from "@/lib"
-import { getPosts, type Post } from "@/lib/server"
+import { getPosts } from "@/lib/server"
 
 import "./_comentario.pcss"
 
 export async function getStaticPaths() {
-  function getPostSlug(post: Post) {
-    return `${post.data.slugPrefix}/${post.id}`
-  }
-
   const posts = await getPosts()
 
-  const allPaths = posts.map((post) => `/${getPostSlug(post)}/`)
+  const allPaths = posts.map((post) => `/${post.id}/`)
 
   let commentCounts = {}
 
@@ -42,18 +38,16 @@ export async function getStaticPaths() {
 
     return {
       params: {
-        slug: getPostSlug(post),
+        slug: post.id,
       },
       props: {
         commentCounts,
         post,
         index,
         previous: previousPost
-          ? { ...previousPost, url: `/${getPostSlug(previousPost)}/` }
+          ? { ...previousPost, url: `/${previousPost.id}/` }
           : undefined,
-        next: nextPost
-          ? { ...nextPost, url: `/${getPostSlug(nextPost)}/` }
-          : undefined,
+        next: nextPost ? { ...nextPost, url: `/${nextPost.id}/` } : undefined,
       },
     }
   })

@@ -22,6 +22,16 @@ export default tseslint.config({
     eslint.configs.recommended,
     tseslint.configs.recommended,
     tseslint.configs.stylistic,
+    {
+      rules: {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            argsIgnorePattern: "^_",
+          },
+        ],
+      },
+    },
     eslintPluginAstro.configs.recommended,
     {
       files: ["**/*.{mdx,tsx}"],

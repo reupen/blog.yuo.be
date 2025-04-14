@@ -1,5 +1,5 @@
 ---
-title: "Bad reviews that are irrationally irritating"
+title: "Irrationally irritating bad reviews"
 date: 2025-04-12
 tags:
   - web
