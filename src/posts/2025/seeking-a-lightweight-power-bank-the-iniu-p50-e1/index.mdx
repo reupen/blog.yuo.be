@@ -1,0 +1,209 @@
+---
+title: "Seeking a lightweight power bank: The INIU P50-E1"
+date: 2025-04-14
+tags:
+  - tech
+excerpt: |-
+  Carrying around too much weight gets annoying after a while.
+---
+
+import { CaptionedImage, ImageGrid } from "@/components"
+
+import _0E1A1700_avif from "./0E1A1700.avif"
+import _0E1A1705_avif from "./0E1A1705.avif"
+import _0E1A1709_avif from "./0E1A1709.avif"
+import _0E1A1723_avif from "./0E1A1723.avif"
+import _0E1A1730_avif from "./0E1A1730.avif"
+import _0E1A1733_avif from "./0E1A1733.avif"
+
+I currently have a Pixel 8 smartphone. And even though it has better battery
+life than my previous phone, if I’m out and about all day it’ll run out of
+charge.
+
+So I’ve got into the habit of carrying around a power bank with me. I also don’t
+want to carry around a lot of weight unnecessarily, so most recently I’ve been
+using an Anker Nano 5000 mAh (A1653). It fits the lightweight criterion,
+weighing only 98g. However, its other characteristics have left me unsatisfied –
+it runs out of power quickly and gets hot while charging my phone.
+
+I recently discovered (via Reddit) that there are some ultralight 10,000 mAh
+power banks, such as the Nitecore NB10000 GEN 3 (weighing around 150g) or the
+KLARUS K5 (weighing 157g). But these models aren’t the cheapest – the Nitecore
+NB10000 GEN 3 costs £68.95, while the KLARUS K5 costs £47.95. So I didn’t rush
+out to buy any of those models.
+
+Another model came up recently though – the INIU P50-E1. This one is another
+10,000 mAh model, that weighs 160g and measures 83×52×26mm according to the
+official specs. It can also charge at 45W, which is higher than the other models
+mentioned (which top out at 22.5W). And there was a double-discount deal going
+(whether this was intentional or an accident, I don’t know) on Amazon UK, making
+the power bank only £12.81. So I bought one.
+
+I don’t frequently write posts about products, but there’s little third-party
+info about this model online, and so putting some out there might help someone.
+
+In the box, you get:
+
+- the unit
+- a cable holder attachment for the top-left corner
+- a 17.5cm USB-C cable
+- a manual and some Amazon transparency card thing
+
+In photo form:
+
+<CaptionedImage
+  src={_0E1A1700_avif}
+  alt="A photo of the box, included documentation and power bank with accessories"
+  caption="Straightforward contents"
+/>
+
+The USB-C cable is flat and sleeved. The cable holder accessory is attached via
+a string loop and is easily removed if you don’t want it.
+
+The display shows the current battery level as a percentage:
+
+<CaptionedImage
+  src={_0E1A1723_avif}
+  alt="The power bank while it’s being charged, with the display showing 63% with a power icon"
+  caption="Now sure why the material (presumably acrylic) in front of the display covers such a large area"
+  class="limit-height"
+/>
+
+That display turns on when the power bank is being charged, and when the power
+bank is charging another device. Pressing the power button on the right-hand
+side of the unit also turns the display on temporarily.
+
+While the power bank is being charged, the last digit on the display flashes.
+
+I suspect the display will get scratched pretty easily, so I’ll probably find a
+soft pouch or similar to put the power bank in.
+
+## Specs
+
+The unit is small and chunky, and weighed 159g on my kitchen scales:
+
+<ImageGrid
+  images={[
+    {
+      image: _0E1A1705_avif,
+      alt: "The power bank and USB-C cable next to a defunct GAME rewards card",
+    },
+    { image: _0E1A1709_avif, alt: "The power bank on digital kitchen scales" },
+  ]}
+/>
+
+With the cable and cable holder, it weighed 166g.
+
+The manual and the back of the unit contain some more detailed specs (which I
+haven’t seen published online):
+
+<ImageGrid
+  images={[
+    { image: _0E1A1733_avif, alt: "The back of the power bank" },
+    { image: _0E1A1730_avif, alt: "The specifications in the manual" },
+  ]}
+/>
+
+Here’s the two combined in table form:
+
+{
+
+<table>
+  <tbody>
+    <tr>
+      <td>Battery capacity</td>
+      <td>36 Wh (10,000 mAh @ 3.6V)</td>
+    </tr>
+    <tr>
+      <td>Output capacity</td>
+      <td>31.5 Wh (6200 mAh @ 5V)</td>
+    </tr>
+    <tr>
+      <td>Dimensions</td>
+      <td>83×52×26mm</td>
+    </tr>
+    <tr>
+      <td>Weight</td>
+      <td>160±10g</td>
+    </tr>
+    <tr>
+      <td>Input – USB-C 1 and USB-C 2</td>
+      <td>
+        5V ⎓ 3A
+        <br />
+        9V ⎓ 2.22A
+        <br />
+        12V ⎓ 1.67A (20W max)
+      </td>
+    </tr>
+    <tr>
+      <td>Output – USB-C 1 and USB-C 2</td>
+      <td>
+        5V ⎓ 3A
+        <br />
+        9V ⎓ 3A
+        <br />
+        12V ⎓ 3A
+        <br />
+        15V ⎓ 3A (45W max)
+      </td>
+    </tr>
+    <tr>
+      <td>Output – USB-A</td>
+      <td>
+        5V ⎓ 3A
+        <br />
+        9V ⎓ 2A
+        <br />
+        12V ⎓ 1.5A (18W max)
+      </td>
+    </tr>
+    <tr>
+      <td>Fast charging protocols</td>
+      <td>PD 3.0, PD 2.0, QC 3.0, QC 2.0, PPS, AFC etc.</td>
+    </tr>
+  </tbody>
+</table>
+}
+
+Note that those specs don’t provide information on performance when charging
+multiple devices at once, or how long the maximums are sustained for.
+
+For capacity, note that the milliampere-hours (mAh) figures for the battery
+capacity and output capacity are given at different voltages. Comparing the
+watt-hours figures is more useful here, and 31.5 ÷ 36 gives an 87.5% output
+efficiency at 5 volts.
+
+## Performance
+
+There’s a
+[German Reddit post](https://www.reddit.com/r/ChargingSheet/comments/1irfg7n/iniu_powerbank_mit_45w_10000_mah_p50e1_extrem/)
+with some performance measurements, where the output capacity was measured at
+around 32 Wh.
+
+I don’t currently have a USB power meter to do similar measurements myself. As a
+real-world test though, the unit charged my Pixel 8 from 20% to 80% in almost
+exactly an hour (with the 80% charging limit turned on on the Pixel 8). That
+might seem a bit slow, but it seems in line with what I get from a mains
+charger. (So the phone is probably the limiting factor here – it could be
+throttling due to heat.)
+
+During that same test, the power bank battery level drained from 100% to 62%.
+(For some reason, the battery percentage on the power bank dropped from 100% to
+91% fairly quickly, and lowered much more slowly after that.)
+
+I haven’t noticed any real heat from the power bank itself while it’s charging
+my Pixel 8 (unlike the Anker Nano 5000 mAh, which gets more than warm).
+
+Another aspect of performance is how long it takes to charge the power bank. Out
+of the box, the battery level of the power bank was at 51% and it took pretty
+much exactly an hour to charge to 100% (using a Google 45W USB-C charger).
+That’s in line with the two-hour figure published online.
+
+If I get a USB power meter, I may update this post with some more precise
+measurements or graphs.
+
+## Wrapping up
+
+My first impressions are that power bank seems to be what I was looking for. It
+remains to be seen how it fares in the longer term, though.
