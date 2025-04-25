@@ -1,0 +1,243 @@
+---
+title: "BypassIO, aksdf.sys and my X-Rite spectrophotometer"
+date: 2025-04-26
+tags:
+  - windows
+excerpt: |-
+  Aladdin says no DirectStorage for me. Luckily, I have the final say.
+---
+
+import { CaptionedImage, ImageGrid } from "@/components"
+
+import aksdf_file_description from "./aksdf-file-description.png"
+import aksdf_signature from "./aksdf-signature.png"
+import game_bar_bypass_io_aksdf from "./game-bar-bypass-io-aksdf.png"
+import game_bar_bypass_io_fixed from "./game-bar-bypass-io-fixed.png"
+import sentinel_drivers_installed from "./sentinel-drivers-installed.png"
+import sentinel_drivers_removed from "./sentinel-drivers-removed.png"
+
+A few months ago, I was nosing around the Windows Game Bar and came across a
+section in its settings named ‘Gaming features’. Against various local drives,
+it had a message saying ‘BypassIO not supported due to driver: aksdf’:
+
+<CaptionedImage
+  src={game_bar_bypass_io_aksdf}
+  alt="The Gaming features section of Windows Game Bar settings, showing the message ‘BypassIO is not supported due to driver: aksdf’ for multiple drives"
+  caption="Not sure what to name your driver? Perhaps let a cat step on your keyboard"
+  class="limit-height-slightly"
+/>
+
+That didn’t sound like a good thing. But what was aksdf? Searching for ‘aksdf’
+in [Autoruns](https://learn.microsoft.com/en-gb/sysinternals/downloads/autoruns)
+found `aksdf.sys` at `C:\Windows\System32\drivers`. Inspecting the file’s
+properties showed that it had a file description of ‘Safenet Inc. Sentinel Data
+Filter Driver’, and was signed by a company named Gemalto, Inc.:
+
+<ImageGrid
+  images={[
+    {
+      image: aksdf_file_description,
+      alt: "The Details tab of the properties window for aksdf.sys",
+    },
+    {
+      image: aksdf_signature,
+      alt: "The Digital Signatures tab of the properties window for aksdf.sys",
+    },
+  ]}
+/>
+
+A little more digging revealed that the driver was originally developed by a
+company called Aladdin Knowledge Systems (presumably, the ‘aks’ in the driver
+filename is an abbreviation of this). Aladdin Knowledge Systems was acquired by
+Vector Capital who then folded Aladdin into another of their companies, SafeNet.
+SafeNet was later acquired by Gemalto.
+
+Gemalto was then acquired by Thales Group, and the driver is now part of the
+[Sentinel License Development Kit (LDK)](https://cpl.thalesgroup.com/software-monetization/license-development-kit-ldk).
+Back in the Aladdin days, the driver was part of a product line called Hardware
+Against Software Piracy (HASP)[^1]. Part of that product line let companies
+protect software against piracy by requiring a physical dongle to be connected
+to the PC while using the software. (There were software-only solutions as well,
+however.)
+
+Okay, but why was this driver on my PC? I didn’t have any obvious clues, but
+(and I forget how) I managed to track it down to X-Rite i1Profiler, the main
+software for my X-Rite spectrophotometer. Apparently, at some point in time, you
+could buy a licence for iProfiler in the form of a USB dongle. This was aimed at
+people with older (or perhaps more basic) X-Rite products that didn’t come with
+i1Profiler when purchased (but instead some other worse and presumably older
+software). The X-Rite support site once contained lots of references to the
+Sentinel drivers, but seemingly most of the relevant pages have been hidden from
+public view
+([the Wayback Machine has some of them, though](https://web.archive.org/web/20240614223120/https://www.xrite.com/service-support/usb_dongle_not_recognized_by_i1profiler)).
+
+Annoyingly, uninstalling i1Profiler doesn’t remove the Sentinel drivers from
+your PC.[^2] It can be done properly, though, using the installer for the
+drivers.
+
+The installer for the drivers is a file named `haspdinst.exe`. One way of
+getting it is to extract the i1Profiler installer using
+[Inno Setup Unpacker](https://sourceforge.net/projects/innounp/). But, it’s
+easier just to
+[download the latest version of the Sentinel LDK installer from Thales’s support site](https://supportportal.thalesgroup.com/csm?id=kb_article_view&sys_kb_id=979a4e21db92e78cfe0aff3dbf9619c6&sysparm_article=KB0018319).
+
+Running `haspdinst.exe -info` shows a dialogue box containing a list of the
+installed Sentinel drivers and their versions, and a list of the driver versions
+included in the installer[^3]:
+
+<CaptionedImage
+  src={sentinel_drivers_installed}
+  alt="A dialogue box containing a list of the installed Sentinel drivers and their versions, and a list of the driver versions included in the installer."
+  caption="Oo-er, there’s a fridge too"
+  class="limit-height-slightly"
+/>
+
+The drivers can be fully removed by running:
+
+```shell
+haspdinst.exe -kp -purge
+```
+
+(The available arguments can be found by running `haspdinst.exe -help`. They’re
+also
+[covered in the online documentation](https://docs.sentinel.thalesgroup.com/ldk/LDKdocs/Install/Installation%20Guide/RTE_using_Utility/haspdinst.exe%20Utility.htm).
+Oddly, the `-purge` argument is not mentioned in either of those, but it
+features in
+[this support article about a legacy hardlock.sys driver](https://supportportal.thalesgroup.com/csm?id=kb_article_view&sys_kb_id=7cb5e3109703c9109fd638d3f153af4e&sysparm_article=KB0025777),
+for example.)
+
+Once that command has finished removing the drivers, a dialogue box saying
+‘Operation successfully completed’ will appear. You can run
+`haspdinst.exe -info` again to double-check that the drivers are gone:
+
+<CaptionedImage
+  src={sentinel_drivers_removed}
+  alt="A dialogue box containing a list of the installed Sentinel drivers that aren’t installed, and a list of the driver versions included in the installer."
+  caption="Aladdin and his fridge are gone"
+  class="limit-height-slightly"
+/>
+
+And, of course, you can look at Gaming features again in the Game Bar settings
+to check if the BypassIO message has changed:
+
+<CaptionedImage
+  src={game_bar_bypass_io_fixed}
+  alt="The Gaming features section of Windows Game Bar settings, now saying ‘DirectStorage supported’ for the drives it previously has the message ‘BypassIO is not supported due to driver: aksdf’ against"
+  caption="That looks better (except the F: drive, of course)"
+  class="limit-height-slightly"
+/>
+
+Even with the driver removed, X-Rite i1Profiler seems to work fine for me. (Of
+course, that’s far less likely if your licence for i1Profiler is on a dedicated
+USB dongle. If that’s the case for you, you may have luck reinstalling the
+latest Sentinel drivers, as that will leave out `aksdf.sys` and other legacy
+drivers if they were previously removed. That will only work if i1Profiler can
+recognise dongles without the legacy drivers, of course…)
+
+## Aside – what is going on with my F:\ drive?
+
+You may have noticed that the Game Bar screenshots above say that BypassIO is
+unavailable on my F: drive due to the `ntfs` driver. That sounds a bit weird,
+doesn’t it?
+
+Luckily, the `fsutil` command-line tool can be used to get a bit more detail
+about why BypassIO is unsupported.
+
+For a drive affected by `aksdf.sys`, it reports:
+
+```shell
+> fsutil bypassio state C:\
+BypassIo on "C:\" is not currently supported
+    Status:  506 (At least one minifilter does not support bypass IO)
+    Driver:  aksdf
+    Reason:  The specified minifilter does not support bypass IO.
+    Storage Type:   NVMe
+    Storage Driver: Not BypassIo Compatible
+```
+
+And for my F: drive, it reports:
+
+```shell
+> fsutil bypassio state F:\
+> BypassIo on "F:\" is not currently supported
+
+    Status:  335 (The specified operation is not supported on a compressed file)
+    Driver:  ntfs.sys
+    Reason:  Compressed file not supported
+    Storage Type:   NVMe
+    Storage Driver: BypassIo compatible
+```
+
+The problem is that I had at some point enabled compression on my F: drive.
+
+`fsutil` also allows you to query specific paths, though. If I pass it the path
+of an uncompressed directory on my F: drive, it reports that BypassIO is
+supported:
+
+```shell
+> fsutil bypassio state F:\test\
+> BypassIo on "F:\test\" is currently supported
+
+    Storage Type:   NVMe
+    Storage Driver: BypassIo compatible
+```
+
+So, I can probably keep my F: drive compressed if I want and just turn off
+compression on directories where BypassIO might be needed (such as directories
+containing game files).
+
+## Aside – what is BypassIO?
+
+The
+[documentation for BypassIO](https://learn.microsoft.com/en-gb/windows-hardware/drivers/storage/bypassio)
+says:
+
+> BypassIO is an optimized I/O path for reading from files. The goal of this
+> path is to reduce the CPU overhead of doing reads, which helps to meet the I/O
+> demands of loading and running next-generation games on Windows. BypassIO is a
+> part of the infrastructure to support DirectStorage on Windows, and is
+> available starting in Windows 11.
+>
+> It's important that storage drivers implement support for BypassIO, and that
+> you keep BypassIO enabled as much as possible. Without storage stack support,
+> game performance is degraded, resulting in a poor gaming experience for end
+> users.
+>
+> There will be broader application uses beyond gaming in future Windows
+> releases.
+
+That quote mentions DirectStorage. The
+[Windows documentation for DirectStorage](https://github.com/microsoft/DirectStorage/blob/main/README.md)[^4]
+(peculiarly, for Microsoft, on GitHub only) has an explanation of what
+DirectStorage is:
+
+> DirectStorage is a feature intended to allow games to make full use of
+> high-speed storage (such as NVMe SSDs) that can can [sic] deliver multiple
+> gigabytes a second of small (eg 64kb [sic]) data reads with minimal CPU
+> overhead. Although it is possible to saturate a drive using traditional
+> ReadFile-based IO the CPU overhead of increases non-linearly as the size of
+> individual reads decreases. Additionally, most games choose to store their
+> assets compressed on disk in order to reduce the install footprint, with these
+> assets being decompressed on the fly as load time. The CPU overhead of this
+> becomes increasingly expensive as bandwidth increases.
+
+Various articles online suggest that take-up of DirectStorage has been low,
+however, so I’m not at all clear how much BypassIO compatibility really matters.
+
+[^1]:
+    If you’re curious about the history,
+    [old web pages about HASP are on the Wayback Machine](https://web.archive.org/web/20050118020150/http://www.aladdin.com/hasp/default.asp)
+
+[^2]:
+    Although this is perhaps not easy to do automatically, as other software
+    could be using the drivers. Still, an entry for the drivers in the Installed
+    apps list could be added so they can at least be uninstalled manually.
+
+[^3]:
+    Note that this newer version of the driver installer doesn’t list an older
+    driver named `hardlock.sys` in this dialogue box, but the `-purge` command
+    correctly removes that driver as well.
+
+[^4]:
+    As opposed to the separate
+    [Xbox DirectStorage documentation](https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/system/overviews/directstorage/directstorage-overview)
