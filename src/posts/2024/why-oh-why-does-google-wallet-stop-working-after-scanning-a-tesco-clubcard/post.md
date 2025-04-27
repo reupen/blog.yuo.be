@@ -14,8 +14,8 @@ excerpt: |-
 
 The problem is not new. You’re in Tesco (a UK supermarket), and you bring up
 your Tesco Clubcard (a loyalty card) in Google Wallet on your Google Pixel phone
-and scan the Clubcard at the till. Then, you swipe back up to your payment card
-and try to pay.
+and scan the Clubcard at the till. Then, you swipe back to your payment card and
+try to pay.
 
 It doesn’t work. You have to swipe between cards a few times before contactless
 payments start working again.
@@ -50,3 +50,13 @@ one of two ways to fix it:
 
 - turn off NFC and turn it back on again, and then reopen Google Wallet
 - swipe to another payment card, wait a few seconds and then swipe back
+  (sometimes requires multiple attempts)
+
+**Update 27 April 2025**
+
+I take it back that this problem happens specifically after using a Clubcard in
+Google Wallet. On a few recent visits to Tesco, I’ve had problems making
+payments with my phone even when I hadn’t accessed my Clubcard in Google Wallet
+(I instead used the Tesco app to show my Clubcard barcode).
+
+Still, the workarounds mentioned in the last update normally work for me.
