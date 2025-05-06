@@ -204,6 +204,12 @@ table {
   margin: 0 0 1.5rem;
 }
 
+table {
+  display: inline-block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 iframe {
   border: none;
 }
@@ -223,11 +229,15 @@ li {
 }
 
 details {
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
 
   summary {
     cursor: pointer;
-    font-size: 30px;
+    color: inherit;
+
+    &.large {
+      font-size: 30px;
+    }
 
     h2 {
       display: inline-block;
@@ -260,6 +270,7 @@ table {
 
 pre {
   padding: 0.6rem;
+  margin-bottom: 1.5rem;
 }
 
 code {

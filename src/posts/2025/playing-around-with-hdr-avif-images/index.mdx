@@ -1,0 +1,357 @@
+---
+title: "Playing around with HDR AVIF images"
+date: 2025-05-08
+tags:
+  - web
+excerpt: |-
+  Great brightness can be fraught with problems, as it turns out.
+---
+
+import { CaptionedImage } from "@/components"
+import { ImageTabs } from "@/components/client"
+
+import hdr_gain_map from "./189A4328.hdr-gain-map.avif"
+import hdr from "./189A4328.hdr.avif"
+import hdr_jxl from "./189A4328.hdr.jxl.avif"
+import sdr from "./189A4328.sdr.avif"
+import chrome_gain_map_grid_lines from "./chrome-android-grid-lines.png"
+
+At some point, I noticed various bits of HDR functionality popping up in Adobe
+Lightroom. I had largely ignored them (somewhat thinking HDR is a bit of a
+gimmick). Recently, though, I decided to have a play around with them.
+
+I gave Lightroom’s HDR editing mode a try on a picture of Himeji Castle, in
+Japan, that I took on a Canon EOS R full-frame camera. This is the SDR version
+of that image – as I had previously edited it – exported using Adobe Lightroom
+to an sRGB AVIF file:
+
+<figure>
+  <a href={sdr.src}>
+    <img src={sdr.src} alt="An SDR image of Himeji Castle, Japan" />
+  </a>
+  <figcaption>
+    <span>My favourite castle</span>
+  </figcaption>
+</figure>
+
+And here is an HDR version of the photo, saved to three slightly different AVIF
+files that you can toggle between in this widget (along with the SDR image from
+above):
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: hdr,
+      alt: "Himeji Castle, Japan in HDR (with an AVIF colour type of nclx)",
+      label: "HDR (nclx colour type)",
+    },
+    {
+      src: hdr_gain_map,
+      alt: "Himeji Castle, Japan in HDR (using a gain map)",
+      label: "HDR (gain map)",
+    },
+    {
+      src: hdr_jxl,
+      alt: "Himeji Castle, Japan in HDR (using an ICC profile)",
+      label: "HDR (ICC profile)",
+    },
+    {
+      src: sdr,
+      alt: "Himeji Castle, Japan (the image in SDR as I had originally edited it)",
+      label: "SDR (as above)",
+    },
+  ]}
+  stateId="hdr-image-tabs"
+/>
+
+When viewed with a compatible browser on an HDR display, the HDR images should
+look just like the SDR version, but with more brightness and brightness
+variation in the brightest parts of the sky.
+
+But it’s also interesting to see how those images look in less favourable
+scenarios – on an SDR display, or when viewed with incompatible software, for
+example.
+
+Compatible browsers are currently mainly some Chromium-based ones, such as
+Chrome and Edge. For me, my Pixel 8 smartphone makes a good test device for
+viewing the images correctly.
+
+(Also, what I haven’t done here is intentionally fiddled with the colours of the
+image to make them more saturated – HDR or not, I like my photos to look vaguely
+realistic.)
+
+## What’s the difference between the three HDR images?
+
+The ‘HDR (`nclx` colour type)’ image was saved directly from Lightroom, with
+‘Maximize Compatibility’ turned off. An `nclx` colour type means that, rather
+than having a colour profile embedded in the image file, the image’s colour
+information is specified using a few simple values in what is called the `colr`
+(colour information) box. (Those values are called
+[coding-independent code points (CICP)](https://en.wikipedia.org/wiki/Coding-independent_code_points),
+and libavif has
+[an article on them in the context of AVIF](https://github.com/AOMediaCodec/libavif/wiki/CICP).)
+
+The ‘HDR (gain map)’ image was saved directly from Lightroom, with ‘Maximize
+Compatibility’ turned on. The file actually contains two images – an SDR base
+image and an HDR
+[gain map](https://helpx.adobe.com/uk/camera-raw/using/gain-map.html). (This
+means the file is larger than a pure SDR or HDR image.)
+
+The advantage of using a gain map is that you have more control over what the
+image looks like when displayed in SDR (or by something that doesn’t understand
+the gain map). In practice, though, I had to fiddle around quite a bit in
+Lightroom to get the SDR base image looking close to what I had before HDR
+editing mode was turned on (and even then, there are still some noticeable
+differences).
+
+The ‘HDR (ICC profile)’ image, uses a colour type of `rICC` and contains an ICC
+profile. I created the image by exporting the photo to a lossless JPEG XL file
+(using Lightroom) and then converting that to an AVIF file using the libvips
+`heifsave` CLI command.
+
+If you want to find some details about how colour information is specified in an
+AVIF file, [ExifTool](https://exiftool.org/) and `avifdec` (from
+[libavif](https://github.com/AOMediaCodec/libavif)) can do the job. With
+`ExifTool`, you can run (for example):
+
+```shell
+exiftool -g -Quicktime:all -ICC_Profile:all <file>
+```
+
+<details>
+<summary>Example output for the `nclx` image</summary>
+
+```text
+---- QuickTime ----
+Major Brand                     : AV1 Image File Format (.AVIF)
+Minor Version                   : 0.0.0
+Compatible Brands               : avif, mif1, miaf, MA1A
+Handler Type                    : Picture
+Handler Description             : AVIF Still Picture
+Primary Item Reference          : 1
+Image Spatial Extent            : 1400x933
+Image Pixel Depth               : 10 10 10
+AV1 Configuration Version       : 1
+Chroma Format                   : YUV 4:4:4
+Chroma Sample Position          : Unknown
+Color Profiles                  : nclx
+Color Primaries                 : BT.709
+Transfer Characteristics        : SMPTE ST 2084, ITU BT.2100 PQ
+Matrix Coefficients             : BT.601
+Video Full Range Flag           : Full
+Max Content Light Level         : 480
+Max Pic Average Light Level     : 21
+Media Data Size                 : 456467
+Media Data Offset               : 444
+```
+
+</details>
+
+<details>
+<summary>Example output for the ICC profile image</summary>
+
+```text
+---- QuickTime ----
+Major Brand                     : AV1 Image File Format (.AVIF)
+Minor Version                   : 0.0.0
+Compatible Brands               : avif, mif1, miaf
+Handler Type                    : Picture
+Primary Item Reference          : 1
+AV1 Configuration Version       : 1
+Chroma Format                   : YUV 4:4:4
+Chroma Sample Position          : Colocated
+Image Spatial Extent            : 1400x933
+Image Pixel Depth               : 12 12 12
+Media Data Size                 : 608677
+Media Data Offset               : 4746
+---- ICC_Profile ----
+Profile CMM Type                : Unknown (jxl )
+Profile Version                 : 4.4.0
+Profile Class                   : Display Device Profile
+Color Space Data                : RGB
+Profile Connection Space        : Lab
+Profile Date Time               : 2019:12:01 00:00:00
+Profile File Signature          : acsp
+Primary Platform                : Apple Computer Inc.
+CMM Flags                       : Not Embedded, Independent
+Device Manufacturer             :
+Device Model                    :
+Device Attributes               : Reflective, Glossy, Positive, Color
+Rendering Intent                : Perceptual
+Connection Space Illuminant     : 0.9642 1 0.82491
+Profile Creator                 : Unknown (jxl )
+Profile ID                      : f463500b39004f89623f245f4c47d1f6
+Profile Description             : RGB_D65_SRG_Per_PeQ
+Profile Copyright               : CC0
+Media White Point               : 0.9642 1 0.82491
+Chromatic Adaptation            : 1.04785 0.0229 -0.05016 0.02957 0.99048 -0.01706 -0.00925 0.01506 0.75197
+Color Primaries                 : BT.709
+Transfer Characteristics        : SMPTE ST 2084, ITU BT.2100 PQ
+Matrix Coefficients             : Identity matrix
+Video Full Range Flag           : Full
+Red Matrix Column               : 0.43602 0.22249 0.01392
+Green Matrix Column             : 0.3851 0.7169 0.09709
+Blue Matrix Column              : 0.1431 0.06062 0.7142
+A To B0                         : (Binary data 3772 bytes, use -b option to extract)
+B To A0                         : (Binary data 80 bytes, use -b option to extract)
+```
+
+</details>
+
+With `avifdec`, you can run:
+
+```shell
+avifdec --info <file>
+```
+
+That will give you the raw numeric values for some of the properties (which can
+be looked up in the
+[libavif source code](https://github.com/AOMediaCodec/libavif/blob/ec3fe0c5048c4c88b5d2bd95efdc6ff8cc7d4118/include/avif/avif.h#L335),
+the non-free ISO/IEC 23091-2 standard, or
+[the public H.273 standard](https://www.itu.int/rec/T-REC-H.273/en)), and will
+also provide gain map information.
+
+<details>
+<summary>Example `avifdec --info` output for the gain map image</summary>
+
+```text
+Decoding with codec 'dav1d' (32 worker threads), please wait...
+Image decoded: 189A4328.hdr-gain-map.avif
+ * Resolution     : 1400x933
+ * Bit Depth      : 10
+ * Format         : YUV444
+ * Alpha          : Absent
+ * Range          : Full
+ * Color Primaries: 1
+ * Transfer Char. : 13
+ * Matrix Coeffs. : 6
+ * ICC Profile    : Absent
+ * XMP Metadata   : Present (14267 bytes)
+ * Exif Metadata  : Present (810 bytes)
+ * Transformations: None
+ * Progressive    : Unavailable
+ * Gain map       : 1400x933 pixels, 10 bit, YUV444, Full Range, Matrix Coeffs. 6, Base Image is SDR
+ * Alternate image:
+    * Color Primaries: 9
+    * Transfer Char. : 16
+    * Matrix Coeffs. : 9
+    * ICC Profile    : Absent
+    * Bit Depth      : 10
+    * Planes         : 3
+
+ * 1 timescales per second, 1.00 seconds (1 timescales), 1 frame
+ * Frame:
+   * Decoded frame [0] [pts 0.00 (0 timescales)] [duration 1.00 (1 timescales)] [1400x933]
+```
+
+</details>
+
+## How do the HDR images look in different browsers and software?
+
+On my Pixel 8 and Windows 11 laptop (with a built-in DisplayHDR 400 screen, and
+HDR turned on in Windows), the `nclx` and ICC profile images appear to look
+identical in Chrome (compression artefact differences aside). The gain map
+version has a few oddities, though. On Chrome stable on my laptop and in Chrome
+Dev and Canary on my Pixel 8, the gain map image has a very slight colour shift
+in the sky (not easily noticed, admittedly).
+
+In Chrome stable and Chrome Beta on my Pixel 8, the gain map image is marginally
+darker than the other two HDR images for some reason. But there’s an even
+weirder problem with the gain map image in Chrome – when you zoom in, odd grid
+lines appear[^1]:
+
+<CaptionedImage
+  src={chrome_gain_map_grid_lines}
+  alt="A screenshot of the gain map image zoomed in on this post in Chrome on my Pixel 8"
+  caption="I assume this was tested"
+  class="limit-height-slightly"
+/>
+
+And on Windows 11 on my desktop (with a DisplayHDR 400 monitor, and HDR turned
+on in Windows), all versions of Chrome seem to display all three HDR images
+slightly differently for some reason. (Whether the three HDR images should
+technically look the same when viewed in HDR, I don’t know. From a user
+perspective, though, I would’ve expected them to.) Also,
+[be aware of how HDR brightness is handled in Chrome on Windows](https://www.reddit.com/r/Monitors/comments/17ases4/chromium_hdr_is_now_relative_to_sdr_brightness/).
+
+What about Firefox? It doesn’t support HDR images at all and
+[displays the `nclx` colour type image very darkly](https://bugzilla.mozilla.org/show_bug.cgi?id=1793091).
+With the gain map version, you at least get the (mostly) good SDR base image.
+(The ICC profile image isn’t terrible either, but it’s a bit darker than gain
+map and SDR images and has an odd slight colour cast.)
+
+Of the three HDR images, the Windows 11 Photos app renders only the `nclx` one
+in HDR. (HDR in Windows is also a bit of a pain, as you have to manually turn it
+on, which makes everything including your desktop look different.)
+
+In a web context, image processing tools are also relevant. I typically use
+[libvips](https://www.libvips.org/) (often via
+[sharp](https://sharp.pixelplumbing.com/)) to generate
+[responsive images](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images)
+on my websites. libvips currently
+[does not support the `nclx` colour type](https://github.com/libvips/libvips/issues/3912)
+or [gain maps](https://github.com/libvips/libvips/issues/3799). And so, if I
+want to create responsive images from a source HDR AVIF file using libvips, I
+have to avoid the `nclx` colour type and ensure the image has a colour profile
+embedded (for now, at least). (Unfortunately, I haven’t been able to get sharp
+to handle an HDR image correctly at all, but that’s not the end of the world as
+I can use libvips directly.)
+
+## Wrapping up
+
+The reality is support for HDR images is (currently) variable and inconsistent.
+So, having an SDR version of an image (whether separate or via a gain map) is
+important if you want your images to look good.
+
+In Lightroom, for most images, enabling HDR editing mode preserved the existing
+look of the image while extending the brightness range. For some images, though,
+enabling HDR editing mode completely changed the look of the image and I
+struggled to get it back to how it was before. (This mainly seemed to happen
+with images where I’d previously fiddled with the tone curve.) And, even in the
+cases where Lightroom preserved the general look of the image after enabling HDR
+editing mode, the SDR rendition of the HDR image (seen when enabling ‘Preview
+for SDR Display’) had still changed quite a bit (affecting how the image looks
+in SDR if going down the gain map approach). Perhaps, if you start out editing
+an image in HDR mode, you’d be less bothered by these points.
+
+I also feel that ‘Maximize Compatibility’ is a bit of a misnomer in Lightroom.
+The reality is that not everything supports gain maps (and there still seem to
+be some kinks being worked out).
+
+There are also web-specific concerns when it comes to HDR images, like:
+
+- having the tooling to generate responsive HDR images
+- being able to change behaviour depending on browser support (whether to pick
+  the correct image to use, or to give users an option for whether they want to
+  see HDR images)
+- dealing with inconsistent behaviour between browsers, operating systems and
+  HDR displays
+- file size-related concerns (whether it’s the built website being bigger, or
+  users being served more data)
+
+One concern I had with gain maps is how a user could still be allowed to select
+between an SDR and an HDR version of the image. The new
+[`dynamic-range-limit` CSS property](https://www.w3.org/TR/css-color-hdr-1/#the-dynamic-range-limit-property)
+appears to solve that, at least.
+
+Perhaps surprisingly, given those points, I recently added some HDR images to
+[my photos site](https://photos.reupen.uk/). For now, it’s using separate SDR
+and HDR images, with a control to toggle between the two appearing when using a
+Chromium-based browser with an HDR display (detected using a combination of
+[`navigator.userAgentData.brands`](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUAData/brands)[^2]
+and the
+[`dynamic-range` media query](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/dynamic-range)).
+
+(For what it’s worth, I do like having the extra brightness range of HDR images
+available, and it seems silly for my camera photos to be disadvantaged compared
+to smartphone photos that have been saved in an HDR image format.)
+
+[^1]:
+    This was seen on my Pixel 8 on all channels of Chrome. I haven’t seen it on
+    Chrome on Windows.
+
+[^2]:
+    No, I don’t really want to use the browser brand in this way. Alas, the
+    `dynamic-range` media query by itself doesn’t tell me if the browser
+    supports HDR images (let alone which HDR image formats…)
