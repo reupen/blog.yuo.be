@@ -1,8 +1,8 @@
 ---
 import mdxRenderer from "@astrojs/mdx/server.js"
 import reactRenderer from "@astrojs/react/server.js"
-import { render } from "astro:content"
 import { experimental_AstroContainer } from "astro/container"
+import { render } from "astro:content"
 import { format } from "date-fns"
 import { convert as htmlToText } from "html-to-text"
 import { chunk } from "lodash-es"
@@ -76,11 +76,11 @@ const readingTime = Math.max(
 <Layout
   description={post.data.excerpt}
   image={post.data.image}
-  isWide={post.data.isWide}
   ogPublishedTime={post.data.date}
   ogType="article"
   postReturnUrl={`${homePagePath}#${post.id}`}
   title={post.data.title}
+  width={post.data.width}
 >
   <div class="post-header section">
     <div class="container">

@@ -72,6 +72,7 @@ export default tseslint.config(
             "object",
             "unknown",
           ],
+          type: "natural",
         },
       ],
       "perfectionist/sort-jsx-props": [
