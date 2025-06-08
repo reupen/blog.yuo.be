@@ -1,0 +1,105 @@
+---
+title: "Everyday Windows annoyances: Things randomly changing"
+slug: everyday-windows-annoyances-things-randomly-changing
+date: 2025-06-09
+tags:
+  - windows
+excerpt: |-
+  Change isn’t inherently bad. But I don’t things I interact with every day to suddenly become bugged.
+---
+
+import { CaptionedImage } from "@/components"
+
+import after_clicking_mp4 from "./after-clicking.mp4"
+import after_disappear_mp4 from "./after-disappear.mp4"
+import after_flicker_mp4 from "./after-flicker.mp4"
+import after_png from "./after.png"
+import before_png from "./before.png"
+
+A few weeks ago, taskbar item flyouts suddenly changed in my Windows 11
+installation.
+
+They used to look like this:
+
+<CaptionedImage
+  src={before_png}
+  alt="A taskbar item flyout on an older version of Windows 11 including app-specific buttons."
+  caption="The good old days"
+/>
+
+And now, they look like this:
+
+<CaptionedImage
+  src={after_png}
+  alt="A taskbar item flyout on a newer version of Windows 11 including app-specific buttons."
+  caption="The present, on a fully up-to-date Windows 11 24H2 installation"
+/>
+
+The first thing I noticed is that app-specific buttons look different. In
+particular, the background colour of them has changed, and spacing has been
+added between them. (Subjectively, it looks uglier to me, but that could be
+forgiven if all else was OK.)
+
+The next thing I noticed is that the font size of the title has increased. It’s
+now, bizarrely, larger than the font size used in application title bars.
+
+I also felt that the background of the flyout has changed. Comparing the two
+screenshots, it does appear to be more of a solid colour now.
+
+(Another thing I picked up on when comparing the screenshots is that the icons
+in the buttons are rendered differently. I’m ignoring that for now, as the first
+screenshot was taken in a virtual machine and so there could be some other
+explanation for it.)
+
+Those aren’t the only differences, though. The next thing I noticed is that the
+app buttons flicker a lot. Here’s that happening for Microsoft’s own Media
+Player:
+
+<figure>
+  <video height="358" width="394" autoPlay controls loop muted playsInline>
+    <source src={after_flicker_mp4} type="video/mp4" />
+  </video>
+  <figcaption>
+    And what is up with those blocky previous and next buttons?
+  </figcaption>
+</figure>
+
+I also noticed that sometimes flyouts were disappearing while my mouse was over
+them. I tracked down a cause of that – it happens if the mouse moves over a
+button tooltip:
+
+<figure>
+  <video height="466" width="370" autoPlay controls loop muted playsInline>
+    <source src={after_disappear_mp4} type="video/mp4" />
+  </video>
+  <figcaption>That should not be happening…</figcaption>
+</figure>
+
+Perhaps the worst bug is that sometimes clicking on the flyout does nothing[^1]:
+
+<figure>
+  <video height="872" width="750" autoPlay controls loop muted playsInline>
+    <source src={after_clicking_mp4} type="video/mp4" />
+  </video>
+  <figcaption>…and neither should that</figcaption>
+</figure>
+
+Another problem is that you now don’t get a tooltip for truncated titles when
+hovering over the thumbnail preview – you only get it when hovering over the
+title itself.
+
+There are various other smaller problems that I’m not going to bother listing.
+The only improvement I’ve noticed is that tooltips are now dark themed when dark
+mode is enabled in Windows.
+
+When I first noticed the change, I checked the
+[Windows 11, version 24H2 update history](https://support.microsoft.com/en-gb/topic/windows-11-version-24h2-update-history-0929c747-1815-4543-8461-0160d16f15e5).
+There’s no mention of these changes at all. Sadly, the whole thing is lacking
+testing, polish and attention to detail, and there’s no sign of any improvements
+being on the way[^2].
+
+[^1]: This starts happening after opening and closing the Start Menu.
+
+[^2]:
+    I checked the latest Windows Insider Canary Channel build in a virtual
+    machine, and all the problems mentioned above are still present.
