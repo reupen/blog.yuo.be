@@ -16,8 +16,7 @@ import after_flicker_mp4 from "./after-flicker.mp4"
 import after_png from "./after.png"
 import before_png from "./before.png"
 
-A few weeks ago, taskbar item flyouts suddenly changed in my Windows 11
-installation.
+A few weeks ago, taskbar item flyouts suddenly changed on my Windows 11 desktop.
 
 They used to look like this:
 
@@ -97,6 +96,19 @@ When I first noticed the change, I checked the
 There’s no mention of these changes at all. Sadly, the whole thing is lacking
 testing, polish and attention to detail, and there’s no sign of any improvements
 being on the way[^2].
+
+## 27 June 2025 update
+
+The
+[Windows 11 24H2 update history entry for the 26 June preview update](https://support.microsoft.com/en-gb/topic/june-26-2025-kb5060829-os-build-26100-4484-preview-e31ba7c2-ff65-4863-a462-a66e30840b1a)
+has the following item under ‘Gradual rollout’:
+
+> Fixed: When using taskbar in Windows, the media controls that appear in the
+> preview windows for apps might unexpectedly flicker.
+
+I’ve installed the update, but I must not (yet) be in the gradual rollout group,
+as the behaviour is unchanged. In the latest Canary Channel build, the flicker
+indeed has been fixed, but the rest of the problems all remain.
 
 [^1]: This starts happening after opening and closing the Start Menu.
 
