@@ -1,0 +1,98 @@
+---
+title: "Don’t auto-install junk on my PC, Microsoft"
+date: 2025-06-27
+tags:
+  - microsoft
+excerpt: |-
+  It’s a waste of energy, as it turns out.
+---
+
+import { CaptionedImage } from "@/components"
+
+import advanced_options_png from "./advanced-options.png"
+import energy_monitor_jpg from "./energy-monitor.avif"
+import microsoft_365_copilot_home_png from "./microsoft-365-copilot-home.png"
+import system_tray_tooltip_png from "./system-tray-tooltip.png"
+import system_tray_png from "./system-tray.png"
+
+At some point in the semi-recent past, this icon appeared in the Windows 11
+system tray:
+
+<CaptionedImage
+  src={system_tray_png}
+  alt="A screenshot of the system tray with the hidden icons area open."
+  caption="Yes, we all want AI shoved down our throats"
+/>
+
+I assumed it was an icon for Copilot. On closer inspection, though, it’s an icon
+for ‘Microsoft 365 Copilot’:
+
+<CaptionedImage
+  src={system_tray_tooltip_png}
+  alt="A screenshot of the system tray with the tooltip for the Microsoft 365 Copilot icon visible."
+  caption="Not just Microsoft 365, but Microsoft 365 Copilot"
+/>
+
+I don’t like having things start unnecessarily when I log into Windows, so I
+regularly use
+[Sysinternals Autoruns](https://learn.microsoft.com/en-gb/sysinternals/downloads/autoruns)
+to keep the list of start-up apps clean. Microsoft 365 Copilot was nowhere to be
+seen in Autoruns, though, so it had sneaked through all those clean-ups.
+
+Another thing I sometimes do is use an old energy monitor[^1] to check (and try
+to minimise) the power usage of my PC when idling on the desktop. It will give
+me a real-time reading in watts, like this:
+
+<CaptionedImage
+  src={energy_monitor_jpg}
+  alt="A photo of an energy monitor with a passthrough socket, reading 58W"
+  caption="I wish I could read it without getting under my desk"
+  class="limit-height"
+/>
+
+I discovered that closing Microsoft 365 Copilot (just by right-clicking on the
+icon and selecting the ‘Quit Microsoft 365 Copilot’ menu item) reduced the idle
+power usage from around 63W to around 58W. So, this thing that was
+auto-installed on my PC, and starts itself automatically, was adding around 5W
+to my PC’s idle power usage for no useful purpose.
+
+Since there was no trace of this thing in Autoruns, I did a search online to see
+if any anyone else had worked out how to stop it starting automatically. I found
+people
+[asking the same question](https://answers.microsoft.com/en-us/windows/forum/all/disable-both-copilot-and-ms-365-copilot-from/cf793a60-4eb2-4e4b-9aec-3170afca0982),
+but without any working solutions.
+
+I then found ‘Microsoft 365 Copilot’ listed in the Installed apps page in the
+Windows Settings app, and I was almost ready to uninstall it. I did a bit more
+fiddling instead, though, and managed to stop it starting itself automatically.
+
+I believe what stopped it starting automatically is enabling and disabling ‘Runs
+at log-in [sic]’ on this page for the app in the Windows Settings app:
+
+<CaptionedImage
+  src={advanced_options_png}
+  alt="A screenshot of the page for the Microsoft 365 Copilot app in the Windows Settings app"
+  caption="The verb is log in, and the noun is login, Microsoft"
+/>
+
+That page can be accessed via the ‘App settings’ command for ‘Microsoft 365
+Copilot’ in the Start Menu, or via the ‘Advanced options’ command for the app on
+the ‘Installed apps’ page in the Settings app.
+
+(The other thing I did was open the Microsoft 365 Copilot app and log into it
+with my Microsoft account, but I’m doubtful that was the action that stopped it
+starting automatically.)
+
+Problem solved (for now at least).
+
+## What is this thing, anyway?
+
+If you’re wondering what the Microsoft 365 Copilot app is, here’s what it looks
+like (once logged in):
+
+<CaptionedImage src={microsoft_365_copilot_home_png} alt="TO DO" />
+
+It’s essentially a launcher for Office apps, with a Copilot chat section as a
+bonus.
+
+[^1]: Bought from Maplin, before it entered administration.
