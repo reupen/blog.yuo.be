@@ -71,7 +71,7 @@
     "html-to-text": "^9.0.5",
     "lodash-es": "^4.17.21",
     "postcss-custom-media": "^11.0.6",
-    "postcss-preset-env": "^10.2.0",
+    "postcss-preset-env": "^10.2.4",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "rehype-external-links": "^3.0.0",
