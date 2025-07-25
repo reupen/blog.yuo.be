@@ -1,0 +1,79 @@
+---
+title: "Oh Google, please test your UI"
+slug: oh-google-please-test-your-ui
+date: 2025-07-25
+tags:
+  - google
+excerpt: |-
+  If you’re going to change your UI every month, the least you can do is make sure it works.
+---
+
+import { CaptionedImage } from "@/components"
+
+import chrome_bad_menu_mp4 from "./chrome-bad-menu.mp4"
+import date_range_png from "./date-range.png"
+import google_search_menu_mp4 from "./google-search-menu.mp4"
+import google_search_menu_png from "./google-search-menu.png"
+
+I recently noticed that the ‘Tools’ part of the Google search results page had
+changed. Previously, clicking the ‘Tools’ button opened a second row of
+controls. Now, however, it’s now a menu like this:
+
+<CaptionedImage
+  src={google_search_menu_png}
+  alt="A screenshot of the ‘Tools’ menu on the Google search results page."
+  caption="At least I know where the total number of results has gone"
+/>
+
+Unfortunately, the new menu is a bit poor:
+
+<figure>
+  <video width="1170" autoPlay controls loop muted playsInline>
+    <source src={google_search_menu_mp4} type="video/mp4" />
+  </video>
+  <figcaption>
+    The Tools button itself also appears a second after everything else on the
+    page has loaded
+  </figcaption>
+</figure>
+
+The first problem is that, if your mouse pointer temporarily leaves the parent
+menu item of a submenu, there’s no delay before the submenu is closed or another
+submenu is opened. It means you have to move the mouse very precisely across to
+get to the right submenu (while a diagonal motion would be more natural).
+
+The second (and probably worse) problem is that the interactive areas of the
+submenu items are wrong. When you hover near the bottom of an item, it thinks
+you’re on the next item.
+
+Out of interest, I tried the ‘Custom range…’ time period option:
+
+<CaptionedImage
+  src={date_range_png}
+  alt="A screenshot of the ‘Customised date range’ dialogue box on the Google search results page."
+  caption="This dialogue is a pain to use"
+/>
+
+Here they’ve managed to localise the title, but not the date format (it’s using
+a US date format, rather than a UK one).
+
+Going back to the menu itself, I was going to say that Google only needs to look
+at their own web browser for a working implementation of a menu. Alas, I was
+wrong:
+
+<figure>
+  <video width="1198" autoPlay controls loop muted playsInline>
+    <source src={chrome_bad_menu_mp4} type="video/mp4" />
+  </video>
+  <figcaption>
+    The three-dot (or kebab) menu in Chrome is better, but still bugged
+  </figcaption>
+</figure>
+
+Here, there is a delay before submenus are opened and closed. However, if the
+first item you reach in the submenu is a disabled item (including separators),
+it decides to close the submenu anyway.
+
+(Meanwhile, on Android, Google seem incessant on adding ever-longer menu
+animations, while breaking longstanding behaviours like long-tapping on the
+three-dots button in Chrome to refresh the page.)
