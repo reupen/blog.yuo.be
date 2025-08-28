@@ -1,0 +1,71 @@
+---
+title: "The pain of transferring a domain from Gandi.net"
+date: 2025-08-28
+tags:
+  - web
+excerpt: |-
+  Luckily, there was an easy fix via the domain registry.
+---
+
+import gandi_helpdesk_loop_mp4 from "./gandi-helpdesk-loop.mp4"
+
+I transferred most of my domains to Cloudflare in 2022. But one domain, the .be
+domain this blog is on, stayed with Gandi.net as Cloudflare don’t support the
+.be top-level domain (TLD).
+
+Since Gandi.net was sold in 2023, the renewal prices have been ever-increasing.
+My .be domain was coming up for renewal, and the latest quote was €38.38
+(including UK VAT) for a year. (Back in 2022, it was €14.96.)
+
+Perhaps not surprisingly, I set about finding a new registrar for my domain.
+Many registrars don’t support .be domains, so the choices are limited. I settled
+on one that was ICANN-registered and had reasonable prices, and set about trying
+to transfer my domain to them.
+
+To transfer the domain, you need an authorisation, or transfer, code. You also
+need to disable transfer lock on the domain, if it’s enabled. With Gandi.net,
+the two operations are linked: you disable transfer lock, and then get the
+transfer code.
+
+Unlocking locking the domain with Gandi.net takes 72 hours. They stated:
+
+> The process of unlocking your domain is currently being validated. It will be
+> completed by August 24, 2025 11:14 AM (within 72 hours). At the end of this
+> period, you will be able to access the authorization code. Until then, the
+> domain remains secure. This additional validation step has been implemented by
+> Gandi to prevent domains theft. We strongly encourage you to set up two-factor
+> authentication (TOTP) to secure access to your account.
+
+Given the stated intention of imposing a delay to prevent ‘domains [sic] theft’,
+it’s surprising that I didn’t receive any emails from Gandi.net in relation to
+disabling transfer lock.
+
+Once the 72 hours had passed, the authorisation code appeared in the Gandi.net
+admin portal. I placed an order with the new registrar to transfer the domain.
+The transfer was rejected due to an invalid authorisation code. I queried it
+with the new registrar, and they stated the code was rejected by the registry,
+and to request a new one.
+
+The Gandi.net admin site had a button for generating a new code, but it was
+disabled (presumably it would be enabled after the stated expiry date of the
+code, which was in two months’ time). So, I thought I’d create a support ticket
+with Gandi.net to ask them to confirm that the code was valid, and to generate a
+new one if possible. Alas, the authentication on their support site was broken
+on all my devices. It got stuck in a failed authentication loop[^1]:
+
+<figure>
+  <video width="3840" controls loop muted playsInline>
+    <source src={gandi_helpdesk_loop_mp4} type="video/mp4" />
+  </video>
+  <figcaption>Not what you want in a support portal</figcaption>
+</figure>
+
+Luckily for me, the registry, DNS Belgium, let you request transfer codes right
+on [their home page](https://www.dnsbelgium.be/en). I did that, and a new code
+appeared in my email inbox seconds later. This code was in a completely
+different format to the one Gandi.net gave me – it was five sets of three
+digits, separated by hyphens, while the Gandi.net code was sixteen characters
+long, consisting of letters, numbers and a random semicolon. I sent the new code
+across to the new registrar, and the transfer completed successfully this time.
+
+[^1]: This does seem to be fixed now, at least.
