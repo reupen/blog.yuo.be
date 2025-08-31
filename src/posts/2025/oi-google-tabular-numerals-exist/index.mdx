@@ -1,0 +1,38 @@
+---
+title: "Oi Google, tabular numerals exist"
+date: 2025-08-31
+tags:
+  - google
+excerpt: |-
+  Another badly tested UI update.
+---
+
+import android_clock_tabular_mp4 from "./android-clock-tabular.mp4"
+
+I opened the Clock app on my Pixel 8 the other day and the design had completely
+changed. Some things are a bit nicer. Most notably, though, things are bigger
+and more in your face.
+
+To pick up on something notably worse, this is how the World clock screen now
+behaves:
+
+<figure>
+  <video width="540" autoPlay controls loop muted playsInline>
+    <source src={android_clock_tabular_mp4} type="video/mp4" />
+  </video>
+  <figcaption>
+    Oi Google, should I make a post every time you update an app?
+  </figcaption>
+</figure>
+
+The digits and the things directly below them jump around every second. It looks
+as though there are two factors contributing to the problem (though the first is
+the main one):
+
+- not using
+  [tabular figures](https://www.myfonts.com/pages/fontscom-learning-fontology-level-3-numbers-proportional-vs-tabular-figures)
+  (an OpenType font feature supported by any decent font)
+- updating the font size every second to fit a particular width
+
+(The rest of the screen also has problems with spacing and alignment, but I’m
+not planning on doing Google’s work for them…)
