@@ -7,7 +7,10 @@ excerpt: |-
   Another badly tested UI update.
 ---
 
+import { CaptionedImage } from "@/components"
+
 import android_clock_tabular_mp4 from "./android-clock-tabular.mp4"
+import lock_screen_png from "./lock-screen.png"
 
 I opened the Clock app on my Pixel 8 the other day and the design had completely
 changed. Some things are a bit nicer. Most notably, though, things are bigger
@@ -36,3 +39,18 @@ the main one):
 
 (The rest of the screen also has problems with spacing and alignment, but I’m
 not planning on doing Google’s work for them…)
+
+## 5 September update
+
+And, in the latest Pixel Drop (that has a Material 3 Expressive redesign),
+Google have done something similar to the lock screen clock:
+
+<CaptionedImage
+  src={lock_screen_png}
+  alt="A screenshot of the lock screen clock on a Pixel 8 with the September 2025 Pixel Drop."
+  caption="My poor eyes"
+  class="limit-height"
+/>
+
+The clock is now horribly unbalanced, and the two columns move closer and
+further apart depending on the width of the glyphs in each column.
