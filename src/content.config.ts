@@ -23,6 +23,7 @@ const posts = defineCollection({
       .object({
         comment_id: z.string().optional(),
         date: z.date(),
+        description: z.string().optional(),
         excerpt: z.string(),
         image: z
           .object({

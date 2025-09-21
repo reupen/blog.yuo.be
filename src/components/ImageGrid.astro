@@ -8,6 +8,7 @@ export interface Props {
   images: {
     image: ImageMetadata
     alt: string
+    class?: string
   }[]
   rowSize?: number
 }
@@ -29,9 +30,13 @@ const { images, rowSize = 2, ...rest } = Astro.props
               gridTemplateColumns: `${imageARs.map((aR) => `${aR / totalAR}fr`).join(" ")}`,
             }}
           >
-            {chunk.map(({ image, alt }) => (
+            {chunk.map(({ ["class"]: class_, image, alt }) => (
               <a href={image.src}>
-                <PostImage src={image} alt={alt} class="image" />
+                <PostImage
+                  src={image}
+                  alt={alt}
+                  class:list={["image", class_]}
+                />
               </a>
             ))}
           </div>

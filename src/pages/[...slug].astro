@@ -74,7 +74,7 @@ const readingTime = Math.max(
 ---
 
 <Layout
-  description={post.data.excerpt}
+  description={post.data.description || post.data.excerpt}
   image={post.data.image}
   ogPublishedTime={post.data.date}
   ogType="article"
