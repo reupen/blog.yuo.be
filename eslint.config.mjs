@@ -5,13 +5,12 @@ import eslintPluginAstro from "eslint-plugin-astro"
 import * as eslintPluginMdx from "eslint-plugin-mdx"
 import perfectionist from "eslint-plugin-perfectionist"
 import reactPlugin from "eslint-plugin-react"
+import { defineConfig, globalIgnores } from "eslint/config"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 
-export default tseslint.config(
-  {
-    ignores: [".astro/", "dist/", "src/env.d.ts"],
-  },
+export default defineConfig(
+  globalIgnores([".astro/", "dist/", "src/env.d.ts"]),
   {
     files: ["astro.config.mjs"],
     languageOptions: {
