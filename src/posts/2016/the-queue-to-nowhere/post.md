@@ -61,7 +61,7 @@ I first needed to know how to create a kernel dump file. This is where the
 [Microsoft Sysinternals LiveKD utility](https://technet.microsoft.com/en-gb/sysinternals/livekd.aspx)
 came handy: it can both start the kernel debugger and create a kernel dump on
 the local system.[^1] That was useful, because it was easier than debugging a
-second system, and it something someone could potentially do on their own
+second system, and is something someone could potentially do on their own
 system. LiveKD requires the
 [Debugging Tools for Windows](<https://msdn.microsoft.com/en-gb/library/windows/hardware/ff551063(v=vs.85).aspx>);
 the version of the debugging tools in the
