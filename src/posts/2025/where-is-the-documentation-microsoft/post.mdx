@@ -1,0 +1,92 @@
+---
+title: "Where is the documentation, Microsoft?"
+date: 2025-09-26
+tags:
+  - windows
+excerpt: |-
+  Maybe I should start putting the Windows SDK in a Git repo.
+---
+
+A number of new Windows Imaging Component (WIC) interfaces have been added to
+the Windows SDK in the past year-ish. Here’s a list of interfaces that are in
+version 10.0.26100.6584 of the Windows SDK, but not in version 10.0.22621.5040:
+
+- IWICD3DTextureSource
+- [IWICBitmapFrameChainReader](https://learn.microsoft.com/en-gb/windows/win32/api/wincodec/nn-wincodec-iwicbitmapframechainreader)
+- [IWICBitmapFrameChainWriter](https://learn.microsoft.com/en-gb/windows/win32/api/wincodec/nn-wincodec-iwicbitmapframechainwriter)
+- IWICBitmapSourceTransform2
+- IWICBitmapToneMapper
+- IWICDisplayAdaptationControl
+- [IWICDisplayAdaptationControl2](https://learn.microsoft.com/en-gb/windows/win32/api/wincodec/nn-wincodec-iwicdisplayadaptationcontrol2)
+- IWICImagingFactory3
+
+I’ve linked to the documentation for the interfaces that have pages on Microsoft
+Learn (at time of writing). But the majority of them don’t. The documentation
+for `IWICBitmapFrameChainReader` is pretty decent. And it covers
+`IWICBitmapFrameChainWriter` too.
+
+The documentation for `IWICDisplayAdaptationControl2` is not so good. How do you
+create one for a specific display? Or, if it’s something you’re meant to
+implement yourself, what do you do with it? And why are we in the bizarre
+situation where `IWICDisplayAdaptationControl2` gets a page, but
+`IWICDisplayAdaptationControl` doesn’t?
+
+As for the rest, you’re left to look at the headers to see the interface
+definition. Some of the new interfaces relate to HDR and gain map stuff (though
+the chained frame readers and writers definitely have other uses too).
+
+With a bit more digging, I found a comment about what `IWICD3DTextureSource` is
+for in `wincodecs.idl`:
+
+> For decoding a bitmap using a Direct3D Device, such as ID3D11Device. Returns
+> the decoded bitmap as ID3D11Texture2D, or similar (depending on the type of
+> Direct3D device.)
+
+Still, I have no idea how to use it.
+
+I can tell you that the Microsoft AVIF and JPEG XL codecs implement
+`IWICBitmapSourceTransform2` and `IWICBitmapFrameChainReader` for an
+`IWICBitmapFrameDecode`.
+
+`IWICBitmapSourceTransform2` adds a single method to
+`IWICBitmapSourceTransform`. The method is declared as:
+
+```cpp
+virtual HRESULT STDMETHODCALLTYPE GetColorContextsForPixelFormat(
+    /* [unique][in] */ __RPC__in_opt WICPixelFormatGUID *pPixelFormat,
+    /* [in] */ UINT cCount,
+    /* [size_is][unique][in] */ __RPC__in_ecount_full_opt(cCount) IWICColorContext **ppIColorContexts,
+    /* [out] */ __RPC__out UINT *pcActualCount) = 0;
+```
+
+I haven’t got it to return anything other than
+`WINCODEC_ERR_UNSUPPORTEDPIXELFORMAT`. And why is the type of the first argument
+`WICPixelFormatGUID*` and not `const WICPixelFormatGUID*`?
+
+`IWICBitmapFrameChainReader` will read a gain map from a test JPEG XL file I
+created (but not an AVIF one). But how do you combine the gain map with the base
+image to create an HDR image? (And no, read ISO 21496-1 isn’t the answer I’m
+interested in.)
+
+`IWICImagingFactory3` adds a single method for creating an
+`IWICBitmapToneMapper` instance. `IWICBitmapToneMapper` seems to be exactly what
+it sounds like.
+
+There are also some new pixel formats:
+
+- [GUID_WICPixelFormat8bppDepth](https://learn.microsoft.com/en-gb/windows/win32/wic/-wic-codec-native-pixel-formats#heif-native-codec)
+- [GUID_WICPixelFormat8bppGain](https://learn.microsoft.com/en-gb/windows/win32/wic/-wic-codec-native-pixel-formats#heif-native-codec)
+- GUID_WICPixelFormat24bppRGBGain
+- GUID_WICPixelFormat32bppBGRGain
+
+Half of them have documentation.
+
+Also added are a few new enumerations:
+
+- WICBitmapToneMappingMode
+- [WICBitmapChainType](https://learn.microsoft.com/en-gb/windows/win32/api/wincodec/ne-wincodec-wicbitmapchaintype)
+- WICGainMapProperties
+- WICJpegXLAnimProperties
+- WICJpegXLAnimFrameProperties
+
+One of them gets a page. Can I have some more documentation, Microsoft?
