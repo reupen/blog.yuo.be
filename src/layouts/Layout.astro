@@ -1,15 +1,20 @@
 ---
-import { getImage } from "astro:assets"
+import mime from "mime"
 
 import { ThemeSelector } from "@/components/client"
-import type { Post } from "@/lib/server"
 
 import "./font-awesome.scss"
 import "./Layout.pcss"
 
 export interface Props {
   description?: string
-  image?: Post["data"]["image"]
+  hasOgCardImage?: boolean
+  image?: {
+    url: URL
+    alt?: string
+    width: number
+    height: number
+  }
   ogPublishedTime?: Date
   ogType?: string
   postReturnUrl?: string
@@ -33,18 +38,6 @@ const {
 
 const computedTitle =
   title && title !== siteTitle ? `${title} – ${siteTitle}` : siteTitle
-
-const resizedImage = image
-  ? await getImage({
-      src: image.src,
-      width: 1920,
-      format: "jpg",
-      quality: 95,
-    })
-  : null
-
-const resizedWidth = resizedImage?.attributes.width
-const resizedHeight = resizedImage?.attributes.height
 ---
 
 <html class="auto" lang="en" {...rest}>
@@ -77,26 +70,22 @@ const resizedHeight = resizedImage?.attributes.height
       )
     }
     {
-      image && resizedImage && (
+      image && (
         <>
+          <meta property="og:image" content={image.url} />
           <meta
-            property="og:image"
-            content={new URL(resizedImage.src, Astro.site)}
+            property="og:image:type"
+            content={mime.getType(image.url.pathname)}
           />
-          <meta property="og:image:type" content="image/jpeg" />
-          {resizedWidth && (
-            <meta property="og:image:width" content={resizedWidth} />
-          )}
-          {resizedHeight && (
-            <meta property="og:image:height" content={resizedHeight} />
-          )}
-          <meta property="og:image:alt" content={image.alt} />
+          <meta property="og:image:width" content={image.width.toFixed()} />
+          <meta property="og:image:height" content={image.height.toFixed()} />
+          <meta property="og:image:alt" content={image?.alt ?? title} />
         </>
       )
     }
     <meta
       name="twitter:card"
-      content={resizedImage ? "summary_large_image" : "summary"}
+      content={image ? "summary_large_image" : "summary"}
     />
     <meta name="twitter:creator" content={siteAuthor} />
     <meta name="twitter:title" content={computedTitle} />

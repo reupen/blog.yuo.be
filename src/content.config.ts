@@ -41,16 +41,17 @@ const posts = defineCollection({
         ({
           comment_id: commentId,
           excerpt,
-          is_auto_excerpt,
+          is_auto_excerpt: isAutoExcerpt,
           is_draft: isDraft,
           is_imported: _,
           ...data
         }) => ({
           ...data,
           commentId,
+          isAutoExcerpt,
           isDraft,
           excerpt:
-            is_auto_excerpt && excerpt.length > 220
+            isAutoExcerpt && excerpt.length > 220
               ? excerpt.substring(0, excerpt.lastIndexOf(" ", 160)) + "…"
               : excerpt,
         }),

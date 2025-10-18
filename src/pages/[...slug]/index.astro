@@ -13,6 +13,10 @@ import { getCommentCounts } from "@/lib"
 import { getPosts } from "@/lib/server"
 
 import "./_comentario.pcss"
+import {
+  CARD_IMAGE_HEIGHT_PX,
+  CARD_IMAGE_WIDTH_PX,
+} from "@/pages/[...slug]/card.[ext].ts"
 
 export async function getStaticPaths() {
   const posts = await getPosts()
@@ -75,7 +79,15 @@ const readingTime = Math.max(
 
 <Layout
   description={post.data.description || post.data.excerpt}
-  image={post.data.image}
+  image={{
+    url: new URL(
+      `${Astro.url.pathname}card.${post.data.image ? "jpg" : "png"}`,
+      Astro.site,
+    ),
+    alt: post.data.image?.alt,
+    width: CARD_IMAGE_WIDTH_PX,
+    height: CARD_IMAGE_HEIGHT_PX,
+  }}
   ogPublishedTime={post.data.date}
   ogType="article"
   postReturnUrl={`${homePagePath}#${post.id}`}

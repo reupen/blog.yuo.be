@@ -42,10 +42,12 @@
     "astro": "^5.13.2",
     "downshift": "^9.0.9",
     "ky": "^1.8.0",
+    "mime": "^4.1.0",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-merge-refs": "^2.1.1",
+    "satori": "^0.18.3",
     "swr": "^2.3.3",
     "typescript": "^5.9.3"
   },

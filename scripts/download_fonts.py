@@ -14,6 +14,12 @@ URLS = [
     "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSerif/googlefonts/variable-ttf/NotoSerif%5Bwdth,wght%5D.ttf",
     "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSerif/googlefonts/variable-ttf/NotoSerif-Italic%5Bwdth,wght%5D.ttf",
 ]
+DOWNLOAD_ONLY_URLS = [
+    "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-Regular.ttf",
+    "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-Medium.ttf",
+    "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-SemiBold.ttf",
+    "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-Bold.ttf",
+]
 LICENCE_URL = (
     "https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/LICENSE"
 )
@@ -21,6 +27,14 @@ LICENCE_URL = (
 
 def main():
     fonts_path = ROOT_PATH / "src/layouts/fonts"
+
+    for url in DOWNLOAD_ONLY_URLS:
+        _, quoted_basename = urlparse(url).path.rsplit("/", maxsplit=1)
+        basename = unquote(quoted_basename)
+
+        print(f"Downloading: {url}")
+        response = httpx.get(url, follow_redirects=True)
+        (fonts_path / basename).write_bytes(response.content)
 
     for url in URLS:
         _, quoted_basename = urlparse(url).path.rsplit("/", maxsplit=1)
