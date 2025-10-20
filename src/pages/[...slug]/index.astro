@@ -91,6 +91,22 @@ const readingTime = Math.max(
   ogPublishedTime={post.data.date}
   ogType="article"
   postReturnUrl={`${homePagePath}#${post.id}`}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    image:
+      post.data.image &&
+      new URL(post.data.image.src.src, Astro.site).toString(),
+    datePublished: post.data.date.toISOString(),
+    author: [
+      {
+        "@type": "Person",
+        name: "Reupen Shah",
+        url: "https://reupen.uk",
+      },
+    ],
+  }}
   title={post.data.title}
   width={post.data.width}
 >
