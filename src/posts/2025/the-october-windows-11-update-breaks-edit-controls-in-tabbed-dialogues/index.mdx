@@ -1,0 +1,68 @@
+---
+title:
+  "The October Windows 11 update breaks Win32 edit controls in tabbed dialogues"
+date: 2025-10-21
+tags:
+  - windows
+excerpt: |-
+  It’s okay, it came with AI stuff too.
+---
+
+import foobar2000_preferences_mp4 from "./foobar2000-preferences.mp4"
+
+The
+[October 2025 cumulative update for Windows 11 24H2 and 25H2 (KB5066835)](https://support.microsoft.com/en-gb/help/5066835)
+came with an unfortunate bug for some Win32 apps: it makes multiline edit
+controls unusable in tabbed dialogue[^1] boxes that make proper use of
+[theming](https://learn.microsoft.com/en-gb/windows/win32/controls/visual-styles-overview).
+
+More specifically, the bug happens when using
+[`EnableThemeDialogTexture`](https://learn.microsoft.com/en-gb/windows/win32/api/uxtheme/nf-uxtheme-enablethemedialogtexture)
+with the `ETDT_USETABTEXTURE` flag on the parent of the edit control, as often
+used in tabbed dialogue boxes in Win32 apps. (In such a scenario, the contents
+of the tab is an embedded child dialogue, and that is the one that is the one
+that gets the special background using `EnableThemeDialogTexture` to match the
+tab control itself.)
+
+Here’s a video of the bug in action in the Preferences window of the
+[foobar2000 audio player](https://www.foobar2000.org)[^2]:
+
+<figure>
+  <video width="1234" controls loop muted playsInline>
+    <source src={foobar2000_preferences_mp4} type="video/mp4" />
+  </video>
+  <figcaption>Situation normal?</figcaption>
+</figure>
+
+I also created a
+[minimal standalone reproduction](https://github.com/reupen/kb5066835-kb5065789-edit-control-repro)
+to demonstrate the problem.
+
+This is functionality that had been working fine for decades (since Windows XP,
+to be precise). The problem appears to be that the edit control isn’t bothering
+to draw a background, and so existing text is not cleared when new characters
+are typed.
+
+While normal Windows installations would have received the bug with the October
+cumulative update, the bug showed up before that in the
+[KB5065789 preview update](https://support.microsoft.com/en-gb/help/5065789)
+released at the end of September. That update does contain a few entries under
+the heading ‘\[Input\]’, though none of them sound like they should be related
+to the bug. (I’m more inclined to believe this was broken while Microsoft was
+working on Win32 dark mode, as they have seem to have been recently.)
+
+The bug can be worked around in an affected application using the
+[`WM_CTLCOLOREDIT` window message](https://learn.microsoft.com/en-gb/windows/win32/controls/wm-ctlcoloredit),
+and it has already
+[been worked around in a preview release of foobar2000](https://www.foobar2000.org/changelog-2.26-preview#2025-10-17).
+
+I have not bothered to report this to Microsoft. The only avenue to report bugs
+is their Feedback Hub. Putting the fact that it’s a disorganised mess aside, I’m
+yet to experience anything positive from it (the opposite, in fact, when they do
+things like replace the title of your report with their response).
+
+[^1]:
+    The UK versions of Windows, Chrome and Firefox all spell it dialogue, so
+    I’ll stick with that spelling, thanks.
+
+[^2]: In foobar2000, the bug did not occur in dark mode.
