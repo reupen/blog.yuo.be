@@ -1,0 +1,23 @@
+---
+
+---
+
+<aside>
+  <slot />
+</aside>
+
+<style>
+  aside {
+    border: 1px solid var(--text-colour-muted);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+
+    :global(h2) {
+      margin-top: 0;
+    }
+
+    :global(p) {
+      margin: 0;
+    }
+  }
+</style>

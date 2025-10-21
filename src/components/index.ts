@@ -1,3 +1,4 @@
+import Aside from "./Aside.astro"
 import CaptionedImage from "./CaptionedImage.astro"
 import ImageGrid from "./ImageGrid.astro"
 import Pagination from "./Pagination.astro"
@@ -6,6 +7,7 @@ import { SocialCard } from "./SocialCard"
 import { SocialCardImageOverlay } from "./SocialCardImageOverlay.tsx"
 
 export {
+  Aside,
   ImageGrid,
   Pagination,
   CaptionedImage,
