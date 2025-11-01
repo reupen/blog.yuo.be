@@ -61,7 +61,7 @@
     "@types/node": "^22.13.16",
     "@typescript-eslint/parser": "^8.45.0",
     "astro-compress": "^2.3.8",
-    "cssnano": "^7.1.1",
+    "cssnano": "^7.1.2",
     "date-fns": "^4.1.0",
     "eslint": "^9.39.0",
     "eslint-plugin-astro": "^1.4.0",
