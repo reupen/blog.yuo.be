@@ -247,7 +247,7 @@ has little or no effect on white text on a black background). The six options
 set the value to `0`, `50`, `100`, `200`, `300` and `400` respectively.
 (DirectWrite again divides the registry value by 100 here.)
 
-The second value set is `TextContrast`. The
+The second value set is `TextContrastLevel`. The
 [WPF documentation says](https://learn.microsoft.com/en-gb/dotnet/desktop/wpf/advanced/cleartype-registry-settings#text-contrast-level)
 that the ‘text contrast level allows you to adjust the rendering of text based
 on the stem widths of glyphs’. The six options set this value to `0`, `0`, `1`,
@@ -295,7 +295,7 @@ After all monitors have been tuned, you’ll be shown this final step. Only when
 
 ## The tuner sets another registry value
 
-The tuner also sets the per-monitor `Gamma` values under
+The tuner also sets the per-monitor `GammaLevel` values under
 `HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\<display name>` and
 `HKEY_LOCAL_MACHINE\Software\Microsoft\Avalon.Graphics\<display name>`. It seems
 to automatically work out the number to use from the environment and display
@@ -340,7 +340,8 @@ parameters correctly and just use the values for the primary display.)
 
 There are also limited notifications when the ClearType Text Tuner changes
 settings, so you may need to close and reopen some apps after clicking the final
-‘Finish’ button to see the effect.
+‘Finish’ button to see the effect. (In the case of File Explorer, you’ll
+probably need to restart the process using Task Manager.)
 
 Lastly,
 [Microsoft recommends greyscale anti-aliasing for their newer app technologies](https://learn.microsoft.com/en-gb/windows/win32/directwrite/introducing-directwrite#improved-text-rendering-with-cleartype),
