@@ -1,0 +1,36 @@
+---
+import config from "astro.config.mjs"
+import type { ComponentProps } from "astro/types"
+import { Code } from "astro:components"
+
+type Props = ComponentProps<typeof Code> & {
+  caption?: string
+}
+
+const { caption, ...rest } = Astro.props
+---
+
+<figure>
+  <figcaption>{caption}</figcaption>
+  <Code {...config.markdown?.shikiConfig} {...rest} />
+</figure>
+
+<style>
+  figure {
+    display: grid;
+
+    figcaption {
+      padding: 0.5rem 0.6rem;
+      background: var(--code-caption-background);
+      border-radius: 5px 5px 0 0;
+      color: var(--code-caption-text-colour);
+      font-family: var(--monospace-font-family);
+    }
+
+    pre {
+      margin: 0;
+      padding-top: 0.5rem;
+      border-radius: 0 0 5px 5px;
+    }
+  }
+</style>
