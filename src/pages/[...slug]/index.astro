@@ -124,6 +124,10 @@ const readingTime = Math.max(
   <div class="section">
     <div class="container content">
       <Content />
+      <a class="coffee-link" href="https://buymeacoffee.com/reupen">
+        <i aria-hidden="true" class="fa-solid fa-mug-hot"></i>
+        Buy me a coffee
+      </a>
       <Comments
         client:load
         initialCommentCounts={commentCounts}
@@ -183,6 +187,16 @@ const readingTime = Math.max(
 
   .bullet {
     margin: 0 0.2rem;
+  }
+
+  .coffee-link {
+    display: inline-block;
+    padding-right: 0.75rem;
+    font-family: var(--sans-serif-font-family);
+
+    &:not(:hover) {
+      text-decoration-line: none;
+    }
   }
 
   .prev-next-links {
