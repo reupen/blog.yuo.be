@@ -21,7 +21,7 @@ export interface Props {
   postReturnUrl?: string
   structuredData?: WithContext<BlogPosting>
   title?: string
-  width?: "wide" | "wider"
+  width?: `wide-${"1" | "2" | "3" | "4"}`
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)

@@ -35,7 +35,7 @@ const posts = defineCollection({
         is_draft: z.boolean().default(false),
         is_imported: z.boolean().optional(),
         title: z.string(),
-        width: z.enum(["wide", "wider"]).optional(),
+        width: z.enum(["wide-1", "wide-2", "wide-3", "wide-4"]).optional(),
       })
       .transform(
         ({
