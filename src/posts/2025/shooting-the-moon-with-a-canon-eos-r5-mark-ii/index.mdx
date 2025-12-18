@@ -24,6 +24,7 @@ import crop_frame_processed_webp from "./crop-frame-processed.webp"
 import crop_frame_unprocessed_webp from "./crop-frame-unprocessed.webp"
 import crop_sharpened_webp from "./crop-sharpened.webp"
 import crop_frame_stacked_webp from "./crop-stacked.webp"
+import dec_crop_avif from "./dec-crop.avif"
 import nov_crop_avif from "./nov-crop.avif"
 
 [I sometimes like to take photos of the moon.](/2023/08/31/a-super-blue-moon/)
@@ -216,7 +217,7 @@ rid of almost all colour fringing that the misalignment was causing.
 Additionally, I did a whole-pixel shift RGB alignment of the input images. I did
 this as there were occasions where it reduced noise in a few odd spots in the
 stacked image. (However, for the most part, that extra step made little
-difference.)
+difference – there may be some other explanation for the effect I saw.)
 
 #### Sharpening
 
@@ -249,7 +250,8 @@ The crops show:
 3. The stacked image.
 4. The sharpened version of the stacked image.
 
-All have saturation turned up, which makes any noise more noticeable.
+All have saturation turned up, which makes chroma (colour) noise much more
+noticeable.
 
 <ImageTabs
   client:visible
@@ -294,6 +296,25 @@ April 2025, and brought out a touch of colour in that one too:
   alt="A photo of a waxing gibbous moon on 8 April 2025."
   caption="Not quite as grey now"
 />
+
+### What about the full moon?
+
+Okay, I did take photos of the supermoon on 4 December 2025. Here’s the stacked
+version:
+
+<CaptionedImage
+  src={dec_crop_avif}
+  alt="A photo of the supermoon on 4 December 2025."
+  caption="It doesn’t look so cold to me"
+/>
+
+This one was processed a bit differently – I stacked two consecutive sets of
+photos I took to further reduce noise in the stacked version, and the sharpening
+has been pushed further.
+
+As I hinted at earlier, the even lighting during a full moon makes craters and
+other surface details look flat. It does mean that the colours come out more
+consistently, though.
 
 ### Wrapping up
 
