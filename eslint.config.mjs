@@ -59,16 +59,15 @@ export default defineConfig(
           internalPattern: ["^@/"],
           groups: [
             ["type", "builtin", "external"],
-            ["internal-type", "internal"],
+            ["type-internal", "internal"],
             [
-              "parent-type",
-              "sibling-type",
-              "index-type",
+              "type-parent",
+              "type-sibling",
+              "type-index",
               "parent",
               "sibling",
               "index",
             ],
-            "object",
             "unknown",
           ],
           type: "natural",
@@ -77,10 +76,13 @@ export default defineConfig(
       "perfectionist/sort-jsx-props": [
         "error",
         {
-          customGroups: {
-            prioritised: ["^(client|is):", "^(id|name|property|src)$"],
-          },
-          groups: ["prioritised", "unknown", "shorthand"],
+          customGroups: [
+            {
+              groupName: "prioritised",
+              elementNamePattern: ["^(client|is):", "^(id|name|property|src)$"],
+            },
+          ],
+          groups: ["prioritised", "unknown", "shorthand-prop"],
         },
       ],
     },
