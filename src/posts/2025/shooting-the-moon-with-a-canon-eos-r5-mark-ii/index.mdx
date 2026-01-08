@@ -133,10 +133,19 @@ II)[^2].
 #### Stacking
 
 Here is a video made up of 200×200px crops of one of the set of photos taken,
-scaled to 400×400px:
+scaled to 400×400px in-browser:
 
 <figure>
-  <video width="400" autoPlay controls loop muted playsInline>
+  <video
+    height="200"
+    style={{ width: "400px", maxWidth: "100%" }}
+    width="200"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
     <source src={crater_mp4} type="video/mp4" />
   </video>
   <figcaption>Naturally, the moon moves between shots</figcaption>
@@ -183,9 +192,9 @@ Lightroom, the red, green and blue channels of the photos became misaligned. The
 same was true when using LibRaw to process the RAW image.
 
 I processed one of the photos using LibRaw and DHT demosaicing and took a
-200×200px crop. Here’s that crop scaled to 200% with nearest neighbour
-interpolation, along with greyscale versions of the red, green and blue
-channels:
+200×200px crop. Here’s that crop enlarged in-browser with the
+[`pixelated` algorithm](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/image-rendering#pixelated),
+along with greyscale versions of the red, green and blue channels from the crop:
 
 <ImageTabs
   client:visible
@@ -212,6 +221,8 @@ channels:
     },
   ]}
   stateId="moon-channels"
+  enlarge
+  pixelate
 />
 
 The green channel is shifted very slightly left and up from the red channel, and
@@ -257,8 +268,8 @@ and avoid that here.
 
 #### Visualising the steps so far
 
-Here are some 400px by 225px crops, scaled to 200%, to visualise the main steps
-so far.
+Here are some 400px by 225px crops, scaled in-browser, to visualise the main
+steps so far.
 
 The crops show:
 
@@ -295,6 +306,7 @@ The crops show:
     },
   ]}
   stateId="moon-steps"
+  stretch
 />
 
 #### Finishing touches

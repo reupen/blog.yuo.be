@@ -6,20 +6,35 @@ import "./ImageTabs.pcss"
 import { useState, useRef, useEffect, type KeyboardEvent, useId } from "react"
 
 interface ImageTabsProps {
+  enlarge?: boolean
   images: {
     src: ImageMetadata
     alt: string
     label: string
   }[]
+  pixelate?: boolean
   stateId: string
+  stretch?: boolean
 }
 
-export function ImageTabs({ images, stateId }: ImageTabsProps) {
+export function ImageTabs({
+  images,
+  stateId,
+  enlarge = false,
+  pixelate = false,
+  stretch = false,
+}: ImageTabsProps) {
   const id = useId()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHydrated, setIsHydrated] = useState(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>(
     new Array(images.length).fill(null),
+  )
+
+  const imgClassName = clsx(
+    enlarge && "image-tabs-image-enlarge",
+    pixelate && "image-tabs-image-pixelate",
+    stretch && "image-tabs-image-stretch",
   )
 
   useEffect(() => {
@@ -75,7 +90,11 @@ export function ImageTabs({ images, stateId }: ImageTabsProps) {
           <details key={image.src.src}>
             <summary>{image.label}</summary>
             <a href={image.src.src}>
-              <img src={image.src.src} alt={image.alt} />
+              <img
+                src={image.src.src}
+                alt={image.alt}
+                className={imgClassName}
+              />
             </a>
           </details>
         ))}
@@ -95,7 +114,11 @@ export function ImageTabs({ images, stateId }: ImageTabsProps) {
             role="tabpanel"
           >
             <a href={image.src.src}>
-              <img src={image.src.src} alt={image.alt} />
+              <img
+                src={image.src.src}
+                alt={image.alt}
+                className={imgClassName}
+              />
             </a>
           </div>
         ))}
