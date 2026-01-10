@@ -19,7 +19,7 @@ export const SocialCardImageOverlay = ({ title }: Props) => (
         display: "flex",
         flexDirection: "column",
         height: "630px",
-        padding: "3% 3%",
+        padding: "3.2% 3.6%",
         width: "100%",
       }}
     >

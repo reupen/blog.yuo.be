@@ -18,8 +18,8 @@ export const SocialCard = ({ strapline, title }: Props) => (
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "520px",
-        padding: "2% 5%",
+        height: "505px",
+        padding: "2.75% 6%",
         width: "100%",
       }}
     >
@@ -53,11 +53,11 @@ export const SocialCard = ({ strapline, title }: Props) => (
         display: "flex",
         background: "#2259ae",
         color: "white",
-        height: "110px",
+        height: "125px",
         fontSize: "40px",
         fontWeight: "600",
         alignItems: "center",
-        padding: "0 5%",
+        padding: "0 6%",
       }}
     >
       blog.yuo.be
