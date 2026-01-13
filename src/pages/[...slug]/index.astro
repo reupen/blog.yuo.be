@@ -33,6 +33,7 @@ export async function getStaticPaths() {
     const chunkCommentCounts = await getCommentCounts(
       Astro.site.host,
       pathsChunk,
+      Astro.site.origin,
     )
     commentCounts = { ...commentCounts, ...chunkCommentCounts }
   }
