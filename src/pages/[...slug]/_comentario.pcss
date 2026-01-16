@@ -1,6 +1,5 @@
 comentario-comments[theme="custom"] {
   color-scheme: inherit;
-  font-family: var(--sans-serif-font-family);
   font-size: 14px;
 
   --cmntr-bg: light-dark(#fff, #000);
@@ -38,6 +37,10 @@ comentario-comments[theme="custom"] {
   --cmntr-dlg-border: light-dark(#333, #ddd);
   --cmntr-pending-border: light-dark(#ffe0b1, #8c9500);
   --cmntr-table-border: light-dark(#333, #ddd);
+
+  .comentario-root-font * {
+    font-family: var(--sans-serif-font-family);
+  }
 
   .comentario-root {
     margin-bottom: 2.5rem;
