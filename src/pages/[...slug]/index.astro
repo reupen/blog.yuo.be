@@ -8,11 +8,12 @@ import { convert as htmlToText } from "html-to-text"
 import { chunk } from "lodash-es"
 
 import { Comments } from "@/components/client"
+import { ShareMenu } from "@/components/client/ShareMenu"
 import Layout from "@/layouts/Layout.astro"
 import { getCommentCounts } from "@/lib"
-import { getPosts } from "@/lib/server"
 
 import "./_comentario.pcss"
+import { getPosts } from "@/lib/server"
 import {
   CARD_IMAGE_HEIGHT_PX,
   CARD_IMAGE_WIDTH_PX,
@@ -126,9 +127,14 @@ const readingTime = Math.max(
     <div class="container content">
       <Content />
       <a class="coffee-link" href="https://buymeacoffee.com/reupen">
-        <i aria-hidden="true" class="fa-solid fa-mug-hot"></i>
-        Buy me a coffee
+        <i aria-hidden="true" class="fa-solid fa-mug-hot"></i>&#x2004;Buy me a
+        coffee
       </a>
+      <ShareMenu
+        client:load
+        title={post.data.title}
+        url={Astro.url.toString()}
+      />
       <Comments
         client:load
         initialCommentCounts={commentCounts}

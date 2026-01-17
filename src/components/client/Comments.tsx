@@ -27,7 +27,7 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
             setIsCommentsVisible(true)
           }}
         >
-          <i aria-hidden="true" className="fa-solid fa-comment"></i>{" "}
+          <i aria-hidden="true" className="fa-solid fa-comment"></i>&#x2004;
           {!commentsLoaded && <>Show comments</>}
           {commentsLoaded && commentCount === 0 && <>Post a comment</>}
           {commentCount > 0 && (
