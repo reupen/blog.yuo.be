@@ -41,9 +41,9 @@ recent models, for some models Canon will not release updated firmware,
 [stating in a support article dated 1 September 2015](http://www.canon-europe.com/support/consumer_products/products/fax__multifunctionals/inkjet/pixma_mx_series/pixma_mx895.aspx?type=faq&search=1&gsa_support_product=PIXMA%20MX895&q=cloud&searchurl=/support/consumer_products/content/faq/?itemid=tcm:13-1293425):
 
 > Google has recently announced future planned changes to the server
-> authentication method of their Google Cloud Print™ (GCP) service. An impact
-> of these changes will be that specific Canon printers will no longer be able
-> to support Google Cloud Print™ (GCP) because the printer firmware cannot
+> authentication method of their Google Cloud Print™ (GCP) service. An impact of
+> these changes will be that specific Canon printers will no longer be able to
+> support Google Cloud Print™ (GCP) because the printer firmware cannot
 > accommodate these planned changes.
 
 _Recently_ is certainly a stretch. I suspect what they mean is that Google
