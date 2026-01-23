@@ -19,6 +19,9 @@ export async function getStaticPaths({
 const { page } = Astro.props
 const description =
   "My personal blog, full of random musings about computing, programming, tech, photography and more"
+const months = Map.groupBy(page.data, (post) =>
+  format(post.data.date, "MMMM yyyy"),
+)
 ---
 
 <Layout
@@ -41,19 +44,19 @@ const description =
   <div class="section">
     <div class="container">
       {
-        page.data.map((post, index) => (
+        months.entries().map(([month, posts], index) => (
           <>
-            {(post.isNewMonth || index === 0) && (
-              <h2>
-                {format(post.data.date, "MMMM yyyy")}
-                {index === 0 && !post.isNewMonth && " (continued)"}
-              </h2>
-            )}
+            <h2>
+              {month}
+              {index === 0 && !posts[0].isNewMonth && " (continued)"}
+            </h2>
             <ol>
-              <li id={post.id}>
-                <a href={`/${post.id}/`}>{post.data.title}</a>
-                <p>{post.data.excerpt}</p>
-              </li>
+              {posts.map((post) => (
+                <li id={post.id}>
+                  <a href={`/${post.id}/`}>{post.data.title}</a>
+                  <p>{post.data.excerpt}</p>
+                </li>
+              ))}
             </ol>
           </>
         ))
@@ -68,6 +71,10 @@ const description =
 </Layout>
 
 <style>
+  h2 {
+    margin-bottom: 0.8rem;
+  }
+
   ol {
     list-style: none;
     padding: 0;
@@ -75,7 +82,7 @@ const description =
 
   li {
     padding-left: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     line-height: 1.5;
     font-family: var(--sans-serif-font-family);
 
