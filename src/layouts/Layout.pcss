@@ -254,6 +254,10 @@ strong {
   color: var(--emphasis-text-colour);
 }
 
+strong {
+  font-weight: 650;
+}
+
 li {
   margin: 0.5rem 0;
   padding-left: 0.3rem;
@@ -360,7 +364,8 @@ audio {
   visibility: hidden;
 }
 
-.visually-hidden {
+.visually-hidden,
+.sr-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
@@ -385,7 +390,7 @@ audio {
 
 .footnotes {
   font-size: 14px;
-  margin: 1.5rem 0;
+  margin: 1.75rem 0;
 
   p {
     margin: 1rem 0;
