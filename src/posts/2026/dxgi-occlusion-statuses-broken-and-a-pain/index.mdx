@@ -1,0 +1,213 @@
+---
+title: "DXGI occlusion statuses: broken and a pain"
+date: 2026-01-25
+tags:
+  - programming
+excerpt: |-
+  DXGI stands for DirectX Graphics Infrastructure, if you were wondering.
+---
+
+If you’re programming on Windows and you use
+[Direct2D](https://en.wikipedia.org/wiki/Direct2D), you’re generally also,
+either directly or indirectly, using
+[DirectX Graphics Infrastructure (DXGI)](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi).
+And when you’re rendering to a Win32 window, DXGI has a concept called
+occlusion.
+
+The idea is that if your window is not visible (‘occluded’), rendering can be
+suspended to save resources. It sounds good on paper. In reality, though, it has
+various bugs and quirks that make the whole thing a pain when trying to use
+Direct2D in a typical Win32 desktop app.
+
+Before I get into that, let’s step back slightly. If you’re rendering directly
+to a Win32 window (i.e. an `HWND`), you’re probably either using
+[`ID2D1HwndRenderTarget`](<https://learn.microsoft.com/en-gb/windows/win32/api/d2d1/nf-d2d1-id2d1factory-createhwndrendertarget(constd2d1_render_target_properties__constd2d1_hwnd_render_target_properties__id2d1hwndrendertarget)>),
+or creating a DXGI swap chain using
+[`IDXGIFactory2::CreateSwapChainForHwnd()`](https://learn.microsoft.com/en-gb/windows/win32/api/dxgi1_2/nf-dxgi1_2-idxgifactory2-createswapchainforhwnd)
+and
+[using that in combination with a Direct2D device](https://learn.microsoft.com/en-gb/windows/win32/direct2d/devices-and-device-contexts).
+
+I currently make use of both methods in different places. In those places, I’m
+rendering to a child window and I’m not using the
+[DXGI flip model](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/dxgi-flip-model).
+Additionally, the windows in question update infrequently based on events that
+could be minutes apart. What I describe in the rest of this post may not apply
+or be relevant in other situations.
+
+I’ll first focus on the scenario when the app is using its own swap chain with
+Direct2D. In this case, the app will be calling
+[`IDXGISwapChain::Present()`](https://learn.microsoft.com/en-gb/windows/win32/api/dxgi/nf-dxgi-idxgiswapchain-present)
+(or the newer
+[`IDXGISwapChain1::Present1()`](https://learn.microsoft.com/en-gb/windows/win32/api/dxgi1_2/nf-dxgi1_2-idxgiswapchain1-present1))
+after calling
+[`ID2D1RenderTarget::EndDraw()`](https://learn.microsoft.com/en-gb/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw).
+One of the possible return values of those swap chain methods is
+`DXGI_STATUS_OCCLUDED`. `DXGI_STATUS_OCCLUDED` has
+[this description in the docs](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/dxgi-status):
+
+> The window content is not visible. When receiving this status, an application
+> can stop rendering and use DXGI_PRESENT_TEST to determine when to resume
+> rendering. You will not receive DXGI_STATUS_OCCLUDED if you're using a flip
+> model swap chain.
+
+The
+[DXGI Overview page](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi#care-and-feeding-of-the-swap-chain)
+also has this to say about occlusion:
+
+> [**IDXGISwapChain1::Present1**](https://learn.microsoft.com/en-gb/windows/win32/api/DXGI1_2/nf-dxgi1_2-idxgiswapchain1-present1)
+> will inform you if your output window is entirely occluded via
+> **DXGI_STATUS_OCCLUDED**. When this occurs, we recommended [sic] that your
+> application go into standby mode (by calling **IDXGISwapChain1::Present1**
+> with **DXGI_PRESENT_TEST**) since resources used to render the frame are
+> wasted. Using **DXGI_PRESENT_TEST** will prevent any data from being presented
+> while still performing the occlusion check. Once **IDXGISwapChain1::Present1**
+> returns S_OK, you should exit standby mode; do not use the return code to
+> switch to standby mode as doing so can leave the swap chain unable to
+> relinquish full-screen mode.
+
+And, there’s a bit more info at
+[Waiting on an event when rendering is unnecessary](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/waiting-when-occluded).
+
+Another thing that I will mention at this point is that, on semi-recent versions
+of Windows, there are few occasions where your window is considered
+occluded[^1]. I’ve seen it happen when:
+
+- a UAC prompt is active
+- the display is turned off (by Windows, or manually)
+- the Ctrl+Alt+Del screen is active
+- another user has been switched to
+- a screen saver is active (and not just being previewed)
+
+Back to the official docs. They aren’t very explicit about what actually happens
+to the presentation operation when `IDXGISwapChain::Present()` or
+`IDXGISwapChain1::Present1()` return `DXGI_STATUS_OCCLUDED`. Note that
+`DXGI_STATUS_OCCLUDED` is a status code, not an error code, and any status code
+is still considered successful (and easily overlooked when using the
+[`SUCCEEDED()`](https://learn.microsoft.com/en-gb/windows/win32/api/winerror/nf-winerror-succeeded)
+macro). Does that mean that `DXGI_STATUS_OCCLUDED` is purely informational?
+
+My experience is that it’s not. As a reminder, I’m rendering to a child window
+in a Win32 desktop app and I’m not using the flip model. There, the behaviour I
+see is that if `IDXGISwapChain::Present()` or `IDXGISwapChain1::Present1()`
+returns `DXGI_STATUS_OCCLUDED`, the window is not updated and the old content
+remains.
+
+Okay,
+[`IDXGIFactory2::RegisterOcclusionStatusWindow()`](https://learn.microsoft.com/en-gb/windows/win32/api/dxgi1_2/nf-dxgi1_2-idxgifactory2-registerocclusionstatuswindow)
+exists, so maybe that’s not so bad. That method causes a message that you
+specify to be posted[^2] to your window whenever its occlusion status changes.
+So, you should be able to pause rendering when the window becomes occluded and
+resume rendering when it’s no longer occluded, right?
+
+Well, it’s not quite that simple. The message you receive could mean the window
+has become occluded, or it was occluded and no longer is[^3]. The docs quoted
+above say that you should call `IDXGISwapChain1::Present1()` with the
+`DXGI_PRESENT_TEST` flag and check the return value to find out if the window is
+occluded.
+
+That approach indeed works fine for some types of occlusion, such as occlusion
+due to a UAC prompt. But, when Windows turns the display off due to inactivity,
+things go awry. When the display is off, non-test `IDXGISwapChain1::Present1()`
+calls (i.e. without the `DXGI_PRESENT_TEST` flag) will return
+`DXGI_STATUS_OCCLUDED` (if the flip model isn’t being used). On the other hand,
+test `IDXGISwapChain1::Present1()` calls (i.e. with the `DXGI_PRESENT_TEST`
+flag) return `S_OK`[^4]. So, it turns out that you can’t rely on the result of a
+test presentation to tell you if a window is occluded.
+
+The next problem is that, on the odd occasion, Windows will send the occlusion
+status change message too early when the display comes back on after touching
+the mouse or keyboard. When that happens, non-test `IDXGISwapChain1::Present1()`
+calls will still be returning `DXGI_STATUS_OCCLUDED`. But no further occlusion
+status messages are received. And so, when this timing problem happens, your
+window will be stuck showing old content until the next update. (I ended up
+working around this using
+[power events](https://learn.microsoft.com/en-gb/windows/win32/power/registering-for-power-events)
+and timers. Which is all very messy and unpleasant.)
+
+(Another annoyance is that Windows tends to send duplicate messages when the
+occlusion status changes. Though that is easily manageable, at least.)
+
+Now, let’s go back to the scenario where `ID2D1HwndRenderTarget` is being used.
+When using that, you don’t directly interact with the swap chain as Direct2D
+handles that for you. (And if you’ve only used `ID2D1HwndRenderTarget`, you may
+not be aware of this whole occlusion thing, as the
+[Direct2D documentation](https://learn.microsoft.com/en-gb/windows/win32/direct2d/direct2d-portal)
+doesn’t deal with the topic at all.)
+
+There is some occlusion functionality in `ID2D1HwndRenderTarget` though – it
+provides a
+[`ID2D1HwndRenderTarget::CheckWindowState()`](https://learn.microsoft.com/en-gb/windows/win32/api/d2d1/nf-d2d1-id2d1hwndrendertarget-checkwindowstate)
+method to check the current occlusion status. That method has this note:
+
+> If the window was occluded the last time that
+> [EndDraw](https://learn.microsoft.com/en-gb/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+> was called, the next time that the render target calls **CheckWindowState**,
+> it will return
+> [D2D1_WINDOW_STATE_OCCLUDED](https://learn.microsoft.com/en-gb/windows/win32/api/d2d1/ne-d2d1-d2d1_window_state)
+> regardless of the current window state. If you want to use
+> **CheckWindowState** to determine the current window state, you should call
+> **CheckWindowState** after every **EndDraw** call and ignore its return value.
+> This call will ensure that your next call to **CheckWindowState** state [sic]
+> will return the actual window state.
+
+As I understand it, `ID2D1HwndRenderTarget` caches the occlusion status when
+`ID2D1RenderTarget::EndDraw()` is called (which would call
+`IDXGISwapChain::Present()` internally). The next call to
+`ID2D1HwndRenderTarget::CheckWindowState()` returns and clears that cached
+value. After that, and until the next successful call to
+`ID2D1RenderTarget::EndDraw()`, `ID2D1HwndRenderTarget::CheckWindowState()` will
+do a test presentation and return an occlusion status based on the result of
+that. Ignoring the fact that this is bananas, it means that, when the display is
+turned off, `ID2D1HwndRenderTarget::CheckWindowState()` will bounce between
+telling you that the window is occluded and it isn’t.
+
+The other thing to note about `ID2D1HwndRenderTarget` is that it doesn’t
+directly provide any notifications about occlusion status changes. But there’s
+nothing stopping you from using
+[`IDXGIFactory2::RegisterOcclusionStatusWindow()`](https://learn.microsoft.com/en-gb/windows/win32/api/dxgi1_2/nf-dxgi1_2-idxgifactory2-registerocclusionstatuswindow)
+directly, at least.
+
+## What about the flip model?
+
+Microsoft
+[recommends using the flip model](https://learn.microsoft.com/en-gb/windows/win32/direct3ddxgi/for-best-performance--use-dxgi-flip-model).
+The quote above from the docs about `DXGI_STATUS_OCCLUDED` also mentioned this:
+
+> You will not receive DXGI_STATUS_OCCLUDED if you're using a flip model swap
+> chain.
+
+I avoid the flip model because, for me, it causes occasional glitches when
+resizing the child window the swap chain is attached to. (Additionally,
+`ID2D1HwndRenderTarget` does not use the flip model, and you have no choice in
+the matter there.)
+
+But, in any case, the quoted text is not quite accurate. When using the flip
+model, `IDXGISwapChain::Present()` does still return `DXGI_STATUS_OCCLUDED` in
+some scenarios, such as a UAC prompt being active or being on the Ctrl+Alt+Del
+screen. It does stop returning `DXGI_STATUS_OCCLUDED` when the display is turned
+off, though. And, in the scenarios where it does return `DXGI_STATUS_OCCLUDED`,
+in my testing the window was updated anyway.
+
+It’s almost like the flip model is exactly what I need, if only that annoying
+glitch during resizing could be defeated… (The glitch is essentially that the
+contents of the parent window flash through occasionally when resizing the
+window.
+[This thread on the gamedev.net forum](https://www.gamedev.net/forums/topic/708865-dxgi-flip-model-flickering-during-live-resize/)
+describes something very similar, though I haven’t had much luck attempting a
+similar solution as described there.)
+
+[^1]:
+    My impression is that occlusion is a bit of a relic that has largely fallen
+    by the wayside. Still, it’s relevant if you aren’t using the flip model.
+
+[^2]:
+    The docs use the word ‘send’, but it looks very much like a posted message
+    to me.
+
+[^3]:
+    Additionally, the status change message is posted when
+    `IDXGIFactory2::RegisterOcclusionStatusWindow()` is called, even if there
+    hasn’t been a change of occlusion status. I assume this is to avoid race
+    conditions (though that is just a guess).
+
+[^4]: On a fully up-to-date Windows 11 installation at time of writing.
