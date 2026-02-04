@@ -1,0 +1,305 @@
+---
+title: "What’s new in Columns UI 3.2.0 and 3.3.0"
+date: 2026-02-05
+tags:
+  - foobar2000
+excerpt: |-
+  Everyone else blogs about their releases, so why shouldn’t I?
+width: wide-2
+---
+
+import { CaptionedImage } from "@/components"
+import { ImageTabs } from "@/components/client"
+
+import format_bold_playing_track_webp from "./format-bold-playing-track.webp"
+import format_symbols_nerd_font_webp from "./format-symbols-nerd-font.webp"
+import light_dark_buttons_mp4 from "./light-dark-buttons.mp4"
+import optional_group_headers_mp4 from "./optional-group-headers.mp4"
+import playlist_view_grouping_font_size_webp from "./playlist-view-grouping-font-size.webp"
+import playlist_view_spacing_after_webp from "./playlist-view-spacing-after.webp"
+import playlist_view_spacing_before_webp from "./playlist-view-spacing-before.webp"
+import playlist_view_themed_after_webp from "./playlist-view-themed-after.webp"
+import playlist_view_themed_before_webp from "./playlist-view-themed-before.webp"
+import sticky_artwork_mp4 from "./sticky-artwork.mp4"
+
+Since everyone else likes to blog about their releases, I thought I’d start
+getting in on the game.
+
+If you’re not aware, [Columns UI](https://yuo.be/columns-ui) is an alternative
+UI for the [foobar2000 audio player](https://foobar2000.org) on Windows. It’s
+written in C++, uses the Win32 API and is
+[open source on GitHub](https://github.com/reupen/columns_ui).
+
+Anyway, here’s a summary of the most notable changes in the recent Columns UI
+3.2.0 and 3.3.0 releases.
+
+## Highlights from Columns UI 3.2.0
+
+### Tweaked playlist view group spacing
+
+In the playlist view, spacing around group headers and artwork has been tweaked
+so that artwork is not too close to the preceding group header and padding is
+more consistent in general. Here’s a tabbed widget with screenshots of the old
+spacing from Columns UI 3.1.4 and the new spacing in Columns UI 3.2.0:
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: playlist_view_spacing_before_webp,
+      alt: "A screenshot of Columns UI 3.1.4 where artwork in the playlist view is very close to the preceding group header.",
+      label: "Columns UI 3.1.4",
+    },
+    {
+      src: playlist_view_spacing_after_webp,
+      alt: "A screenshot of Columns UI 3.2.0 where artwork in the playlist view is further away from the preceding group header.",
+      label: "Columns UI 3.2.0",
+    },
+  ]}
+  stateId="cui-330-playlist-view-spacing-tabs"
+/>
+
+If you don’t want the extra vertical spacing, it can be turned off by unticking
+‘Add extra vertical space to increase distance between group headers and
+artwork’ located at
+**Preferences**&nbsp;›&nbsp;**Display**&nbsp;›&nbsp;**Columns
+UI**&nbsp;›&nbsp;**Playlist view**&nbsp;›&nbsp;**Artwork**.
+
+### Optional playlist view grouping levels
+
+In the playlist view, group headers with an empty string for their title are no
+longer rendered. This means you can have, for example, disc number headers that
+show only for multi-disc albums:
+
+<figure>
+  <video
+    aria-label="A video of Columns UI showing a multi-disc album with Disc 1 and Disc 2 headings followed by single disc albums with disc headings."
+    height="1264"
+    width="2264"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={optional_group_headers_mp4} type="video/mp4" />
+  </video>
+  <figcaption>This was a long-requested feature</figcaption>
+</figure>
+
+Playlist view groups are configured using title formatting at
+**Preferences**&nbsp;›&nbsp;**Display**&nbsp;›&nbsp;**Columns
+UI**&nbsp;›&nbsp;**Playlist view**&nbsp;›&nbsp;**Grouping**. The title
+formatting script used in the above example is:
+
+```fb2k
+$ifgreater(%totaldiscs%,1,Disc %disc%,)
+```
+
+(That title formatting script requires tracks to be tagged with the `TOTALDISCS`
+and `DISC` fields.)
+
+### Sticky playlist view artwork
+
+In the playlist view, artwork can now be made sticky so that it stays in view
+when scrolling:
+
+<figure>
+  <video
+    aria-label="A video of Columns UI showing album artwork in the playlist view staying in view as you scroll vertically."
+    height="1264"
+    width="2264"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={sticky_artwork_mp4} type="video/mp4" />
+  </video>
+  <figcaption>This was surprisingly fun to implement</figcaption>
+</figure>
+
+This can be enabled at
+**Preferences**&nbsp;›&nbsp;**Display**&nbsp;›&nbsp;**Columns UI** › **Playlist
+view**&nbsp;›&nbsp;**Artwork**&nbsp;›&nbsp;**Keep artwork in view when
+scrolling**.
+
+(Naturally, this would go nicely with sticky group headers – those are
+[planned for a future version](https://github.com/reupen/columns_ui/issues/1516).)
+
+### Main-menu commands to switch between light and dark mode
+
+New main menu commands have been added to switch between dark and light mode.
+These can be assigned to keyboard shortcuts or buttons as done here:
+
+<figure>
+  <video
+    aria-label="A video of Columns UI showing dark and light mode being switched using toolbar buttons."
+    height="1264"
+    width="2264"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={light_dark_buttons_mp4} type="video/mp4" />
+  </video>
+  <figcaption>These buttons are also useful for testing</figcaption>
+</figure>
+
+The new commands are:
+
+- View&nbsp;›&nbsp;Mode&nbsp;›&nbsp;Light
+- View&nbsp;›&nbsp;Mode&nbsp;›&nbsp;Dark
+- View&nbsp;›&nbsp;Mode&nbsp;›&nbsp;Use system setting
+- View&nbsp;›&nbsp;Mode&nbsp;›&nbsp;Switch to other mode <i>(this is a hidden
+  command)</i>
+
+The icons used in the Buttons toolbar in the above screenshot are SVGs from
+[Material Symbols](https://fonts.google.com/icons) used in conjunction with the
+[SVG services](https://yuo.be/svg-services) component.
+
+(Note that, at the moment, it’s not possible to have custom icons in the Buttons
+toolbar that automatically adapt to whether light or dark mode is active. There
+is
+[some hope that support for doing this via CSS will be added to the SVG library](https://github.com/linebender/resvg/pull/992)
+that SVG services uses.)
+
+### Performance improvements
+
+Rendering was made more efficient in many parts of the UI, reducing CPU usage in
+some scenarios. This was achieved by more efficient buffered painting (where
+[GDI](https://en.wikipedia.org/wiki/Graphics_Device_Interface) is used), caching
+of DirectWrite text layouts and eliminating many GDI operations in the spectrum
+analyser.
+
+## Highlights from Columns UI 3.3.0
+
+### Dynamic text styling using title formatting
+
+The key new feature in Columns UI 3.3.0 is wider support for using title
+formatting to dynamically style text beyond changing colours.
+
+You can now, for example, dynamically change the font and use icons from Symbols
+Nerd Font from the [Nerd Fonts project](https://www.nerdfonts.com). In this
+example, a play icon from Symbols Nerd Font is used in the playlist view:
+
+<CaptionedImage
+  src={format_symbols_nerd_font_webp}
+  alt="A screenshot of the Columns UI playlist view with a play icon from Symbols Nerd Font shown for the playing track."
+  caption="Other symbol fonts are available"
+/>
+
+This was achieved by adding a playlist view column (at
+**Preferences**&nbsp;›&nbsp;**Display**&nbsp;›&nbsp;**Columns
+UI**&nbsp;›&nbsp;**Playlist view**&nbsp;›&nbsp;**Columns**) with the following
+display script:
+
+```fb2k
+$set_format(font-family: Symbols Nerd Font)
+$if(%isplaying%,)
+$set_format(font-family: initial)
+```
+
+For that example, you’ll need to have Symbols Nerd Font installed. It can be
+downloaded from the
+[Nerd Fonts downloads page](https://www.nerdfonts.com/font-downloads). More
+icons can be searched for and browsed on the
+[Nerd Fonts cheat sheet page](https://www.nerdfonts.com/cheat-sheet).
+
+Another way that dynamic text styling can be used is to put the playing track in
+bold:
+
+<CaptionedImage
+  src={format_bold_playing_track_webp}
+  alt="A screenshot of the Columns UI playlist view with the playing track in bold."
+  caption="Italics and underlines are also supported"
+/>
+
+This was achieved by placing the following title formatting snippet in the
+global playlist view style script (configured at
+**Preferences**&nbsp;›&nbsp;**Display**&nbsp;›&nbsp;**Columns
+UI**&nbsp;›&nbsp;**Playlist
+view**&nbsp;›&nbsp;**Globals**&nbsp;›&nbsp;**Style**):
+
+```fb2k
+$if(%isplaying%,$set_format(font-weight: bold),)
+```
+
+Dynamic text styling uses the `$set_format()` title formatting function. The
+function allows you to set properties named `font-family`, `font-size`,
+`font-weight`, `font-stretch`, `font-style` and `text-decoration` using a
+CSS-like syntax. See
+[the documentation for full details of the syntax](https://columns-ui.readthedocs.io/page/other/text-styling.html#set-format).
+
+Note that, for performance reasons, usage of `$set_format()` does not affect the
+line or item height except in the Item details panel. For this reason, using
+`$set_format()` to increase the font size is generally not recommended. However,
+if you have two fixed levels of grouping in the playlist view, you can get away
+with increasing the font size of the first level:
+
+<CaptionedImage
+  src={playlist_view_grouping_font_size_webp}
+  alt="A screenshot of the Columns UI playlist view with two grouping levels where the first grouping level is using a larger font size."
+  caption="What do you think?"
+/>
+
+That was achieved by using the following title formatting script for the first
+level of grouping in the playlist view:
+
+```fb2k
+$set_format(font-size: 10.5)
+$if2(%album artist%,<no artist>)
+```
+
+### Updated themed list view appearance in light mode
+
+In light mode, the border around selected items in themed list views on Windows
+11 22H2 and newer was removed. These screenshots show the old and new appearance
+in the playlist view:
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: playlist_view_themed_before_webp,
+      alt: "A screenshot of Columns UI 3.2.3 where selected items in the playlist view have borders around them.",
+      label: "Columns UI 3.2.3",
+    },
+    {
+      src: playlist_view_themed_after_webp,
+      alt: "A screenshot of Columns UI 3.3.0 where selected items in the playlist view do not have borders around them.",
+      label: "Columns UI 3.3.0",
+    },
+  ]}
+  stateId="cui-330-playlist-view-themed-list-views"
+/>
+
+There is no change when not using the themed colour scheme or when using dark
+mode.
+
+(To be honest, I hadn’t noticed that this changed in Windows 11 22H2 as I use
+dark mode. More recently, dark mode gained not-so-nice blue borders around
+selected items in Windows, though those were already removed in Columns UI.)
+
+## Wrapping up
+
+Those are highlights of the main changes in Columns UI 3.2.0 and 3.3.0. There
+were many other smaller changes – see the
+[release notes](https://github.com/reupen/columns_ui/releases) from version
+3.2.0-beta.1 to 3.3.0 for full details.
+
+If you currently have Columns UI installed, you can update to Columns UI 3.3.0,
+using the **Help**&nbsp;›&nbsp;**Check for updated components** command in
+foobar2000.
+
+If you have foobar2000 installed, you can add Columns UI to it by downloading it
+from the [Columns UI website](https://yuo.be/columns-ui) and then
+double-clicking the component package (if file associations are set up) or
+navigating to **Preferences**&nbsp;›&nbsp;**Components** and using the
+**Install…** button.
+
+(And if you don’t have foobar2000, you can download that from the
+[foobar2000 downloads page](https://www.foobar2000.org/windows).)

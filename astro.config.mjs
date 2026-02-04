@@ -5,6 +5,8 @@ import compress from "astro-compress"
 import { defineConfig } from "astro/config"
 import rehypeExternalLinks from "rehype-external-links"
 
+import fb2kTmGrammar from "./src/tm-grammars/fb2k.json"
+
 export default defineConfig({
   site:
     process.env.NODE_ENV === "development"
@@ -38,6 +40,7 @@ export default defineConfig({
     ],
     shikiConfig: {
       defaultColor: false,
+      langs: [fb2kTmGrammar],
       themes: {
         light: "github-light",
         dark: "github-dark",
