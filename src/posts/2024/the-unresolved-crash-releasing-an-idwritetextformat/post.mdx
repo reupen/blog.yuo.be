@@ -187,7 +187,7 @@ After an evening of debugging, I managed to get to the bottom of this.
 The first thing to note is that the stack trace above is a bit misleading – the
 calls to `DWrite!ComPtr<IDWriteFontCollectionLoader>::Deref()` are actually
 calls to `DWrite!ComPtr<IDWriteInlineObject>::Deref()`. (Presumably the two
-functions were deduplicated and have the same address – thought the disassembly
+functions were deduplicated and have the same address – though the disassembly
 in [IDA](https://en.wikipedia.org/wiki/Interactive_Disassembler) shows the
 correct function).
 
