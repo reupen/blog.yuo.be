@@ -1,0 +1,115 @@
+---
+title: "The case of the slow-to-get-going Ethernet port"
+date: 2026-02-22
+tags:
+  - hardware
+excerpt: |-
+  Some protocols are nicer than others.
+---
+
+I have an Asus GT-BE19000 router. When I bought it, I installed the latest
+firmware version available at the time (which was version 3.0.0.6.102_37899),
+set the router up and left things in a place where everything was working fine.
+
+A short while later, firmware version 3.0.0.6.102_39110 was released. I
+typically like to update things and so I installed the update on my router. I
+soon, however, noticed that I had an odd problem with certain Ethernet ports on
+the router. Devices connected to the affected ports would take 30 and 60 seconds
+to get IPv6 and IPv4 addresses respectively via DHCP(v6). Additionally, devices
+connected to those ports would tend to lose their IPv6 addresses.
+
+I suspected that the problem was related to the firmware update and so I tried
+downgrading to the old version. The problem indeed went away. I left the router
+on the old version, hoping that the problem would resolve itself in the next
+firmware update.
+
+I installed the next update hopefully when it came it a short while later.
+Sadly, though, the Ether-snail problem was still there. I submitted some
+feedback via the feedback form in the router’s web interface and downgraded to
+the old firmware version again. I later tried each subsequent update up to the
+current version (3.0.0.6.102_39244), but the problem persisted in all of them.
+
+It was starting to feel like this wasn’t a problem that was going to resolve
+itself. Resetting the router to its default settings didn’t help, and I hadn’t
+come across any chatter about the problem online. So, I decided to open a
+support ticket with Asus.
+
+The support section of their UK website had changed since the last time I used
+it. It offered two contact options: phone support or use a ‘virtual assistant’.
+I, however, just wanted to open a ticket like I had previously done for other
+products. Seeing only those two options left me somewhat nonplussed.
+
+I decided to try the ‘virtual assistant’. I selected ‘Technical Support’ from
+the list of enquiry types the assistant offered. I then had to select from a
+list of product categories. There was, however, no option for networking
+products. I selected a different category, hoping I would still get routed
+somewhere useful. But instead the assistant refused to do anything else,
+seemingly because support was closed as it was outside office hours.
+
+Having hit a dead end, I tried the phone call option. That one had an option for
+networking products. After selecting that, it similarly told me that support was
+closed (‘It’s not service time now’ to use the exact wording). But it also
+provided a link to contact them by ‘mail’ – a link that takes you to the form to
+open a support ticket that I was originally looking for.
+
+Once I had got past that hurdle of opening a ticket, the service was actually
+pretty decent. By that, I mean, the UK support person collected some more
+details from me, forwarded the problem to their Taiwan office who then tried to
+reproduce the problem.
+
+The reply from the Taiwan office was that they weren’t able to reproduce the
+problem and that they wanted me to do some more tests and provide some more
+details. I haven’t had another reply from them as they’re on holiday for the
+[Lunar New Year](https://en.wikipedia.org/wiki/Lunar_New_Year_in_Taiwan). But
+the fact that they weren’t able to reproduce the problem made me think that
+there was something specific to my set-up that was a factor.
+
+As I’d already ruled out the router settings, I started to suspect that the
+problem was related to something connected to the router. I quickly discovered
+that that was in fact the case – the problem only happened when a machine
+running
+[TrueNAS Community Edition](https://www.truenas.com/truenas-community-edition/)
+was connected to one of the router’s Ethernet ports. (If you’re unfamiliar with
+TrueNAS, it’s a NAS-oriented operating system, now based on Debian but
+previously based on FreeBSD.)
+
+I had
+[set up a network bridge in TrueNAS](https://www.truenas.com/docs/scale/25.10/scaletutorials/network/interfaces/settingupbridge/)
+(with just one physical network interface added to it) so that I could share the
+physical network connection with a virtual machine I had set up within TrueNAS.
+With a bit of testing, I found that my Ethernet problem occurred only when that
+bridge existed.
+
+That it was taking 30 or 60 seconds to get an IP address and the problem was
+related to a bridge was the detail needed to get a probable cause out of the
+internet (or a chatbot, or whatever). That probable cause was the
+[Spanning Tree Protocol (STP)](https://en.wikipedia.org/wiki/Spanning_Tree_Protocol),
+which it turns out TrueNAS enables by default on bridges. There were no options
+related to STP to be found in the TrueNAS web interface. But a web search
+brought up an
+[old forum post that mentioned that STP can be disabled via the TrueNAS CLI](https://www.truenas.com/community/threads/configure-advanced-bridge-options-spanning-tree-etc.100107/#post-690035).
+
+The post was almost four years old, so I didn’t know if it was still relevant.
+Hoping it was, I SSHed into TrueNAS and ran:
+
+```shell
+sudo midclt call interface.update INTERFACE_NAME '{"stp": false}'
+```
+
+(replacing `INTERFACE_NAME` with the name of the bridge interface, which was
+`br0` in my case).
+
+And, thankfully, that command still works. What wasn’t clear from the forum
+post, however, is that the command stages the configuration change without
+making it active. To put the change into effect, you have to go through the
+usual TrueNAS process of testing and applying network configuration changes.
+That can be easily done via the **System**&nbsp;›&nbsp;**Network** page in the
+web interface. Once done, the change is active and permanent. And indeed, after
+doing that, the Ethernet ports in question on my router started working more
+sensibly.
+
+From the little I’ve read about STP, it sounds irrelevant for my simple
+networking set-up, so I’m happy to keep it off. I’ve replied to Asus to tell
+them my problems were because of STP, so I imagine I’ll get a reply when the
+Taiwan office reopens (though I’m less bothered about what that reply is now
+that I’ve fixed the problem).
