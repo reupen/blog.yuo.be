@@ -1,0 +1,119 @@
+---
+title: "The glitchy Win32 tooltip control"
+date: 2026-02-27
+tags:
+  - windows
+excerpt: |-
+  I don’t like glitches.
+---
+
+import desktop_tooltips_slow_mp4 from "./desktop-tooltips-slow.mp4"
+import file_explorer_tooltips_slow_mp4 from "./file-explorer-tooltips-slow.mp4"
+
+Windows has an old
+[tooltip control](https://learn.microsoft.com/en-gb/windows/win32/controls/tooltip-controls),
+part of the
+[Win32 common controls library](https://learn.microsoft.com/en-gb/windows/win32/controls/common-controls-intro).
+
+Some parts of Windows use newer tooltip controls, such as the one in WinUI 3.
+But the Win32 tooltip control is still used when hovering over items on the
+desktop, in File Explorer, and in many Win32 apps.
+
+To use the Win32 tooltip control, you have to define one or more tools (things
+on screen that need a tooltip). It can be convenient to define a single tool and
+update its position and tip text as the mouse moves between different UI
+elements, rather than define lots of individual tools representing different UI
+elements. Either way, you end up with one tooltip control being used for
+multiple tooltips (which is far more efficient than trying to have individual
+tooltip controls).
+
+I noticed recently, though, that I wasn’t reusing the same tooltip control for
+different tooltips in a piece of software that I built. For some reason, I was
+destroying and creating new tooltip controls as the mouse moved around. It’s
+possible that I did this due to ignorance. But while rewriting that code into
+something saner, I realised that it may have been intentional. The tooltip
+control can suffer from a rendering glitch on non-ancient versions of Windows
+whenever the tooltip is re-shown with different contents. Here’s a recording of
+that glitch on the desktop (at half-speed to make it easier to see):
+
+<figure>
+  <video
+    aria-label="A screen recording showing the mouse moving between two desktop icons and a brief glitch occurring when the tooltip for each icon appears."
+    height="956"
+    width="402"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={desktop_tooltips_slow_mp4} type="video/mp4" />
+  </video>
+  <figcaption>Links to old Control Panel items can be handy</figcaption>
+</figure>
+
+What happens is that for a fraction of a second, you see the previous tooltip
+contents in the new tooltip. This only happens when the tooltip reappears
+without fading in. In that recording, I had tooltip animations turned off. But
+even when they are turned on, the glitch will crop up when moving quickly
+between UI elements (when the fade doesn’t happen). Here’s another half-speed
+example, this time from the Type column in File Explorer (with tooltip
+animations enabled):
+
+<figure>
+  <video
+    aria-label="A screen recording showing the mouse moving in the Type column between different truncated file type names and a brief glitch occuring when the tooltip for each file type appears."
+    height="440"
+    width="206"
+    autoPlay
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={file_explorer_tooltips_slow_mp4} type="video/mp4" />
+  </video>
+  <figcaption>
+    It’s not shown in the video, but tooltips are also a bit unpredictable in
+    this view in File Explorer
+  </figcaption>
+</figure>
+
+I first assumed that the tooltip control itself was the source of the glitch.
+But, in my software, I tried subclassing the tooltip control and overriding the
+handling of the `WM_ERASEBKGND` and `WM_PAINT` messages, ensuring that nothing
+outdated was being drawn by the control itself. The glitch still happened. So I
+don’t believe that the tooltip control itself is to blame – I suspect the
+problem is something like the Desktop Window Manager (DWM) showing an old copy
+of the tooltip contents briefly.
+
+Repeatedly destroying and recreating tooltip controls (as I had been doing) is a
+waste of CPU time, so I investigated better workarounds.
+
+The nicest workaround I’ve found so far is to remove and re-add the
+`WS_EX_LAYERED` extended style when handling the
+[`TTN_SHOW` notification](https://learn.microsoft.com/en-gb/windows/win32/controls/ttn-show):
+
+```cpp
+    case TTN_SHOW: {
+        const auto lpnm = reinterpret_cast<LPNMHDR>(lParam);
+
+        // Reposition the tooltip if desired
+
+        // Suppress artefacts when the tooltip reappears after already being shown
+        if (const auto ex_styles = GetWindowLongPtr(lpnm->hwndFrom, GWL_EXSTYLE); ex_styles & WS_EX_LAYERED) {
+            SetWindowLongPtr(lpnm->hwndFrom, GWL_EXSTYLE, ex_styles & ~WS_EX_LAYERED);
+            SetWindowLongPtr(lpnm->hwndFrom, GWL_EXSTYLE, ex_styles);
+        }
+
+        // Return TRUE if the tooltip was repositioned, FALSE otherwise
+    }
+```
+
+(I thought I’d have to preserve the layered window attributes using
+`GetLayeredWindowAttributes()` and `SetLayeredWindowAttributes()`, but the
+attributes seem to be preserved automatically.)
+
+This works well for me (at least in the ways that I use the tooltip control). It
+would be nice if this wasn’t necessary, though. I’m not sure how Microsoft
+could’ve missed this problem all these years. Perhaps they are just ignoring it.
