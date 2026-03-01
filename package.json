@@ -40,7 +40,7 @@
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.17.2",
+    "astro": "^5.18.0",
     "downshift": "^9.3.0",
     "ky": "^1.14.3",
     "mime": "^4.1.0",
