@@ -1,6 +1,7 @@
 import { tz } from "@date-fns/tz"
 import { glob } from "astro/loaders"
-import { z, defineCollection } from "astro:content"
+import { z } from "astro/zod"
+import { defineCollection } from "astro:content"
 import { format } from "date-fns"
 
 const posts = defineCollection({

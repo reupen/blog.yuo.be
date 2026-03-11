@@ -26,15 +26,17 @@ export async function getStaticPaths() {
 
   let commentCounts = {}
 
-  if (!Astro.site) {
+  if (!import.meta.env.SITE) {
     throw new Error("Astro.site is undefined")
   }
 
+  const site = new URL(import.meta.env.SITE)
+
   for (const pathsChunk of chunk(allPaths, 32)) {
     const chunkCommentCounts = await getCommentCounts(
-      Astro.site.host,
+      site.host,
       pathsChunk,
-      Astro.site.origin,
+      site.origin,
     )
     commentCounts = { ...commentCounts, ...chunkCommentCounts }
   }

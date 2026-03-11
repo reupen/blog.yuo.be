@@ -29,21 +29,22 @@
     "test:update": "python scripts/run_in_playwright_container.py \"npm ci && npm exec --no -- playwright test --update-snapshots\""
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/markdoc": "^0.15.10",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.4.2",
-    "@astrojs/rss": "^4.0.15",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/check": "^0.9.7",
+    "@astrojs/markdoc": "^1.0.0",
+    "@astrojs/mdx": "^5.0.0",
+    "@astrojs/react": "^5.0.0",
+    "@astrojs/rss": "^4.0.17",
+    "@astrojs/sitemap": "^3.7.1",
     "@floating-ui/react": "^0.27.17",
     "@floating-ui/react-dom": "^2.1.7",
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.18.0",
+    "astro": "^6.0.3",
     "downshift": "^9.3.2",
     "ky": "^1.14.3",
     "mime": "^4.1.0",
+    "p-limit": "^7.3.0",
     "prop-types": "^15.8.1",
     "query-string": "^9.3.1",
     "react": "^19.2.4",
@@ -55,6 +56,7 @@
     "ultrahtml": "^1.6.0"
   },
   "devDependencies": {
+    "@astrojs/compiler-rs": "^0.1.4",
     "@axe-core/playwright": "^4.11.1",
     "@date-fns/tz": "^1.4.1",
     "@eslint/js": "^9.18.0",
@@ -83,5 +85,8 @@
     "sass": "^1.97.3",
     "schema-dts": "^1.1.5",
     "typescript-eslint": "^8.56.1"
+  },
+  "overrides": {
+    "astro": "$astro"
   }
 }
