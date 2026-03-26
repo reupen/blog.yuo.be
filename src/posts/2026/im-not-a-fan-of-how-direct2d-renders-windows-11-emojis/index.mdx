@@ -1,0 +1,142 @@
+---
+title: "I’m not a fan of how Direct2D renders Windows 11 emojis"
+date: 2026-03-26
+tags:
+  - windows
+excerpt: |-
+  In this case I prefer version zero.
+---
+
+import { RawCaptionedImage } from "@/components"
+import { ImageTabs } from "@/components/client"
+
+import chrome_10pt_webp from "./chrome-10pt.webp"
+import chrome_12pt_webp from "./chrome-12pt.webp"
+import direct2d_10pt_webp from "./direct2d-10pt.webp"
+import direct2d_12pt_webp from "./direct2d-12pt.webp"
+import firefox_10pt_webp from "./firefox-10pt.webp"
+import firefox_12pt_webp from "./firefox-12pt.webp"
+import gdi_10pt_webp from "./gdi-10pt.webp"
+
+A while ago, I noticed that emojis rendered by Direct2D on Windows 11 often have
+rough edges. This was noticeable even on my 4k display, and it was the same in
+Notepad (which
+[uses a RichEditD2D control](https://devblogs.microsoft.com/math-in-office/richeditd2d-window-controls/))
+and my own software.
+
+The emojis in question looked better to me in web browsers, so I took some
+screenshots[^1] of the ♥️ emoji (which is code point U+2764 in emoji
+representation) as rendered by Direct2D, Google Chrome and Mozilla Firefox at
+10pt and a 175% display scale. Here are enlarged versions of those screenshots
+in a tabbed widget:
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: direct2d_10pt_webp,
+      alt: "The ♥️ emoji, rendered by Direct2D at 10pt (175% display scale)",
+      label: "Direct2D",
+    },
+    {
+      src: chrome_10pt_webp,
+      alt: "The ♥️ emoji, rendered by Chrome at 10pt (175% display scale)",
+      label: "Chrome",
+    },
+    {
+      src: firefox_10pt_webp,
+      alt: "The ♥️ emoji, rendered by Firefox at 10pt (175% display scale)",
+      label: "Firefox",
+    },
+  ]}
+  stateId="heart-10pt-comparison-tabs"
+  pixelate
+  stretch
+/>
+
+In the Direct2D version at the original size, the top-left quarter of the heart
+looks unsmooth on my display. In the zoomed-in version above, you can see that
+there doesn’t seem to be much anti-aliasing along the border of the emoji in the
+left half of the heart for Direct2D. The browsers do a fair bit better.
+
+Now, when rendered with Direct2D, that emoji doesn’t look terrible on my display
+at every font size. And I also noticed that the exact rendering varies depending
+on what preceding characters there are (at least with Direct2D and Chrome – I
+assume this is due to the placement of the glyph changing at a fractional-pixel
+level).
+
+With that in mind, here is another comparison at 12pt (again at a 175% display
+scale):
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: direct2d_12pt_webp,
+      alt: "The ♥️ emoji, rendered by Direct2D at 12pt (175% display scale)",
+      label: "Direct2D",
+    },
+    {
+      src: chrome_12pt_webp,
+      alt: "The ♥️ emoji, rendered by Chrome at 12pt (175% display scale)",
+      label: "Chrome",
+    },
+    {
+      src: firefox_12pt_webp,
+      alt: "The ♥️ emoji, rendered by Firefox at 12pt (175% display scale)",
+      label: "Firefox",
+    },
+  ]}
+  stateId="heart-12pt-comparison-tabs"
+  pixelate
+  stretch
+/>
+
+The Direct2D rendering is not as bad as it was at 10pt, but I think I’d still
+rate it worse than the two browsers.
+
+The background to all this is that
+[Windows 11 23H2 added a new 3D-looking set of emojis implemented using something called COLRv1](https://microsoft.design/articles/bringing-new-emoji-to-windows-11/).
+Along with the updated version of the Segoe UI Emoji font, support for COLRv1
+was added to DirectWrite and Direct2D. (If you’re unfamiliar with colour fonts,
+[COLR is a table within an OpenType font that can be used to define colour glyphs](https://learn.microsoft.com/en-gb/typography/opentype/spec/colr).
+COLRv1 refers to version 1 of that table, where new features were added, while
+the previous version of the table was version 0.) The screenshots above were
+taken on a fully up-to-date Windows 11 25H2 installation, and so they are of the
+new COLRv1 emojis.
+
+I, however, am still frequently using DirectWrite with GDI in my own software.
+The standard way of rendering text using DirectWrite and GDI is via
+[`IDWriteGdiInterop::CreateBitmapRenderTarget`](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite/nf-dwrite-idwritegdiinterop-createbitmaprendertarget).
+That doesn’t have built-in support for COLRv1, and so, unless you go to some
+insane effort of implementing COLRv1 support yourself, you’re stuck with COLRv0.
+
+Here’s how the COLRv0 version of that same emoji rendered to a GDI surface using
+DirectWrite looks:
+
+<RawCaptionedImage
+  src={gdi_10pt_webp}
+  alt="The ♥️ emoji, rendered using DirectWrite to a GDI surface with ClearType enabled"
+  caption="The most symmetrical heart yet"
+  class="stretch pixelate"
+/>
+
+It loses the fancy gradients of the COLRv1 version (which I never liked anyway).
+It gains ClearType, though, and it looks super smooth on my display at the
+original size. Direct2D renders COLRv0 glyphs similarly and is also able to use
+ClearType for them. (On my machine, Firefox also uses ClearType for COLRv0
+glyphs, but Chrome does not.)
+
+I do want to migrate more things from GDI to Direct2D in my software, but having
+displeasing emojis everywhere would be annoying. The most obvious solution is to
+stick with using the COLRv0 glyphs when migrating to Direct2D. Except that, when
+rendering text using methods such as
+[`ID2D1DeviceContext4::DrawTextLayout`](https://learn.microsoft.com/en-gb/windows/win32/api/d2d1_3/nf-d2d1_3-id2d1devicecontext4-drawtextlayout),
+you can’t opt out of COLRv1 support specifically. I suppose it’s probably
+possible to write a custom
+[`IDWriteTextRenderer`](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite/nn-dwrite-idwritetextrenderer)
+implementation that prioritises COLRv0 glyphs over COLRv1 ones…
+
+[^1]:
+    For an accurate comparison, (full) colour management was disabled in Chrome
+    and Firefox when taking the screenshots.

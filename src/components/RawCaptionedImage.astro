@@ -1,0 +1,28 @@
+---
+import type { ComponentProps, HTMLAttributes } from "astro/types"
+import { Image } from "astro:assets"
+
+type ImageProps = ComponentProps<typeof Image>
+type ImgProps = HTMLAttributes<"img">
+
+type Props = ImgProps & {
+  caption?: string
+  src: Extract<ImageProps["src"], { src: string }>
+}
+
+const { caption, src, ...rest } = Astro.props
+---
+
+<figure>
+  <a href={src.src}>
+    <img src={src.src} height={src.height} width={src.width} {...rest} />
+  </a>
+  {
+    (caption || Astro.slots.has("default")) && (
+      <figcaption>
+        {caption && <span>{caption}</span>}
+        <slot />
+      </figcaption>
+    )
+  }
+</figure>
