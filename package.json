@@ -76,7 +76,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.3.0",
     "html-to-text": "^9.0.5",
-    "lodash-es": "^4.17.23",
+    "lodash-es": "^4.18.1",
     "postcss-custom-media": "^12.0.1",
     "postcss-preset-env": "^11.2.0",
     "prettier": "^3.8.1",
