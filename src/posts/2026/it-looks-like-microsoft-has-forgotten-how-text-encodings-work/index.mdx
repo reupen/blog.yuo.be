@@ -1,0 +1,61 @@
+---
+title: "It looks like Microsoft has forgotten how text encodings work"
+date: 2026-04-03
+tags:
+  - windows
+excerpt: |-
+  Or how to do a basic bit of testing.
+---
+
+import { CaptionedImage } from "@/components"
+
+import driver_rollback_webp from "./driver-rollback.webp"
+
+Recently, I went into Device Manager in Windows to roll back a driver to the
+previous version. After clicking the relevant button, I was greeted by this:
+
+<CaptionedImage
+  src={driver_rollback_webp}
+  alt="A dialogue box with title “Driver Package rollback”, body “Are you sure you would like to roll back to the previously installed drivers? Rolling back to older drivers may reduce the functionality or security of your device. If this doesnâ€™t resolve the issues youâ€™re having with your device, visit the manufacturerâ€™s website to determine if updated drivers are available. Why are you rolling back? My apps don't work with this driver; Previous version of the driver performed better; Previous version of the driver seemed more reliable; Previous version of the driver had more features; For another reason. Tell us more: Previous version was newer.” and buttons “Yes” and “No”."
+  caption="I’ll roll back if I want to, thanks"
+  class="limit-height-slightly"
+/>
+
+The glaring problem here is that some apostrophes aren’t showing correctly. I’m
+being facetious in the title of the post as I’m pretty sure that Microsoft does
+understand text encodings. As that may be, the problem here is that curly
+apostrophes (like the ones used throughout this post) have been encoded in UTF-8
+but later decoded as Windows-1252 or something similar. A curly apostrophe
+(Unicode code point U+2019) is encoded as three bytes in UTF-8, so you end up
+seeing three other characters from the incorrect encoding.
+
+It’s possible that this problem only exists in the UK English language pack (or
+experience pack, or whatever it might be called these days). But I haven’t
+checked any other Windows display languages, so I have no idea.
+
+The mis-encoded (or mis-decoded) apostrophes aren’t the only thing that’s
+changed since the last time I tried to roll back a driver. As you may have
+noticed, there’s now a one-question survey built into the process. If someone
+asked me what improvements Device Manager badly needed, I’d have said a search
+box and non-blurry text. I certainly wouldn’t have said that a mandatory survey
+is needed (yes, that question is mandatory).
+
+By the time I got to clicking ‘Yes’ or ‘No’ at the bottom of the dialogue, I’d
+forgotten what question I was answering. Maybe my brain is just getting old?
+That might be true, but it’s not the problem here. Looking back at the dialogue,
+there are two questions asked without any logical flow (and so ‘Why are you
+rolling back?’ ends up being the question in mind when you get to the generic
+‘Yes’ and ‘No’ buttons).
+
+It’s been a while since I rolled back a driver, so I have no idea how long the
+dialogue has been like this. (And one hopes that this isn’t all the product of
+Copilot…)
+
+(If you’re wondering why I was rolling back a driver, it was because Windows
+Update forcibly installed an older version of the driver in question. It looks
+like this is because the manufacturer removed the specific subsystem ID of my
+device in the newer version, while leaving an entry for the vendor and device ID
+combination in. It might be that the manufacturer has done something wrong here.
+Still, I’m not sure that that difference is a good enough reason for Windows to
+forcibly downgrade the driver to one with both an older date and version
+number.)
