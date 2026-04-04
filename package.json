@@ -83,7 +83,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "rehype-external-links": "^3.0.0",
     "sass": "^1.97.3",
-    "schema-dts": "^1.1.5",
+    "schema-dts": "^2.0.0",
     "typescript-eslint": "^8.58.0"
   },
   "overrides": {
