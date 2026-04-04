@@ -52,7 +52,7 @@
     "react-merge-refs": "^3.0.2",
     "satori": "^0.19.2",
     "swr": "^2.4.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "ultrahtml": "^1.6.0"
   },
   "devDependencies": {
@@ -84,9 +84,10 @@
     "rehype-external-links": "^3.0.0",
     "sass": "^1.97.3",
     "schema-dts": "^1.1.5",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.58.0"
   },
   "overrides": {
-    "astro": "$astro"
+    "astro": "$astro",
+    "typescript": "$typescript"
   }
 }
