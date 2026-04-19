@@ -1,0 +1,120 @@
+---
+title: "What happened to the minimum brightness of my Pixel 8?"
+date: 2026-04-19
+tags:
+  - google
+excerpt: |-
+  Yes, sometimes I look at my phone when I should be sleeping.
+---
+
+When I got my Pixel 8, one of the things I remember is that it was actually
+pleasant to use in a dark room. By that, I mean the minimum screen brightness
+was dim enough to not hurt my eyes.
+
+Alas, that is no more. Something, at some point, has changed. Maybe I should use
+the extra dim feature? Well, that also does virtually nothing at minimum
+brightness. It’s now a largely useless feature, ironically stated to be an
+accessibility feature. Here’s how it’s described on my phone:
+
+> Extra dim can be helpful when:
+>
+> - Your phone’s default minimum brightness is still too bright
+> - You’re using your phone in dark situations, like at night or in a dark room
+>   before bed
+
+If only that were true.
+
+There are numerous complaints online about extra dim becoming useless. Here is a
+selection of links:
+
+- [Extra Dim hardly makes s difference anymore](https://support.google.com/pixelphone/thread/378224878)
+- [Extra dim no longer works after update](https://support.google.com/pixelphone/thread/361414828)
+- [Since the android 16 update, extra dim setting is not as dim as it used to be.](https://support.google.com/pixelphone/thread/388457135)<br/>
+  (I’d guess that this is also from the same person:
+  [Extra DIm setting is not as dim as it used to be after Android 16 update](https://issuetracker.google.com/issues/461640368))
+- [Extra Dim setting applies very little dimming even on dimmer intensity](https://issuetracker.google.com/issues/387001263)
+- [Extra dim minimally functional](https://issuetracker.google.com/issues/384871023)
+- [Did the "Extra Dim" screen setting get nerfed with the update?](https://www.reddit.com/r/GooglePixel/comments/1l8qocp/did_the_extra_dim_screen_setting_get_nerfed_with/)
+- [Dim isn't that dim anymore, and the Extra Dim feature barely does anything. (Pixel 9 Pro) ](https://www.reddit.com/r/GooglePixel/comments/1mj5e0a/dim_isnt_that_dim_anymore_and_the_extra_dim/)
+- [Extra dim is not extra dim anymore afterA16](https://www.reddit.com/r/GooglePixel/comments/1lenvv1/extra_dim_is_not_extra_dim_anymore_aftera16/)
+- [Extra Dim not extra dim anymore](https://www.reddit.com/r/Pixel8phones/comments/1hqvzto/extra_dim_not_extra_dim_anymore/)
+- [Why does extra dim suck now](https://www.reddit.com/r/GooglePixel/comments/1o7f7fu/why_does_extra_dim_suck_now/)
+
+Nosing around, I found this commit that adds a few new configuration values for
+the ‘reduce bright colors’ feature on the Pixel 8:
+
+- [display: update reduceBrightColorsStrength setting](https://android.googlesource.com/device/google/shusky/+/449e58e874a14603386b71b2fd4ebda568323ce6%5E!/)
+
+‘Reduce bright colors’ seems to be the internal name of the extra dim feature.
+(In an `adb` shell, the `settings get secure reduce_bright_colors_activated`
+command returns `1` when extra dim is on and `0` when it’s off.)
+
+In that commit, `config_reduceBrightColorsStrengthMin` was set to 25 and
+`config_reduceBrightColorsStrengthMax` was set to 50. Perhaps that explains why
+extra dim became useless, but it’s hard to know. It doesn’t look like those
+values can be changed using `adb`, so I can’t easily check. The range of the
+scale being so small certainly matches how sliding the intensity slider on the
+extra dim settings page feels.
+
+The earliest release tag that commit is in is `android-15.0.0_r6`. The last
+commit in that tag mentions a 24Q4 release, which sounds like the quarterly
+update that came out in December 2024. That timeframe does line up with some of
+the reports (but not all of them, as some reports blame it on Android 16).
+
+While I have noticed that extra dim has become useless, I’m not sure that it’s
+my main problem here. I don’t remember originally needing to use extra dim on my
+Pixel 8 to get it as dim as I wanted. (That’s unlike the Pixel 5 I had
+beforehand, where I’d regularly turn on extra dim at night.)
+
+Another weirdness that I’ve noticed at minimum brightness (in a dark room) is
+that there’s a large difference between `rgb(0, 0, 0)` and `rgb(1, 1, 1)` (in
+sRGB). It makes very dark parts of images and videos look broken. I saw someone
+[complaining about blacks looking grey](https://support.google.com/pixelphone/thread/314660371),
+which could be the same thing, though it’s hard to know. Certainly, I see little
+variation visible on the
+[Lagom black level test](http://www.lagom.nl/lcd-test/black.php) at minimum
+brightness.[^1]
+
+Interestingly, that large gap between true black and `rgb(1, 1, 1)` only happens
+if colours are set to ‘natural’ and ‘Smooth display’ is off (which are my normal
+settings). Switching to ‘adaptive’ colours makes `rgb(1, 1, 1)` much darker at
+minimum brightness, in fact so dark I can hardly tell the difference between it
+and `rgb(0, 0, 0)`. That at least shows that it’s not a display limitation
+causing the different behaviour when using ‘natural’ colours.
+
+‘Smooth display’ is a weird one. Turning it on also makes `rgb(1, 1, 1)` darker.
+But it causes a slight colour shift and adds weird luminance noise to dark greys
+at minimum brightness that behaves a bit like screen burn (in that the noise
+stays still as you scroll or pan).
+
+I also noticed that toggling ‘Adaptive brightness’ has no effect on the minimum
+brightness in a dark room. That’s not the behaviour I remember from the past –
+I’m sure that enabling adaptive brightness previously allowed the screen to go
+dimmer.
+
+Perhaps I’m imagining that something’s changed with the minimum brightness on my
+phone and it’s really my eyes that have changed. I’m not convinced – when I look
+at an app or web page with a light background in a dark room, they are far from
+the dimness that I’d have expected. Still, I could be wrong.
+
+It could be relevant that the IMEI of my Pixel 8 comes up as eligible for the
+[extended repair programme](https://support.google.com/pixelphone/answer/15009955?hl=en-GB).
+I don’t have the problems (a vertical line or display flicker) mentioned on that
+page, though.
+
+There are overlay apps, like Twilight and Darker, that at least do more than
+extra dim does. But they are no substitute for a display that can be properly
+dimmer.
+
+I’d be tempted to upgrade to a Pixel 10 if I knew that it had a display with a
+lower minimum brightness. But, even if it did, I don’t want a 204g phone. (Why
+do Pixel phones keep getting heavier?)
+
+I can only hope that Google does something to make using my Pixel 8 in a dark
+room more pleasant. But as time goes on, that sadly looks less likely.
+
+[^1]:
+    The squares on the black level test looking mostly the same (in a dark room
+    at minimum brightness) is what I see with colours set to ‘natural’ and
+    ‘Smooth display’ turned off. There’s more variation when either of those
+    settings are changed.
