@@ -1,0 +1,75 @@
+---
+title: "I disabled menu animations in Windows. So why are my menus animating?"
+date: 2026-04-28
+tags:
+  - windows
+excerpt: |-
+  Giving users a bit of control is now passé.
+---
+
+import { CaptionedImage } from "@/components"
+
+import performance_options_webp from "./performance-options.webp"
+
+A long time ago, I disabled some specific animations in Windows that I found
+annoying. One of those was menu animations. I left those animation settings
+alone for a long time without any complaints. But, when I updated to Windows 11,
+I noticed that my preferences were starting to be ignored.
+
+The first place I noticed that they were being ignored was in the new Notepad
+app. Both the main menu and the context menu were animating, despite me
+previously having turned menu animations off.
+
+It’s probably relevant that the new Settings app only has a single setting that
+turns animation effects on or off. But the specific setting for menus that I
+previously used, ‘Fade or slide menus into view’, still exists. It’s in a
+dialogue titled ‘Performance Options’:
+
+<CaptionedImage
+  src={performance_options_webp}
+  alt="A dialogue box with title “Performance Options” and containing numerous settings related to UI effects and animations."
+  caption="There are a few seemingly forgotten options here"
+  class="limit-height-slightly"
+/>
+
+That dialogue is opened via a ‘Settings…’ button underneath a ‘Performance’
+heading in what was, once upon a time, the System applet in the Control Panel.
+You can get to that button and the relevant dialogue on Windows 11 via a few
+methods:
+
+- opening the Settings app, navigating to System, About and then clicking
+  Advanced system settings
+- typing ‘View advanced system settings’ in the start menu
+- running `SystemPropertiesAdvanced.exe`
+
+What I worked out is that most modern menus in Windows are affected by the
+‘Animate controls and elements inside windows’ option in the same dialogue[^1]
+(rather than ‘Fade or slide menus into view’, which mainly seems to affect older
+Win32 menus). (And there are a few modern menus, like the context menu for the
+desktop, that don’t seem to animate at all. Unless you count slow loading as an
+animation, that is.)
+
+To me, that all seems rather untidy. In the end I disabled ‘Animate controls and
+elements inside windows’ as well, even though that turns off other animations
+that I was originally happy to have on. (I remember ‘Animate controls and
+elements inside windows’ affecting things like hover and focus transitions for
+common controls which were fairly subtle animations. But with everything else
+now using that setting, it increasingly affects a whole load of annoying things
+as well.)
+
+(For a developer’s perspective, the main function in the Win32 API to query
+animation preferences is
+[SystemParametersInfo](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfoW).
+A quick search through that page will reveal that there are a large number of
+settings related to UI effects and animations. The newer WinRT API, however,
+only has
+[a single boolean flag](https://learn.microsoft.com/en-gb/uwp/api/windows.ui.viewmanagement.uisettings.animationsenabled)
+that I can see, which is perhaps the source of my original complaint.)
+
+My position on animations is that I don’t mind them if they are subtle. But if
+they slow me down, distract me or are in my face, I’m going to turn them off.
+
+[^1]:
+    When toggling ‘Animate controls and elements inside windows’ in the
+    ‘Performance Options’ dialogue, you’ll probably have to restart anything
+    modern, or log out and in again, to see the effect.
