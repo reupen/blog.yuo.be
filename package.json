@@ -52,7 +52,7 @@
     "react-merge-refs": "^3.0.2",
     "satori": "^0.19.2",
     "swr": "^2.4.0",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "ultrahtml": "^1.6.0"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
     "@types/html-to-text": "^9.0.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.19.11",
-    "@typescript-eslint/parser": "^8.56.1",
+    "@typescript-eslint/parser": "^8.59.1",
     "astro-compress": "^2.4.1",
     "cssnano": "^7.1.7",
     "date-fns": "^4.1.0",
@@ -84,7 +84,7 @@
     "rehype-external-links": "^3.0.0",
     "sass": "^1.97.3",
     "schema-dts": "^2.0.0",
-    "typescript-eslint": "^8.58.0"
+    "typescript-eslint": "^8.59.1"
   },
   "overrides": {
     "astro": "$astro",
