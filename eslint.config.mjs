@@ -1,16 +1,24 @@
 // @ts-check
 
+import eslintReact from "@eslint-react/eslint-plugin"
 import eslint from "@eslint/js"
 import eslintPluginAstro from "eslint-plugin-astro"
 import * as eslintPluginMdx from "eslint-plugin-mdx"
 import perfectionist from "eslint-plugin-perfectionist"
-import reactPlugin from "eslint-plugin-react"
 import { defineConfig, globalIgnores } from "eslint/config"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 
 export default defineConfig(
   globalIgnores([".astro/", "dist/", "src/env.d.ts"]),
+  {
+    files: ["**/*.mdx"],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+  },
   {
     files: ["astro.config.mjs"],
     languageOptions: {
@@ -35,15 +43,7 @@ export default defineConfig(
   eslintPluginAstro.configs.recommended,
   {
     files: ["**/*.{mdx,tsx}"],
-    ...reactPlugin.configs.flat.recommended,
-  },
-  {
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-    ...reactPlugin.configs.flat["jsx-runtime"],
+    ...eslintReact.configs["recommended-typescript"],
   },
   eslintPluginMdx.flat,
   {
