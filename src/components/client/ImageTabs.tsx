@@ -27,6 +27,7 @@ export function ImageTabs({
   const id = useId()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHydrated, setIsHydrated] = useState(false)
+  // eslint-disable-next-line @eslint-react/naming-convention-ref-name
   const tabRefs = useRef<(HTMLButtonElement | null)[]>(
     new Array(images.length).fill(null),
   )
@@ -44,12 +45,14 @@ export function ImageTabs({
       const parsedIndex = parseInt(savedIndex)
 
       if (parsedIndex >= 0 && parsedIndex < images.length) {
+        // eslint-disable-next-line @eslint-react/set-state-in-effect
         setActiveIndex(parsedIndex)
       }
     }
 
+    // eslint-disable-next-line @eslint-react/set-state-in-effect
     setIsHydrated(true)
-  }, [])
+  }, [images.length, stateId])
 
   const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const tabCount = images.length

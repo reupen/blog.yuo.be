@@ -14,6 +14,7 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
     { id: "dark", text: "Dark", iconClass: "fa-solid fa-moon" },
   ]
 
+  // eslint-disable-next-line @eslint-react/purity
   const currentTheme = localStorage.getItem("theme")
 
   const {
