@@ -1,0 +1,86 @@
+---
+title: "Everyday Windows annoyances: Inconsistent font sizes"
+date: 2026-05-11
+tags:
+  - windows
+excerpt: |-
+  What do you mean, it’s intentionally like that?
+---
+
+import { CaptionedImage } from "@/components"
+
+import file_explorer_windows_11_png from "./file-explorer-inconsistent-font-sizes.webp"
+import file_explorer_windows_10_png from "./file-explorer-windows-10.webp"
+
+I haven’t posted anything in my ‘Everyday Windows annoyances’ series of posts
+for a while. But that’s mainly due to my laziness rather than a lack of
+irritations in Windows 11.
+
+One thing that’s bothered me for a while is the lack of consistency of font
+sizes in Windows 11. Here’s a screenshot of File Explorer (at a display scale of
+175%), as an example:
+
+<CaptionedImage
+  src={file_explorer_windows_11_png}
+  alt="File Explorer, on Windows 11, with a list of subfolders opened from the breadcrumbs bar. The text in that list is slightly larger than text in the main items area."
+  caption="They could also make all those directories use consistent capitalisation"
+/>
+
+Text in the drop-down list opened from the breadcrumbs bar is noticeably larger
+than text in the main items area.
+
+It wasn’t always like this. Here’s a screenshot of the same thing in Windows 10:
+
+<CaptionedImage
+  src={file_explorer_windows_10_png}
+  alt="File Explorer, on Windows 10, with a list of subfolders opened from the breadcrumbs bar. The text in that list is the same size as text in the main items area."
+  caption="It’s also notable that much more fits in the same space here"
+/>
+
+While the dark theming is more inconsistent there, font sizes are pleasingly
+consistent. And the same drop-down list opened from the breadcrumbs bar is far
+more usable as a more reasonable number of items can be seen at once. (The
+larger number of items being visible is due not only to the smaller text, but
+also to the drop-down list being taller and there being slightly less vertical
+spacing.)
+
+There is a pattern to the difference in text sizes on Windows 11 – parts of the
+UI written in newer technologies tend to (though don’t always) have larger text
+than things using older technologies (such as the
+[not-so-well-known DirectUI](https://reactos.org/wiki/DirectUI)). File Explorer
+uses a mix of technologies and has various inconsistencies (of which text size
+is one) as a result.
+
+Of course, a change in technology doesn’t normally necessitate a change in text
+size. A part of the underlying reason for the difference might be a change in
+Microsoft’s design guidelines. The older Windows Vista and Windows 7-era UX
+guidelines
+[state that body text should use a font size of 9 pt](https://learn.microsoft.com/en-gb/windows/win32/uxguide/vis-fonts#fonts-and-colors:~:text=BodyText-,9%20pt%2E%20black%20%28%23000000%29%20Segoe%20UI).
+The newer design guidelines, though,
+[state that 14 epx (effective pixels) should be used](https://learn.microsoft.com/en-gb/windows/apps/design/signature-experiences/typography#type-ramp:~:text=epx-,Text,epx)[^1].
+
+How, exactly, those two font sizes compare in practice (given the different
+units used) is not so clear to me[^2]. But in the Windows 11 screenshot above, a
+capital A in the items area is 15px in height while one in the drop-down list is
+18px. And so the larger text is roughly 20% bigger.
+
+If it wasn’t clear, I prefer the smaller font size used in the items area in
+File Explorer. If everything used the larger font size, I could consider
+reducing my display scale from 175% to 150%. But that would have the side effect
+of making the size of buttons and other UI elements smaller more generally.
+There is also a setting in the accessibility area of the Windows Settings app
+that lets you adjust the size of text. But it only lets you make text larger, so
+it wouldn’t be much use if you were trying to defeat the embiggening of text in
+Windows.
+
+[^1]:
+    There are some details about what effective pixels are at
+    [Screen sizes and breakpoints](https://learn.microsoft.com/en-gb/windows/apps/design/layout/screen-sizes-and-breakpoints-for-responsive-design#effective-pixels-and-scale-factor).
+    It’s a bit light on concrete details, though.
+
+[^2]:
+    There are other factors apart from the font size used that might affect the
+    perceived text size – the newer part of the UI is probably using Segoe UI
+    Variable rather than the Segoe UI that the items area is using, and it will
+    also be using a different text rendering engine as well as a different
+    anti-aliasing mode.
