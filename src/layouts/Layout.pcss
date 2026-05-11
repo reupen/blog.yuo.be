@@ -72,6 +72,7 @@
   --text-accent-colour-highlight: light-dark(#10489f, #ffaf47);
   --text-colour: light-dark(#000, #fff);
   --text-colour-muted: light-dark(#151515, #d3d3d3);
+  --post-footer-links-column-gap: 0.8rem;
 
   &.dark {
     color-scheme: dark;
@@ -198,9 +199,16 @@ a,
 }
 
 .comments-link {
-  display: inline-block;
+  display: block;
+  width: max-content;
   cursor: pointer;
-  margin: 0 0 1.5rem;
+  margin: var(--post-footer-links-column-gap) 0 1.5rem;
+
+  @media (min-width: 600px) {
+    display: inline-block;
+    width: initial;
+    margin-top: 0;
+  }
 
   &:not(:hover) {
     text-decoration-line: none;
@@ -423,6 +431,14 @@ audio {
 @media print {
   .no-print {
     display: none !important;
+  }
+}
+
+.fa-mobile-fw {
+  --fa-width: 1.25em;
+
+  @media (min-width: 600px) {
+    --fa-width: auto;
   }
 }
 

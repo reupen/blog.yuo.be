@@ -1,5 +1,6 @@
 import {
   autoUpdate,
+  flip,
   FloatingPortal,
   offset,
   shift,
@@ -63,6 +64,13 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
         }),
     },
     {
+      id: "mastodon",
+      text: "Mastodon",
+      iconClass: "fa-brands fa-mastodon",
+      url: () =>
+        `https://share.joinmastodon.org/#text=${encodeURIComponent(`${title} ${url}`)}`,
+    },
+    {
       id: "x",
       text: "X",
       iconClass: "fa-brands fa-x-twitter",
@@ -77,6 +85,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     placement: "bottom-start",
     middleware: [
       offset({ mainAxis: 10, crossAxis: -10 }),
+      flip(),
       shift({ padding: 9 }),
     ],
     whileElementsMounted: autoUpdate,
@@ -106,7 +115,10 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
         {...getReferenceProps()}
         type="button"
       >
-        <i aria-hidden="true" className="fa-solid fa-share-nodes"></i>
+        <i
+          aria-hidden="true"
+          className="fa-solid fa-share-nodes fa-mobile-fw"
+        ></i>
         &#x2004;Share
       </button>
       {isOpen && (

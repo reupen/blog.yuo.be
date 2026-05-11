@@ -1,8 +1,14 @@
 .share-container {
-  display: inline-block;
+  display: block;
+  margin-top: var(--post-footer-links-column-gap);
   font-size: 18px;
   color: var(--text-accent-colour);
-  padding-right: 0.75rem;
+
+  @media (min-width: 600px) {
+    display: inline-block;
+    margin-top: 0;
+    padding-right: 0.75rem;
+  }
 }
 
 .share-button {

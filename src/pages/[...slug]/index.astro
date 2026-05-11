@@ -129,8 +129,8 @@ const readingTime = Math.max(
     <div class="container content">
       <Content />
       <a class="coffee-link" href="https://buymeacoffee.com/reupen">
-        <i aria-hidden="true" class="fa-solid fa-mug-hot"></i>&#x2004;Buy me a
-        coffee
+        <i aria-hidden="true" class="fa-solid fa-mug-hot fa-mobile-fw"
+        ></i>&#x2004;Buy me a coffee
       </a>
       <ShareMenu
         client:load
@@ -193,8 +193,14 @@ const readingTime = Math.max(
   }
 
   .coffee-link {
-    display: inline-block;
-    padding-right: 0.75rem;
+    display: block;
+    width: max-content;
+
+    @media (min-width: 600px) {
+      display: inline-block;
+      width: initial;
+      padding-right: 0.75rem;
+    }
 
     &:not(:hover) {
       text-decoration-line: none;
