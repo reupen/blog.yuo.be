@@ -5,6 +5,9 @@ date: 2010-01-13T19:29:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-296
+tags:
+  - win32
+  - programming
 excerpt: |-
   What does MSDN say about the ppvObject parameter in IUnknown::QueryInterface?
 

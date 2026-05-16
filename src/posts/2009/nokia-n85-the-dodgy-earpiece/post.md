@@ -5,6 +5,8 @@ date: 2009-04-02T21:33:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-313
+tags:
+  - tech
 excerpt: |-
   I quite liked my N85. Then I read about how various recent Nokia phones made before Feb
   2009 had a problem with a faulty earpiece part. Naturally, that followed with my

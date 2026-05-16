@@ -5,6 +5,9 @@ date: 2009-11-29T22:08:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-299
+tags:
+  - win32
+  - programming
 excerpt: |-
   I'm going to complain about it again. I recently saw a crash log where the user
   had right-clicked on our application's notification area icon around the same

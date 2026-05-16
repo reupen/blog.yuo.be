@@ -5,6 +5,9 @@ date: 2009-02-07T23:29:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-315
+tags:
+  - win32
+  - programming
 excerpt: |-
   When handling this message, one of the values you receive is the value which
   expresses "the distanced the wheel is rotated" (or rather, was). I will call it

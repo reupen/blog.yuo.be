@@ -5,6 +5,8 @@ date: 2009-06-11T19:39:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-306
+tags:
+  - windows
 excerpt: |-
   I've discovered that right clicking on various parts of the taskbar/jumplist
   brings up some menus I find useful - so that's a great help.

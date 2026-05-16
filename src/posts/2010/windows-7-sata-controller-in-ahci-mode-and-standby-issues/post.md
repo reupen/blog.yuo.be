@@ -5,6 +5,8 @@ date: 2010-01-20T20:30:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-294
+tags:
+  - windows
 excerpt: |-
   I recently decided to switch my SATA controller into AHCI mode. With this
   information that was easy enough.

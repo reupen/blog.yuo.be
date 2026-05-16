@@ -5,6 +5,8 @@ date: 2007-09-09T22:14:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-344
+tags:
+  - windows
 excerpt: |-
   The Vista on my laptop decided to go (literally) nuts a few days ago. Nuts, as
   in a few minutes after login it would half-freeze. Half freeze as in stop

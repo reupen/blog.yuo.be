@@ -7,7 +7,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5b0d3d718c60d71d1497e1d5
 tags:
-  - Python
+  - python
+  - programming
 excerpt: |-
   I overlooked that fact that Python 3.6 added a new class method to object called
   __init_subclass__

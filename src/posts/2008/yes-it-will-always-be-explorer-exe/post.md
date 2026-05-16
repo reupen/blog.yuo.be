@@ -5,6 +5,9 @@ date: 2008-12-03T22:45:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-322
+tags:
+  - windows
+  - software
 excerpt: |-
   One of the most annoying issues I have with applications when running under
   Vista 64-bit, is when applications (or rather their developers) decide that it

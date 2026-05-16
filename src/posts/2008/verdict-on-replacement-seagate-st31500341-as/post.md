@@ -5,6 +5,8 @@ date: 2008-11-23T19:58:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-324
+tags:
+  - hardware
 excerpt: |-
   It will also be going back, for a refund this time. This one hasn't completely
   died like the other one, but it makes a click every time it powers up (the same

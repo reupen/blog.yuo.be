@@ -5,6 +5,9 @@ date: 2009-08-03T21:38:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-302
+tags:
+  - win32
+  - programming
 excerpt: |-
   This issue just cropped up:
 

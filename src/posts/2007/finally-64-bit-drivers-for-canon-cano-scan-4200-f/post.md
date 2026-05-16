@@ -5,6 +5,8 @@ date: 2007-01-29T23:07:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-352
+tags:
+  - hardware
 excerpt: |-
   Canon just released Vista compatible 32-bit and 64-bit drivers for my CanoScan
   4200F scanner. The old 32-bit drivers didn't work on Vista (and there were no

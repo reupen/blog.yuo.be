@@ -7,6 +7,8 @@ date: 2008-11-25T22:42:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-323
+tags:
+  - tech
 excerpt: |-
   If you have one of the recent Nokia phones (N85, E71, N79, 5800, ...) and a
   recent Thomson / SpeedTouch / BT Home Hub router you may face the "No gateway

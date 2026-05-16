@@ -6,9 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-367
 tags:
-  - C++
-  - Columns UI
-  - foobar2000
+  - programming
 excerpt: |-
   After a fair bit of work, release builds of Columns UI can now be compiled with
   Clang[1] (and the builds produced seem to work 🙌).

@@ -3,6 +3,7 @@ title: "What do all the recent NTDDI_VERSION values mean?"
 date: 2025-02-12
 tags:
   - win32
+  - programming
 excerpt: |-
   The answer isn’t always straightforward, as it turns out.
 ---

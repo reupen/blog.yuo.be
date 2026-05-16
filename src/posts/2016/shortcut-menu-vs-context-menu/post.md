@@ -5,6 +5,8 @@ date: 2016-06-13T21:04:14.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-371
+tags:
+  - windows
 excerpt: |-
   When the Windows Vista UX guidelines were released, I distinctly remember it
   calling right-click menus shortcut menus. So, I’ve always stuck with that on the

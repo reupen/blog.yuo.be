@@ -5,6 +5,8 @@ date: 2009-04-28T19:50:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-310
+tags:
+  - windows
 excerpt: |-
   I saw a string of peculiar messages in the Windows Event Log on my laptop which
   at first sight looked quite alarming:

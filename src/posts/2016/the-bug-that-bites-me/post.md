@@ -6,17 +6,15 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-368
 tags:
-  - Ubuntu
-  - EC2
+  - ubuntu
 excerpt: |-
-  I briefly mentioned [https://blog.yuo.be/2016/01/01/a-change-of-web-host/] that, at
-  the end of last year, I moved my website to Amazon's Elastic Compute Cloud
-  (EC2). I picked Ubuntu as my OS, initially using an official Ubuntu 15.10 (Wily
-  Werewolf) AMI [https://cloud-images.ubuntu.com/locator/ec2/], and recently
-  upgrading to 16.04 LTS (Xenial Xerus).
+  I briefly mentioned that, at the end of last year, I moved my website to
+  Amazon's Elastic Compute Cloud (EC2). I picked Ubuntu as my OS, initially
+  using an official Ubuntu 15.10 (Wily Werewolf) AMI, and recently upgrading to
+  16.04 LTS (Xenial Xerus).
 
-  Unfortunately, I soon ran into a problem – my wiki suddenly became really slow.
-  Running a few commands on the server revealed that kswapd0 was stu
+  Unfortunately, I soon ran into a problem – my wiki suddenly became really
+  slow. Running a few commands on the server revealed that kswapd0 was stu
 ---
 
 I briefly [mentioned](/2016/01/01/a-change-of-web-host/) that, at the end of

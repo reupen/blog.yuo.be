@@ -5,6 +5,8 @@ date: 2007-09-24T13:30:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-342
+tags:
+  - windows
 excerpt: |-
   Today I decided to run the Windows Experience Index assessment again since it
   said it my score needed updating. However, peculiarly when I clicked "Refresh my

@@ -5,6 +5,8 @@ date: 2009-01-12T21:38:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-319
+tags:
+  - hardware
 excerpt: |-
   After my problems with the 1.5TB Seagate 7200.11, I did some investigating and
   just kept finding other people with problems of increasing amounts of

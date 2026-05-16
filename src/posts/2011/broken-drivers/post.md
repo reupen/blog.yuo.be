@@ -5,6 +5,8 @@ date: 2011-04-27T10:18:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-284
+tags:
+  - hardware
 excerpt: |-
   Lenovo finally posted an updated driver - version 267.21 - for the Nvidia NVS
   3100M chipset in my ThinkPad T510. Unfortunately after installing it I was

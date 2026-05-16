@@ -5,6 +5,8 @@ date: 2016-01-17T21:46:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-278
+tags:
+  - windows
 excerpt: |-
   I recently updated to Windows 10 on a Z170-based motherboard, but my Windows
   installation was an MBR-based one rather than a modern UEFI one. I wanted to

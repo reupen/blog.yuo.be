@@ -5,6 +5,9 @@ date: 2007-10-13T22:16:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-341
+tags:
+  - programming
+  - win32
 excerpt: |-
   When you create a new Win32 project in Visual C++ 2005, you get a message loop
   that looks like this:

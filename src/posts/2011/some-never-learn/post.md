@@ -5,6 +5,8 @@ date: 2011-02-28T22:00:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-286
+tags:
+  - software
 excerpt: |-
   I downloaded the Dragon Age II PC demo, to find that mouse wheel support is
   broken - a familiar tale.

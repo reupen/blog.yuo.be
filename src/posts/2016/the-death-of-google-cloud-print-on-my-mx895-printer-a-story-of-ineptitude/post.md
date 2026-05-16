@@ -6,6 +6,8 @@ date: 2016-01-17T21:51:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-277
+tags:
+  - tech
 excerpt: |-
   I bought a Canon PIXMA MX895 all-in-one printer in May 2012. In fact, I was one
   of the first owners of the printer in the UK, having pre-ordered it the previous

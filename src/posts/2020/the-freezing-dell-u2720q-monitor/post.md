@@ -6,7 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5f21dcf93beb750cc5cd9bb0
 tags:
-  - tech
+  - hardware
 excerpt: |-
   I recently bought a Dell U2720Q 4k monitor. However, I had a curious problem: when using my desktop PC, the monitor would occasionally lock up. The screen would turn black and the monitor would become unresponsive to anything other than the power button. Pressing the power button twice (i.e. turning the monitor off and on again) would get the monitor working again.
 

@@ -1,0 +1,132 @@
+---
+import type { PaginateFunction } from "astro"
+import { format } from "date-fns"
+
+import Pagination from "@/components/Pagination.astro"
+import Layout from "@/layouts/Layout.astro"
+import { getPosts, getTags } from "@/lib/server"
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction
+}) {
+  const tags = await getTags()
+  const postsByTag = await Promise.all(
+    [...tags].map((tag) =>
+      (async () => ({ tag, posts: await getPosts(tag) }))(),
+    ),
+  )
+
+  return postsByTag.flatMap(({ tag, posts }) => {
+    return paginate(posts, {
+      params: { tag },
+      pageSize: 20,
+    })
+  })
+}
+
+const { page } = Astro.props
+const { tag } = Astro.params
+const description = `Posts tagged #${tag}`
+const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
+---
+
+<Layout
+  description={description}
+  title={page.currentPage > 1
+    ? `Posts tagged #${tag} (page ${page.currentPage})`
+    : `Posts tagged #${tag}`}
+>
+  <div class="post-header section">
+    <div class="container">
+      <h1>
+        Posts tagged #{tag}{
+          page.currentPage > 1 && <> (page {page.currentPage})</>
+        }
+      </h1>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      {
+        years.entries().map(([year, posts], index) => (
+          <>
+            <h2>
+              {year}
+              {index === 0 && !posts[0].isNewYear && " (continued)"}
+            </h2>
+            <ol>
+              {posts.map((post) => (
+                <li id={post.id}>
+                  <a href={`/${post.id}/`}>{post.data.title}</a>
+                  <p class="post-excerpt">{post.data.excerpt}</p>
+                  <p class="post-date">
+                    {format(post.data.date, "d MMMM yyyy")}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </>
+        ))
+      }
+      <Pagination
+        entryName="posts"
+        nextHref={page.url.next}
+        previousHref={page.url.prev}
+      />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    padding-left: 0;
+    margin-bottom: 1.35rem;
+    line-height: 1.5;
+    font-family: var(--sans-serif-font-family);
+
+    a {
+      font-size: 22px;
+      font-weight: 600;
+
+      &:not(:hover) {
+        text-decoration-line: none;
+      }
+    }
+
+    .post-date {
+      font-size: 13px;
+      margin-top: 0.2rem;
+      line-height: 1.7;
+      text-transform: uppercase;
+      color: var(--text-colour-very-muted);
+      font-weight: 375;
+    }
+
+    .post-excerpt {
+      font-size: 18px;
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+      line-height: 1.7;
+    }
+  }
+
+  .post-header {
+    background: var(--nav-background);
+    padding: 0.75rem 1rem 1rem;
+
+    @media (min-width: calc(700px + 3rem)) {
+      padding: 1rem 1.5rem 1rem;
+    }
+  }
+</style>

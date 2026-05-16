@@ -7,8 +7,8 @@ is_imported: true
 comment_id: ghost-5db476ab743a427e0512f7e0
 tags:
   - tech
-  - pixel 4
-  - mobile phones
+  - google
+  - android
 excerpt: |-
   I pre-ordered a Pixel 4 (the non-XL model), intended as an upgrade from a Pixel
   2. I received it last week – and sent it back a few days later, having not got

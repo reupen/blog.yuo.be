@@ -5,6 +5,9 @@ date: 2010-01-26T19:59:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-293
+tags:
+  - win32
+  - programming
 excerpt: |-
   Last time we just touched on a small issue, as a precursor to the important one.
 

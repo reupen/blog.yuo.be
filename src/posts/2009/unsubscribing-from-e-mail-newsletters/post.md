@@ -5,6 +5,8 @@ date: 2009-03-24T22:45:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-314
+tags:
+  - web
 excerpt: |-
   I thought I'd try my hand at this today and just found:
    * It slightly annoying when you are sent an e-mail confirming that you've

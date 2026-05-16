@@ -7,7 +7,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-66a0043e3ae32947959f052f
 tags:
-  - Google
+  - google
+  - android
 excerpt: |-
   Reliability is important for a mobile payments app. And so is just plain working.
 ---

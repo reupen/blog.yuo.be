@@ -6,7 +6,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5a9a6ef66a352c2ff1a77a88
 tags:
-  - C++
+  - c++
+  - programming
 excerpt: |-
   I previously wrote
   [https://blog.yuo.be/2016/05/11/columns-ui-can-now-be-compiled-using-clang/] about how

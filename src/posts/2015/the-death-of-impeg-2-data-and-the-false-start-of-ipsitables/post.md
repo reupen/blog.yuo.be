@@ -5,6 +5,9 @@ date: 2015-12-30T19:10:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-281
+tags:
+  - win32
+  - programming
 excerpt: |-
   In the Windows Vista-era, I wrote a DVB-T program. Apart from letting you view
   TV, it read and parsed DVB-SI. With the removal of Media Centre in Windows 10, I

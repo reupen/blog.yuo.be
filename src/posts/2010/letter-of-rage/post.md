@@ -6,13 +6,7 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-290
 tags:
-  - Broadcom
-  - Delete
-  - Hard Drive
-  - Incompetence
-  - Volume
-  - Widcomm
-  - Wipe
+  - software
 excerpt: |-
   Dear Broadcom WIDCOMM Bluetooth Software 6.2.1.2100 installer,
 

@@ -5,6 +5,8 @@ date: 2009-01-27T22:56:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-318
+tags:
+  - hardware
 excerpt: |-
   I ended up sending back the Samsung SSD, and bought an Mtron MOBI 3500 instead.
   (After a bit more research I found out that the Samsung was somewhat better, but

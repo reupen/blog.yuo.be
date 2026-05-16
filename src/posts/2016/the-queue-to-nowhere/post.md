@@ -6,7 +6,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-373
 tags:
-  - Win32
+  - win32
+  - programming
 excerpt: |-
   Recently, I received a report of a hang when using one of my foobar2000
   components on Windows 10. I had a process dump file which showed the hang was

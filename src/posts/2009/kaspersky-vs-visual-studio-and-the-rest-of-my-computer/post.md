@@ -5,6 +5,8 @@ date: 2009-04-19T21:13:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-312
+tags:
+  - software
 excerpt: |-
   I thought I would try Kaspersky Internet Security 2009, since someone else in
   this household uses a certain bank gives out free licences.

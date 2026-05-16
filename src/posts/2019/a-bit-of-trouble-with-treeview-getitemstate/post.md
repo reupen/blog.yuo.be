@@ -6,8 +6,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5c49b13a82a70122297abfc0
 tags:
-  - Win32
-  - C++
+  - win32
+  - programming
 excerpt: |-
   Recently, I had a bit of trouble with TreeView_GetItemState
   [https://docs.microsoft.com/en-gb/windows/desktop/api/Commctrl/nf-commctrl-treeview_getitemstate]

@@ -5,6 +5,8 @@ date: 2007-02-13T19:47:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-351
+tags:
+  - hardware
 excerpt: |-
   Fed up of my laptop's built-in wireless cutting out all the time, I was forced
   to use my old external adaptor which doesn't cut out but gets in a confused

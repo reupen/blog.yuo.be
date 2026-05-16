@@ -121,7 +121,21 @@ const readingTime = Math.max(
         <time datetime={post.data.date.toISOString()}>
           {format(post.data.date, "d MMMM yyyy")}
         </time><span class="bullet"> • </span><span>{readingTime} min read</span
-        >
+        >{
+          post.data.tags.length > 0 && (
+            <span class="tags">
+              <span class="bullet"> • </span>
+              <span class="visually-hidden">Tags: </span>
+              <span>
+                {post.data.tags.map((tag) => (
+                  <>
+                    <a href={`/tag/${tag}/`}>#{tag}</a>{" "}
+                  </>
+                ))}
+              </span>
+            </span>
+          )
+        }
       </p>
     </div>
   </div>
@@ -170,6 +184,31 @@ const readingTime = Math.max(
   :global(h1) {
     font-weight: 500;
     font-family: var(--serif-font-family);
+  }
+
+  .tags {
+    display: block;
+    margin-top: 0.15rem;
+
+    @media (min-width: calc(700px + 3rem)) {
+      display: inline;
+      margin-top: 0;
+    }
+
+    .bullet {
+      display: none;
+
+      @media (min-width: calc(700px + 3rem)) {
+        display: initial;
+      }
+    }
+  }
+  .tablet {
+    display: none;
+
+    @media (min-width: calc(700px + 3rem)) {
+      display: initial;
+    }
   }
 
   .post-header {

@@ -35,6 +35,7 @@ const posts = defineCollection({
         is_auto_excerpt: z.boolean().optional(),
         is_draft: z.boolean().default(false),
         is_imported: z.boolean().optional(),
+        tags: z.array(z.string()).optional().default([]),
         title: z.string(),
         width: z.enum(["wide-1", "wide-2", "wide-3", "wide-4"]).optional(),
       })

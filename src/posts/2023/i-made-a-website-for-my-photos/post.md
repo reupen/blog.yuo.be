@@ -7,6 +7,8 @@ is_imported: true
 comment_id: ghost-6516dd4f186cc48a4af6cd90
 tags:
   - photography
+  - web
+  - programming
 excerpt: |-
   Photography is a small hobby of mine, and I used to post some of my photos on photography websites like 500px. But, apart from blurry photos, on that site you get people liking your photos just because you liked theirs, and people following you just so that you follow them back: it’s basically like interacting with bots.
 

@@ -5,6 +5,8 @@ date: 2008-11-03T23:29:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-326
+tags:
+  - hardware
 excerpt: |-
   The process I followed is relatively funny really:
 

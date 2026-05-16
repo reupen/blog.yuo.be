@@ -6,7 +6,8 @@ is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-64ea3e2454598e1f167b0f54
 tags:
-  - Windows
+  - windows
+  - win32
 excerpt: |-
   It turns out the Win32 tree view control has a novel way of selecting items. If you hold down Shift and scroll your mouse wheel up (but not down!) it will select the item underneath the pointer.
 

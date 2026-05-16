@@ -5,6 +5,8 @@ date: 2007-08-23T23:13:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-346
+tags:
+  - windows
 excerpt: |-
   I learnt of a neat trick on Vista through another blog - if you
   hold down shift whilst right clicking on a folder on Vista you get an extra

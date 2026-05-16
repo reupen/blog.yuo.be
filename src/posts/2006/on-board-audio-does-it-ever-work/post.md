@@ -5,6 +5,8 @@ date: 2006-10-13T10:45:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-360
+tags:
+  - hardware
 excerpt: |-
   I am more and more regretting my purchase of the M2N32-SLI Deluxe motherboard
   (over the Gigabyte GA-M59SLI-S5). Since I have started to use the on-board

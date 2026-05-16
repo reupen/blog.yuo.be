@@ -5,6 +5,8 @@ date: 2007-12-03T12:42:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-339
+tags:
+  - programming
 excerpt: |-
   ...And incremental linking is apparently broken! What great fun!
 ---

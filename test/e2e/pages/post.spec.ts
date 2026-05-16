@@ -37,4 +37,12 @@ test.describe("/2024/10/20/cahoot-an-awful-2fa-login-process/", () => {
       page.getByRole("link", { name: "Cahoot: An awful 2FA login process" }),
     ).toBeInViewport()
   })
+
+  test("can navigate to the tag index page", async ({ page }) => {
+    await page.getByText("#web").click()
+
+    await expect(
+      page.getByRole("heading", { name: "Posts tagged #web" }),
+    ).toBeInViewport()
+  })
 })

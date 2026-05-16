@@ -5,6 +5,8 @@ date: 2008-03-19T20:46:00.000Z
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-334
+tags:
+  - web
 excerpt: |-
   Amazon.co.uk have a little thing on their website where you can submit
   corrections in their product listings. It seems a bit cheeky really, but even
