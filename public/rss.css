@@ -1,9 +1,9 @@
 :root {
-  --body-background: light-dark(#fefefe, #1d1d1d);
-  --text-accent-colour: light-dark(#2365c9, #ff8049);
-  --text-accent-colour-highlight: light-dark(#10489f, #ffaf47);
+  --body-background: light-dark(#fefefe, #151515);
+  --text-accent-colour: light-dark(#2365c9, #ffaf15);
+  --text-accent-colour-highlight: light-dark(#10489f, #ffd549);
   --text-colour: light-dark(#000, #fff);
-  --text-colour-muted: light-dark(#151515, #d3d3d3);
+  --text-colour-muted: light-dark(#151515, #e7e7e7);
 
   color-scheme: light dark;
   font-family: system-ui, sans-serif;

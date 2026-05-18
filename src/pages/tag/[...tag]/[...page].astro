@@ -82,6 +82,7 @@ const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
 <style>
   h2 {
     margin-bottom: 1rem;
+    font-size: 30px;
   }
 
   ol {
@@ -92,11 +93,11 @@ const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
   li {
     padding-left: 0;
     margin-bottom: 1.35rem;
-    line-height: 1.5;
+    line-height: 1.45;
     font-family: var(--sans-serif-font-family);
 
     a {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 600;
 
       &:not(:hover) {
@@ -106,23 +107,24 @@ const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
 
     .post-date {
       font-size: 13px;
-      margin-top: 0.2rem;
-      line-height: 1.7;
+      margin-top: 0.25rem;
+      line-height: 1.6;
       text-transform: uppercase;
       color: var(--text-colour-very-muted);
       font-weight: 375;
     }
 
     .post-excerpt {
-      font-size: 18px;
-      margin-top: 0.1rem;
+      font-size: 17px;
+      margin-top: 0.15rem;
       margin-bottom: 0.1rem;
-      line-height: 1.7;
+      line-height: 1.6;
     }
   }
 
   .post-header {
     background: var(--nav-background);
+    color: var(--nav-text-colour);
     padding: 0.75rem 1rem 1rem;
 
     @media (min-width: calc(700px + 3rem)) {
