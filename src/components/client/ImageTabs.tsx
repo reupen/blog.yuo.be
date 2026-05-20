@@ -130,7 +130,7 @@ export function ImageTabs({
           {images.map((image, index) => (
             <button
               id={`${id}-tab-${index}`}
-              aria-controls={`${id}-panel-${activeIndex}`}
+              aria-controls={`${id}-panel-${index}`}
               aria-selected={activeIndex === index}
               className={clsx(activeIndex === index && "active")}
               key={image.src.src}
