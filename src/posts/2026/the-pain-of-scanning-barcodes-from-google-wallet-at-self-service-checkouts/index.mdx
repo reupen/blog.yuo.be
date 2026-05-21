@@ -1,0 +1,119 @@
+---
+title: "Google Wallet, barcodes, self-service checkouts and feeling incompetent"
+date: 2026-05-22
+tags:
+  - google
+  - android
+excerpt: |-
+  If only there was another dimension so that I have some new ways to point my phone.
+---
+
+import { ImageGrid } from "@/components"
+
+import pass_full_screen_view_avif from "./pass-full-screen.avif"
+import pass_normal_view_png from "./pass-normal-view.png"
+
+I find it convenient to add gift[^1] and loyalty cards to Google Wallet on my
+Android phone. It keeps them in one quick-to-open place, often with
+self-updating gift card balances too.
+
+But one recurring bit of pain is that I often find it difficult to get
+self-service tills to scan barcodes shown from Google Wallet. And holding your
+phone at endless different angles in the hope that the barcode will scan, while
+someone is waiting behind you, is a good way to make you feel flustered and
+incompetent. Often even that doesn’t work, and you resort to scanning the
+barcode from somewhere else, like the retailer’s own app or a print-out, or you
+just give up.
+
+I’ve only really noticed this problem at the compact type of self-service till
+you’d often find at a Tesco Express, for example (and incidentally, a Tesco
+Clubcard is one of the things that gives me problems). Larger self-service tills
+like those at a Tesco superstore are usually no problem.
+
+I never really understood what the problem is – I thought maybe the scanner
+doesn’t like phone displays or my screen protector, or perhaps the clear screen
+in front of the scanner was in need of a clean. But none of those reasons would
+explain why scanning the barcode from somewhere else on my phone often works.
+
+I got a bit of a clue about what the problem might be when I had a particular
+e-gift card that wouldn’t scan when shown in my web browser. That was in
+portrait mode – I noticed that the gift card would scan fine if I put my phone
+in landscape mode. Switching to landscape mode both enlarged the
+(one-dimensional) barcode and added more white space around it, and so I assumed
+one or both of those is what did the trick.
+
+It was after discovering that I realised that you can tap barcodes in Google
+Wallet to show them on a pure white screen (usually with the barcode a bit
+bigger too). Here’s an example of the difference[^2]:
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: pass_normal_view_png,
+      alt: "A screenshot of the normal view of a 1D barcode in Google Wallet, with a small white area around the barcode.",
+    },
+    {
+      image: pass_full_screen_view_avif,
+      alt: "A screenshot of the enlarged view of a 1D barcode in Google Wallet, where the entire background is white apart from the top navigation bar in the app.",
+    },
+  ]}
+>
+  Don’t worry, the barcode shown from a Donkey Kong Bananza case (rather than
+  anything sensitive)
+</ImageGrid>
+
+}
+
+And barcodes are indeed far easier to scan in the enlarged view (though it still
+might take holding your phone at a funny angle).
+
+I’ve probably tapped a barcode in Google Wallet and seen that view before at
+some point in the past. But it’s such a non-obvious interaction (and you have to
+tap on or close to the barcode itself, rather than somewhere else in the larger
+coloured box), it had never occurred to me to try tapping there when I was
+having difficulty getting a pass to scan.
+
+There’s plenty of space for Google to add a ‘Pass not scanning?’ or ‘Expand’
+link in the normal view to get to the big-white-background view, which would
+make it far more obvious that it exists (and would’ve helped me out much
+earlier). (Though it’d be good to better optimise the normal view for ease of
+scanning in the first place – tapping an extra time to get to the enlarged view
+and then having to go back two screens to get to a payment card afterwards is a
+bit cumbersome.)
+
+(Another thing worth mentioning is that if you switch your phone to landscape
+mode before opening a pass, the pass will also open in landscape mode. Once the
+pass has been opened, you can’t switch between portrait and landscape modes.
+This may be deliberate to avoid problems when holding your phone at funny angles
+with auto-rotation on. But I have auto-rotation off and normally only use manual
+rotation, and I never knew landscape mode was supported until now. I had
+previously wanted to try landscape mode in Google Wallet to see if it helps with
+getting 1D barcodes to scan in particular.)
+
+## Barcode problems elsewhere
+
+Dark mode is also something that can cause problems with barcodes. In Gmail, for
+example, the background of the barcode can get messed up. (In the most recent
+example I’ve had, the email used an HTML table to create the barcode, with an
+explicit white background on the table. The Gmail app changed the background
+colour of the barcode, rendering it almost invisible.) Naturally, this can be
+worked around by temporarily disabling dark mode (for example, using a quick
+settings tile).
+
+Web browsers that have forced dark theming for web pages can also break
+barcodes. Even if the background of the barcode itself stays white, if the
+surrounding area turns black with no border around the barcode, the left and
+right edges of the barcode will be hard to distinguish from the background.
+Similar to the Gmail problem, this is easily defeated by temporarily disabling
+forced dark theming in the browser – but you have to know that you need to do
+that.
+
+[^1]:
+    If the original gift card didn’t come with an ‘add to Google Wallet’ link,
+    there’ll often be one when you do a balance check online via the retailer.
+
+[^2]:
+    It was impossible to take a screenshot or screen recording of the enlarged
+    view, so I had to take a photo of it.
