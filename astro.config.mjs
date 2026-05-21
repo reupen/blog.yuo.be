@@ -1,6 +1,7 @@
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
+import umami from "@yeskunall/astro-umami"
 import compress from "astro-compress"
 import { defineConfig } from "astro/config"
 import rehypeExternalLinks from "rehype-external-links"
@@ -28,6 +29,7 @@ export default defineConfig({
     }),
     mdx(),
     react(),
+    ...(process.env.UMAMI_ID ? [umami({ id: process.env.UMAMI_ID })] : []),
   ],
   markdown: {
     rehypePlugins: [
