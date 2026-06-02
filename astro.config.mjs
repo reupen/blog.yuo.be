@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark"
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
@@ -32,14 +33,16 @@ export default defineConfig({
     ...(process.env.UMAMI_ID ? [umami({ id: process.env.UMAMI_ID })] : []),
   ],
   markdown: {
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        {
-          rel: ["noreferrer"],
-        },
+    processor: unified({
+      rehypePlugins: [
+        [
+          rehypeExternalLinks,
+          {
+            rel: ["noreferrer"],
+          },
+        ],
       ],
-    ],
+    }),
     shikiConfig: {
       defaultColor: false,
       langs: [fb2kTmGrammar],
