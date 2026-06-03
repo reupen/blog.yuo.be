@@ -1,0 +1,304 @@
+---
+title:
+  "I finally installed the ASRock Rack W880D4U motherboard that I bought in my
+  NAS"
+date: 2026-06-05
+tags:
+  - hardware
+excerpt: |-
+  It works better with RAM.
+---
+
+import { CaptionedImage } from "@/components"
+import { ImageTabs } from "@/components/client"
+
+import installed_avif from "./installed.avif"
+import io_flaps_installed_avif from "./io-flaps-installed.avif"
+import io_shield_avif from "./io-shield.avif"
+import ipmi_bios_webp from "./ipmi-bios.webp"
+import ipmi_closed_loop_control_table_webp from "./ipmi-closed-loop-control-table.webp"
+import ipmi_dashboard_webp from "./ipmi-dashboard.webp"
+import ipmi_fan_assignment_webp from "./ipmi-fan-assignment.webp"
+import ipmi_fan_mode_webp from "./ipmi-fan-mode.webp"
+import ipmi_manual_speed_config_webp from "./ipmi-manual-speed-config.webp"
+import ipmi_open_loop_control_table_webp from "./ipmi-open-loop-control-table.webp"
+import ipmi_remote_kvm_webp from "./ipmi-remote-kvm.webp"
+
+I bought an
+[ASRock Rack W880D4U motherboard](https://www.asrockrack.com/general/productdetail.asp?Model=W880D4U)
+(along with an Intel Core Ultra 5 245K CPU) back in November to upgrade my
+self-built NAS. And they’ve been sitting in their boxes since because I had no
+DDR5 ECC RAM to go along with them.
+
+## Getting RAM, slowly
+
+I had ordered two sticks of Kingston 48GB 5600MT/s DDR5 ECC RAM from Amazon at
+the palatable price of £230 each. Sadly, they never materialised – Amazon
+cancelled my order after six months due to ‘a lack of availability’. The same
+RAM now costs £1,573.60 a stick on one UK site selling it and £2,262.36 a stick
+on the only other UK site I can find.
+
+I got on the chat with Amazon and asked if there was anything they could do
+(mentioning the fact that the price of the RAM had increased significantly).
+They said they would offer a ‘price honor’ (their spelling) and, if I bought the
+same item from another seller on Amazon.co.uk, they would refund the difference.
+
+The first problem with that is there aren’t any sellers offering the same RAM on
+Amazon.co.uk. The second problem is that, even if there were, I’d be asking for
+a refund close to £4,000. Even if, by some miracle, Amazon gave me that refund,
+I’d be worrying about my Amazon account being flagged as unprofitable and then
+being closed.
+
+Begrudgingly, I let my failed Amazon order go and kept an eye on the second-hand
+market. That paid off as I was able to get two sticks of used Hynix 16GB DDR5
+ECC RAM at the non-silly price of £160 in total. (I was originally going for
+96GB of RAM in total, but 32GB will easily do for now.)
+
+### Why did I pick this board?
+
+This model might seem a bit obscure, but it’s exactly what I wanted for my use
+case of a NAS (running
+[TrueNAS Community Edition](https://www.truenas.com/truenas-community-edition-features/)).
+
+First, being based on the Intel W880 chipset, it supports
+[ECC RAM](https://en.wikipedia.org/wiki/ECC_memory) with inexpensive consumer
+CPUs like the
+[Intel Core Ultra 5 245K](https://www.intel.com/content/www/us/en/products/sku/241067/intel-core-ultra-5-processor-245k-24m-cache-up-to-5-20-ghz/specifications.html)
+that I bought.
+
+Second, it has a baseboard management controller (BMC) and supports the
+[Intelligent Platform Management Interface (IPMI)](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface).
+As part of that, it has a web interface that includes remote desktop-like
+functionality. That means I don’t need to connect a keyboard, mouse or monitor
+to the machine – I can instead connect an Ethernet cable from my router to a
+dedicated port on the motherboard, visit an IP address in a web browser and do
+any configuration or troubleshooting conveniently from there.
+
+The board is also in the microATX form factor (which fits in my small case) and
+supports connecting eight SATA drives (four via dedicated ports, four via a
+supplied mini-SAS to 4× SATA cable). It also isn’t an obscene price.
+
+Unfortunately, it’s not readily available in the UK. It can be easily imported
+via Amazon (on the UK site) or Newegg though.
+
+## My existing kit
+
+I was planning on keeping the rest of my existing kit. That is a Fractal Design
+Node 804 microATX case, a Corsair SF450 Platinum PSU, an AQC107-based 10 GbE
+PCIe card and, of course, my existing drives.
+
+## Installing the board
+
+### Hooking up some power
+
+I was upgrading from an older ASRock Rack C246-based Mini-ITX board. The old
+board had one ATX 12V power input while the new one has three. The manual for
+the new board wasn’t very clear about whether all three needed to be connected,
+so I emailed ASRock Rack to ask. They said:
+
+> This depends on the hardware you are going to use on the board. If it’s
+> minimal then you can use the Atx12v4 ( 4 pin) and the Atx 12 v1 & 12 v2. If
+> you planning on using a lot of hardware in the future maybe an idea to invest
+> in ta psu with 3 atx12v connectors.
+
+(Note that the ‘Atx12v4’ mentioned in that quote is actually called ‘ATX4PIN1’
+in the manual – it’s a 4-pin Micro-Fit socket that you connect the 24-pin ATX
+cable to via a supplied adaptor.)
+
+I wasn’t going to be connecting much to the board, so I took from their reply
+that I would be fine connecting only two ATX 12V cables. My modular PSU, a
+now-discontinued Corsair SF450, only came with one ATX 12V cable. That cable
+plugs into the same sockets on the PSU as the 8-pin PCIe power cables do, and
+there were three such sockets on the PSU in total. I wasn’t using the PCIe
+cables, so I just ordered another Corsair ATX 12V cable. That turned out to be a
+two-pack, so I now had cables for all three ATX 12V sockets on the motherboard.
+
+It turned out, though, that that wasn’t my only PSU cable-related problem. My
+PSU uses the compact SFX form factor and came with short cables. The layout of
+the new motherboard was different from my old one, and the 24-pin ATX and 8-pin
+ATX 12V cables that my PSU came with barely reached their new destinations. The
+standalone cables that Corsair sells are normal-length ones (i.e. longer than
+the ones bundled with my PSU), so I just ordered more to replace those two
+cables as well.
+
+### The I/O shield
+
+The I/O shield had a flap over one of the Ethernet ports:
+
+<CaptionedImage
+  src={io_shield_avif}
+  alt="The I/O shield that came with the motherboard, with a flap over one of the top Ethernet ports."
+  caption="I’ve named the shield Flappy McFlapface"
+/>
+
+I hadn’t seen such a thing before, and was worried that that was abnormal, so I
+also asked ASRock Rack about it. They said:
+
+> You need to bend the clip backward so it would fit the nic. Please do it in
+> such a way that it touches the network port on the top side. Same goes for the
+> ther ports
+
+I didn’t understand what they meant until I went to install the board. Here it
+is visualised:
+
+<CaptionedImage
+  src={io_flaps_installed_avif}
+  alt="The rear of the I/O shield once the motherboard has been installed, with the flap bent inwards and sitting on top of the Ethernet port module."
+  caption="I’m not sure what the fourth MAC address is for"
+/>
+
+The Ethernet flap is touching some stickers with the MAC addresses of the ports,
+so I’m not sure it’s doing anything useful. Alas, it is what it is, and I’m not
+using those two ports as I have a separate 10 GbE PCIe card anyway.
+
+### A few other installation snags
+
+I was upgrading from a Mini-ITX motherboard, and so I hadn’t installed the
+additional microATX stand-offs in my case. Hence, I needed to put those in. It’s
+been a while since I’ve had to screw motherboard stand-offs in myself as the
+last few desktop cases I’ve bought have had them pre-installed. I couldn’t find
+the tool that came with the case to tighten them, so I first did it by hand. And
+when I then went to install the motherboard, it didn’t seem to be lying flat (my
+clue was when one of the screws didn’t reach the stand-off underneath). As it
+turned out, I hadn’t screwed all the stand-offs in fully, so I had to remove the
+board and sort that before reinstalling the board.
+
+When I went to install my 10 GbE PCIe card, it wasn’t correctly lined up
+horizontally with the slot on the motherboard. I don’t recall having had a
+similar problem before. I had to loosen the motherboard screws, shift the
+motherboard 1mm to the right and install the card before tightening the screws
+again.
+
+I had bought a Noctua NH-D9L CPU cooler to use with my new set-up. When I was
+getting ready to install everything, I got slightly worried that the cooler
+wouldn’t be compatible with the motherboard. So, I checked the NH-D9L
+compatibility page on Noctua’s website. To my relief, the motherboard was one of
+two ASRock Rack LGA1851 models listed as compatible. And, indeed, I was able to
+install the cooler fine.
+
+I also decided to replace all the fans that came with the case as, rather than
+being PWM fans, they connected to a fan controller. That fan controller had a
+short SATA power connector, which is annoying to connect up. So I ditched those
+fans and the fan controller and installed some better Noctua PWM fans.
+
+I’ll also mention that I first installed the new Noctua front fan using the
+bundled NA-AV2 double-sided rubber mounts – and then found that they prevented
+the front dust filter from being reinserted (at least without cutting the rubber
+mounts with scissors). I ended up just using screws instead.
+
+### The installed board
+
+Here’s what the board looks like fully installed in my case:
+
+<CaptionedImage
+  src={installed_avif}
+  alt="The motherboard installed in the case, with the CPU cooler, power cables and other parts all installed and connected."
+  caption="The new PSU cables I bought all have nice cable combs"
+/>
+
+(I might be able to tidy that up a little bit more, but it’s not like anyone is
+looking at it in real life :P)
+
+## Booting up the board
+
+As I’d replaced almost every PSU cable, I disconnected anything not absolutely
+necessary for my first attempt at powering on the motherboard just in case I
+ended up frying something. It powered up fine, so I ran a single pass of
+MemTest86 as a quick check that my second-hand RAM was working. That passed, so
+I then updated the BMC firmware and the BIOS via the BMC web interface. (The
+board came with BIOS version 1.05 and BMC version 1.07.00, which were oddly
+older than the ‘first version[s]’ listed on ASRock Rack’s website. I’ve updated
+to BIOS version 2.03 beta and BMC firmware 1.10.00.)
+
+I then did a full MemTest86 run which came back clear. Finally, I connected up
+the rest of my hardware and powered on the motherboard again. I checked that all
+hard drives were detected before proceeding to boot. All the drives were showing
+in the BMC web interface, so I let the motherboard continue booting, and TrueNAS
+started like nothing had ever happened.
+
+### The BMC web interface
+
+Here’s a screenshot of the dashboard page in the baseboard management
+controller’s web interface:
+
+<CaptionedImage
+  src={ipmi_dashboard_webp}
+  alt="The BMC web interface dashboard, showing navigation and basic system information."
+  caption="I have no idea why the date and time in the top-left corner is wrong"
+/>
+
+There is an (albeit not fully up-to-date) BMC manual on ASRock Rack’s website,
+so there’s no point in me going through everything that’s there. Having switched
+to PWM fans, though, I was interested in fan settings. The web interface has
+five pages for those:
+
+<ImageTabs
+  client:visible
+  images={[
+    {
+      src: ipmi_open_loop_control_table_webp,
+      alt: "The ‘Open Loop Control Table’ page, allowing configuration of a fan curve.",
+      label: "Open loop control table",
+    },
+    {
+      src: ipmi_closed_loop_control_table_webp,
+      alt: "The ‘Closed Loop Control Table’ page, containing ramp up and down settings.",
+      label: "Closed loop control table",
+    },
+    {
+      src: ipmi_fan_assignment_webp,
+      alt: "The ‘Fan Assignment’ page, allowing assignment of fans to sensors and control tables.",
+      label: "Fan assignment",
+    },
+    {
+      src: ipmi_manual_speed_config_webp,
+      alt: "The ‘Manual Speed Config’ page, allowing the configuration of fixed fan speeds.",
+      label: "Manual speed config",
+    },
+    {
+      src: ipmi_fan_mode_webp,
+      alt: "The ‘Fan Mode’ page, allowing selection between preset fan modes, custom settings or manual mode.",
+      label: "Fan mode",
+    },
+  ]}
+  stateId="w880d4u-ipmi-fan-controls"
+  tabsAtTop
+/>
+
+And as I mentioned, the BMC has remote desktop-like KVM functionality:
+
+<CaptionedImage
+  src={ipmi_remote_kvm_webp}
+  alt="The remote KVM page in the web interface."
+  caption="The TrueNAS console"
+/>
+
+One other thing I wasn’t expecting is that there is a web interface version of
+the BIOS screens:
+
+<CaptionedImage
+  src={ipmi_bios_webp}
+  alt="The web version of the ‘CPU Configuration’ BIOS screen"
+  caption="It might be handy"
+/>
+
+However, note that there are a few things missing (for example, the entire OC
+Tweaker menu isn’t there.)
+
+### Other notes
+
+The time from power-on to GRUB appearing for a warm start is 67 seconds. Idle
+power consumption in TrueNAS is around 55 to 58W. That’s with three case fans,
+one CPU fan, four SATA HDDs, one SATA SSD and one PCIe 10 GbE card. (Running any
+TrueNAS apps or similar with continuous activity will push up power consumption,
+of course.)
+
+I’ve set power limit 1 (PL1) and power limit 2 (PL2) on the CPU to 65W in the
+BIOS to keep power usage down under load (though for the most part it will be
+nowhere near that).
+
+### Wrapping up
+
+Okay, this wasn’t the most exciting subject. But it’s nice to have a more modern
+motherboard and CPU in my trusty NAS box. I had my old motherboard and CPU for
+seven years, so let’s see how long this one sticks.

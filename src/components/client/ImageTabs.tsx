@@ -15,6 +15,7 @@ interface ImageTabsProps {
   pixelate?: boolean
   stateId: string
   stretch?: boolean
+  tabsAtTop?: boolean
 }
 
 export function ImageTabs({
@@ -23,6 +24,7 @@ export function ImageTabs({
   enlarge = false,
   pixelate = false,
   stretch = false,
+  tabsAtTop = false,
 }: ImageTabsProps) {
   const id = useId()
   const [activeIndex, setActiveIndex] = useState(0)
@@ -105,9 +107,36 @@ export function ImageTabs({
     )
   }
 
+  const tabButtons = (
+    <>
+      <div className={clsx(tabsAtTop && "is-top")} role="tablist">
+        {images.map((image, index) => (
+          <button
+            id={`${id}-tab-${index}`}
+            aria-controls={`${id}-panel-${index}`}
+            aria-selected={activeIndex === index}
+            className={clsx(activeIndex === index && "active")}
+            key={image.src.src}
+            onClick={() => switchTab(index)}
+            onKeyDown={handleTabKeyDown}
+            ref={(element) => {
+              tabRefs.current[index] = element
+            }}
+            role="tab"
+            tabIndex={activeIndex === index ? undefined : -1}
+          >
+            {image.label}
+          </button>
+        ))}
+      </div>
+    </>
+  )
+
   return (
     <>
       <div className={clsx("image-tabs-hydrated")}>
+        {tabsAtTop && tabButtons}
+
         {images.map((image, index) => (
           <div
             id={`${id}-panel-${index}`}
@@ -126,26 +155,7 @@ export function ImageTabs({
           </div>
         ))}
 
-        <div role="tablist">
-          {images.map((image, index) => (
-            <button
-              id={`${id}-tab-${index}`}
-              aria-controls={`${id}-panel-${index}`}
-              aria-selected={activeIndex === index}
-              className={clsx(activeIndex === index && "active")}
-              key={image.src.src}
-              onClick={() => switchTab(index)}
-              onKeyDown={handleTabKeyDown}
-              ref={(element) => {
-                tabRefs.current[index] = element
-              }}
-              role="tab"
-              tabIndex={activeIndex === index ? undefined : -1}
-            >
-              {image.label}
-            </button>
-          ))}
-        </div>
+        {!tabsAtTop && tabButtons}
       </div>
     </>
   )
