@@ -1,0 +1,67 @@
+---
+title: "Everyday Windows annoyances: Creating desktop shortcuts"
+date: 2026-06-14
+tags:
+  - windows
+excerpt: |-
+  Are you not meant to use the desktop these days?
+---
+
+import { CaptionedImage } from "@/components"
+
+import forza_start_menu_webp from "./forza-start-menu.webp"
+import forza_xbox_manage_webp from "./forza-xbox-manage.webp"
+
+I recently purchased[^1] a game on my Windows 11 PC via the Xbox app. And, after
+playing the game a few times, I wanted to create a shortcut to it on my desktop.
+
+I thought the easiest place to do this would be in the Start menu. I opened the
+Start menu and started typing the name of the game to bring it up quickly via a
+search. When it appeared in the results, I looked for a way to create a shortcut
+to the game on the desktop.
+
+To my annoyance, there was no obvious way to do it:
+
+<CaptionedImage
+  src={forza_start_menu_webp}
+  alt="Search results in the Start menu, showing an entry for Forza Horizon 6 and its context menu."
+  caption=""
+/>
+
+I thought that I might be able to drag the relevant item from the search results
+to my desktop. But no, it doesn’t let you do that either.
+
+As it turns out, to create a shortcut for such an app or game directly from the
+Start menu, you need to specifically drag it from either the ‘Pinned’ list or
+the ‘All’ list in the main view of the menu. One way to make that easier is to
+first pin the app to Start (for example, from the search results) and then
+reopen the Start menu and drag the app from the ‘Pinned’ list to the desktop.
+
+(Of course, you could go through the pain of finding the app in the ‘All’ list
+and drag the app from there to the desktop. As an aside, the category view of
+the ‘All’ list is useless here. Not a single one of my games is in the ‘Games’
+category. They’ve all been put into ‘Other’, along with a million other things.
+And for some other reason, the expanded category doesn’t have a normal scroll
+bar and scrolls at two miles an hour using the mouse wheel.)
+
+(There are some other less obvious methods that you might find online. For
+example, navigating to `shell:AppsFolder` in File Explorer opens the
+Applications special folder and you can drag the app from there to the desktop.)
+
+On the plus side, the people working on the Xbox app have at least been a bit
+more thoughtful and included a ‘Create desktop shortcut’ button in the Manage
+dialogue for a game:
+
+<CaptionedImage
+  src={forza_xbox_manage_webp}
+  alt="The ‘Manage’ dialogue for Forza Horizon 6 in the Xbox app."
+  caption="It wasn’t the first place I looked, but it does the job"
+  class="limit-height-slightly"
+/>
+
+It would be nice if you could add the same bit of basic functionality to the
+Start menu, Microsoft.
+
+[^1]:
+    To be more precise, I bought the game on another site and redeemed the code
+    I was given in the Xbox app.
