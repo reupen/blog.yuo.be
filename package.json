@@ -86,10 +86,12 @@
     "rehype-external-links": "^3.0.0",
     "sass": "^1.97.3",
     "schema-dts": "^2.0.0",
+    "sharp": "^0.35.1",
     "typescript-eslint": "^8.60.0"
   },
   "overrides": {
     "astro": "$astro",
+    "sharp": "$sharp",
     "typescript": "$typescript"
   }
 }
