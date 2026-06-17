@@ -12,7 +12,8 @@ const service: LocalImageService = {
   parseURL: baseService.parseURL,
   validateOptions: baseService.validateOptions,
   async transform(inputBuffer, transform) {
-    const injectedOptions = transform.format === "avif" ? { effort: 4 } : {}
+    const injectedOptions =
+      transform.format === "avif" ? { bitdepth: 12, effort: 3 } : {}
 
     const { data, info } = await limit(
       async () =>
