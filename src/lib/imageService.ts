@@ -25,6 +25,7 @@ const service: LocalImageService = {
             quality: transform.quality
               ? parseInt(transform.quality)
               : undefined,
+            nearLossless: transform.nearLossless,
           })
           .toBuffer({ resolveWithObject: true }),
     )

@@ -2,11 +2,11 @@
 import type { ComponentProps } from "astro/types"
 import { Picture } from "astro:assets"
 
-export type Props = ComponentProps<typeof Picture>
+export type Props = ComponentProps<typeof Picture> & { nearLossless?: boolean }
 
 const {
   fallbackFormat = "webp",
-  formats = ["avif", "webp"],
+  formats = Astro.props.nearLossless ? ["webp"] : ["avif", "webp"],
   quality = 90,
   ...rest
 } = Astro.props

@@ -1,0 +1,57 @@
+---
+title: "It looks like Forza Horizon 6 does not like Process Explorer"
+date: 2026-06-18
+tags:
+  - microsoft
+  - software
+excerpt: |-
+  Microsoft, meet Microsoft.
+---
+
+import { CaptionedImage } from "@/components"
+
+import forza_disconnected_avif from "./forza-disconnected.avif"
+import forza_prohibited_error_webp from "./forza-prohibited-error.webp"
+
+I started up Forza Horizon 6 today. Shortly after I began playing, it told me I
+was disconnected:
+
+<CaptionedImage
+  src={forza_disconnected_avif}
+  alt="Forza Horizon 6 in-game with a message saying ‘Alert! You have been disconnected. Please try again later. (X) To view Network Diagnostics’"
+  caption="The start of an abrupt ending"
+/>
+
+A bit later, the game disappeared from my screen, leaving this behind:
+
+<CaptionedImage
+  src={forza_prohibited_error_webp}
+  alt="A Windows message box with title ‘Error’, message ‘Prohibited: procexp64.exe 23c58404b6cfad9d998b10d2df6073e1275b7744c0416982bdc5cb7ef5b74348333d3ee7 Application terminated’ and button ‘OK’"
+  caption="Is that a custom hash algorithm?"
+  class="limit-width"
+  nearLossless
+/>
+
+Yes, apparently the game will self-destruct if you happen to have
+[Process Explorer](https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer),
+a Microsoft alternative to Task Manager, running.
+
+Perhaps they’re worried about me making sure the game isn’t using too much CPU.
+
+It might not be as annoying if the game refused to start if Process Explorer was
+running. But you go through the effort of loading the game and starting playing
+before it decides to enter a downward spiral.
+
+And so, I apparently have to remember to quit Process Explorer before I start
+the game. Will I get banned if I forget too many times?
+
+Let’s not get started on how the error messages don’t directly tell you what the
+problem is or how to fix it, or how a game developed and published by Xbox Game
+Studios gets so offended by some other Microsoft software that it invokes its
+inner kamikaze.
+
+(Apparently this isn’t the first game that does this – the same error message
+[has been reported in The Elder Scrolls Online](https://forums.elderscrollsonline.com/en/discussion/654126/game-crashes-when-process-explorer-from-microsofts-sysinternals-is-running)
+and
+[Age of Empires IV: Anniversary Edition](https://steamcommunity.com/app/1466860/discussions/2/4699035743124722973/),
+for example.)
