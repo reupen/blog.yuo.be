@@ -8,7 +8,7 @@ excerpt: |-
   Some things you have to work out yourself.
 ---
 
-import { CaptionedImage } from "@/components"
+import { Aside, CaptionedImage } from "@/components"
 
 import _1_turn_on_cleartype from "./1-turn-on-cleartype.png"
 import _2_select_monitors from "./2-select-monitors.png"
@@ -23,6 +23,16 @@ import _9_finish_monitor from "./9-finish-monitor.png"
 import _10_finish_all from "./10-finish-all.png"
 import bgr from "./bgr.avif"
 import rgb from "./rgb.avif"
+
+{
+
+<Aside>
+  <h2>June 2026 note</h2>
+  <p>
+    This is one of the more popular posts on this blog, so I’ve made a few small tweaks for clarity since the post was originally published.
+  </p>
+</Aside>
+}
 
 There’s a utility named ClearType Text Tuner that comes with Windows. It can be
 found by searching for ‘Adjust ClearType Text’ in the Start Menu or the Settings
@@ -141,13 +151,17 @@ And here’s a close-up of the text in the second option (BGR):
   alt="A close-up photo of the text in the second option, showing the subpixels of the words ‘Brown Fox’."
 />
 
+(You can click on those images to see larger versions.)
+
 You may be able to see that the subpixels of my monitor are ordered red, green
 and then blue, and that in the BGR photo there is colour down the middle of the
-stem of the letter r.
+stem of the letter r (indicating that it’s the wrong option for my monitor).
 
 This step sets three registry values. The first is `FontSmoothingOrientation`
 under `HKEY_CURRENT_USER\Control Panel\Desktop`. For this one, `1` means RGB,
-and `0` means BGR.
+and `0` means BGR. (See
+[The different registry key locations](#the-different-registry-key-locations)
+below for info on what the different registry locations affect.)
 
 The second value is a per-display value. It’s named `PixelStructure` and is
 under the `HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\<display name>`
@@ -156,7 +170,8 @@ display being tuned). The third value is the same as the second one, but under
 `HKEY_LOCAL_MACHINE` instead. For these values, `1` means RGB and `2` means BGR.
 
 And although it wasn’t an option in the tuner, `PixelStructure` can also be set
-to `0` (meaning ‘flat’, and causing greyscale anti-aliasing to be used).
+to `0` (meaning ‘flat’, and causing greyscale anti-aliasing to be used where the
+value is supported).
 
 ### 5. Click the text sample that looks the best to you (2 of 5)
 
@@ -165,7 +180,11 @@ to `0` (meaning ‘flat’, and causing greyscale anti-aliasing to be used).
   alt="A screenshot of the initial step of the ClearType Text Tuner, asking which of six text samples looks best."
 />
 
-This step sets the `FontSmoothingGamma` registry value under the
+This step only appears when tuning the primary display. If you have multiple
+displays, this step will be skipped for non-primary displays, and the step
+numbering in the titles of the other steps will be adjusted accordingly.
+
+The step sets the `FontSmoothingGamma` registry value under the
 `HKEY_CURRENT_USER\Control Panel\Desktop` key.
 
 The ClearType Text Tuner has seven options – `1000`, `1200`, `1400`, `1600`,
@@ -183,10 +202,6 @@ about it:
 > colors, a higher or lower contrast value may improve readability.
 
 (Despite what that quote says, the tuner seems to treat 1200 as the default.)
-
-If you have multiple displays, this step only appears when tuning the primary
-display. (For non-primary displays, this step is skipped and all the ‘Click the
-text sample that looks the best to you’ steps are renumbered.)
 
 ### 6. Click the text sample that looks the best to you (3 of 5)
 
@@ -264,9 +279,10 @@ range is 0 to 6.)
 This setting sets the `GrayscaleEnhancedContrastLevel` registry value under
 `HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\<display name>`.
 
-This is a contrast enhancement setting specifically for greyscale antialiasing.
-(And the DirectWrite documentation
-[does not say anything else about it](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite_1/nf-dwrite_1-idwriterenderingparams1-getgrayscaleenhancedcontrast).)
+This is a contrast enhancement setting specifically for the greyscale
+anti-aliasing mode in DirectWrite (and Direct2D) that applications can opt to
+use. (And the DirectWrite documentation
+[does not say anything else about the setting](https://learn.microsoft.com/en-gb/windows/win32/api/dwrite_1/nf-dwrite_1-idwriterenderingparams1-getgrayscaleenhancedcontrast).)
 
 The six options set the value to `0`, `50`, `100`, `200`, `300` and `400`
 respectively.
@@ -321,6 +337,22 @@ And
 So, if the value is not currently set, it can be worth going through the tuner
 once just to set it.)
 
+## The different registry key locations
+
+Different applications, and even different parts of the same application (such
+as in File Explorer), will be affected by different registry settings. It
+depends on the text rendering API the application uses and how the application
+uses that API.
+
+The `FontSmoothingOrientation` and `FontSmoothingGamma` values under
+`HKEY_CURRENT_USER\Control Panel\Desktop` will normally only affect applications
+using GDI to render text (and apply to all displays).
+
+The values under the `Avalon.Graphics` keys will normally be used by
+applications using DirectWrite or WPF. Some applications using DirectWrite may
+not support the per-display parameters, however, just use the values for the
+primary display.
+
 ## Other things to note
 
 All the above is what I’ve observed while experimenting with the tuner. It’s
@@ -328,20 +360,10 @@ possible that it can do other things in scenarios that I haven’t encountered.
 And older or newer versions of the tuner may behave differently (I primarily
 tested on Windows 11 24H2).
 
-Another point to note is that different applications, and even different parts
-of the same application (such as in File Explorer), will be affected by
-different settings. It depends on the text rendering API the application uses
-and how the application uses that API. As far as I know, the
-`FontSmoothingGamma` value under `HKEY_CURRENT_USER\Control Panel\Desktop` will
-only affect applications using GDI to render text. And all the values under
-`Avalon.Graphics` are primarily relevant for applications using DirectWrite or
-WPF. (And some applications using DirectWrite may not support the per-monitor
-parameters correctly and just use the values for the primary display.)
-
-There are also limited notifications when the ClearType Text Tuner changes
-settings, so you may need to close and reopen some apps after clicking the final
-‘Finish’ button to see the effect. (In the case of File Explorer, you’ll
-probably need to restart the process using Task Manager.)
+There are also limited notifications provided to applications when the ClearType
+Text Tuner changes settings, so you may need to close and reopen some apps after
+clicking the final ‘Finish’ button to see the effect. (In the case of File
+Explorer, you’ll probably need to restart `explorer.exe` using Task Manager.)
 
 Lastly,
 [Microsoft recommends greyscale anti-aliasing for their newer app technologies](https://learn.microsoft.com/en-gb/windows/win32/directwrite/introducing-directwrite#improved-text-rendering-with-cleartype),
