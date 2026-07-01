@@ -58,7 +58,7 @@ export function ImageTabs({
 
   const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const tabCount = images.length
-    let newIndex = null
+    let newIndex
 
     switch (event.key) {
       default:
