@@ -76,7 +76,7 @@
     "eslint-plugin-astro": "^2.1.1",
     "eslint-plugin-mdx": "^3.8.1",
     "eslint-plugin-perfectionist": "^5.9.1",
-    "globals": "^17.3.0",
+    "globals": "^17.7.0",
     "html-to-text": "^10.0.0",
     "postcss-custom-media": "^12.0.1",
     "postcss-preset-env": "^11.3.2",
