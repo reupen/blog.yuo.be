@@ -145,12 +145,12 @@ const readingTime = Math.max(
       <a class="coffee-link" href="https://buymeacoffee.com/reupen">
         <i aria-hidden="true" class="fa-solid fa-mug-hot fa-mobile-fw"
         ></i>&#x2004;Buy me a coffee
-      </a>
+      </a>{" "}
       <ShareMenu
         client:load
         title={post.data.title}
         url={Astro.url.toString()}
-      />
+      />{" "}
       <Comments
         client:load
         initialCommentCounts={commentCounts}

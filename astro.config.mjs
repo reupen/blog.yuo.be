@@ -55,5 +55,8 @@ export default defineConfig({
   trailingSlash: "always",
   vite: {
     assetsInclude: ["**/*.7z"],
+    resolve: {
+      tsconfigPaths: true,
+    },
   },
 })
