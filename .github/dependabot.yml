@@ -28,6 +28,8 @@ updates:
           - "astro-*"
       eslint:
         patterns:
+          - "@eslint/*"
+          - "@eslint-*"
           - "eslint"
           - "eslint-*"
       postcss:
