@@ -68,7 +68,7 @@
     "@playwright/test": "^1.58.2",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^22.19.11",
-    "@typescript-eslint/parser": "^8.60.0",
+    "@typescript-eslint/parser": "^8.62.0",
     "astro-compress": "^2.4.1",
     "cssnano": "^8.0.2",
     "date-fns": "^4.1.0",
@@ -86,7 +86,7 @@
     "sass": "^1.97.3",
     "schema-dts": "^2.0.0",
     "sharp": "^0.35.1",
-    "typescript-eslint": "^8.60.0"
+    "typescript-eslint": "^8.62.0"
   },
   "overrides": {
     "astro": "$astro",
