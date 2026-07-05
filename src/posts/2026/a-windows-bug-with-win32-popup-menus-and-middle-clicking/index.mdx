@@ -1,0 +1,135 @@
+---
+title: "A Windows bug with Win32 popup menus and middle-clicking"
+date: 2026-07-06
+published_at: 2026-07-06T00:00+01:00
+tags:
+  - windows
+excerpt: |-
+  For once it’s not a new bug.
+---
+
+import windows_menu_snafu_mp4 from "./windows-menu-snafu.mp4"
+
+I was going to start this post by explaining the bug in detail. But, instead,
+here’s a video of me demonstrating it in Firefox:
+
+<figure>
+  <video
+    aria-label="A video showing the system menu being opened for the Firefox window, and then the wrong tab being closed after a tab was middle-clicked."
+    height="680"
+    width="1584"
+    controls
+    loop
+    muted
+    playsInline
+  >
+    <source src={windows_menu_snafu_mp4} type="video/mp4" />
+  </video>
+  <figcaption>That’s not the tab I wanted to close</figcaption>
+</figure>
+
+Here, I moved Firefox close to the top-left of the screen, but offset slightly
+to the right. I then pressed Alt+Space to open the system menu. Finally, while
+that menu was open, I middle-clicked[^1] on the third tab which had the Firefox
+website open. Instead of that tab being closed, the BBC News tab to the right of
+it was.
+
+## The bug in detail
+
+As a bit of background,
+[windows](https://learn.microsoft.com/en-gb/windows/win32/winmsg/windows)
+created using the
+[Win32 API](https://learn.microsoft.com/en-gb/windows/win32/api/) (usually using
+the
+[`CreateWindowEx` function](https://learn.microsoft.com/en-gb/windows/win32/api/winuser/nf-winuser-createwindowexw))
+receive messages through a function called a
+[window procedure](https://learn.microsoft.com/en-gb/windows/win32/winmsg/window-procedures).
+(That window procedure is specified when the relevant
+[window class](https://learn.microsoft.com/en-gb/windows/win32/winmsg/window-classes)
+is registered.) These messages include mouse events, such as when particular
+mouse buttons are pressed.
+
+Those mouse events are typically supplied with client co-ordinates of where the
+mouse pointer was at the time of the event. Client co-ordinates mean that the
+co-ordinates are relative to the top-left of the content area of the window.
+They are usually contrasted with
+[(virtual) screen co-ordinates](https://learn.microsoft.com/en-gb/windows/win32/gdi/the-virtual-screen?source=recommendations)
+where the origin is the top-left corner of the primary display.
+
+It is also worth mentioning that windows come in different types. When you think
+of a window, top-level windows with a title bar (and usually a taskbar entry)
+are probably what first come to mind. But, even if it isn’t obvious, those
+top-level windows will often contain child windows. Those child windows might be
+things like UI controls or sections of the UI.
+
+The Win32 API also lets you create popup menus, which are a specific type of
+menu that looks like the one shown in the video above (though they can be dark
+themed too, albeit using undocumented API functions). Although these menus are
+becoming less common in Windows today, they were commonly used for context menus
+(for example, the older ‘Show more options’ version of the context menu in File
+Explorer).
+
+These Win32 popup menus are normally created using a function called
+[`TrackPopupMenuEx`](https://learn.microsoft.com/en-gb/windows/win32/api/winuser/nf-winuser-trackpopupmenuex).
+The function takes a handle to a window (called an `HWND`) as an argument, which
+becomes the owner of the menu. (Note that the bug affects this type of menu
+specifically – Firefox’s own menus, and modern Windows menus, are not affected.)
+
+When the menu is open, if you left- or right-click outside the menu, the menu
+closes and the click is processed normally.
+
+Clicks of the middle mouse button and the `XBUTTON1` and `XBUTTON2` buttons (the
+fourth and fifth buttons, often used for back and forward navigation) are
+handled differently. For some reason, the messages relating to clicks of those
+buttons are directed specifically to the window that owns the menu (even if the
+click was in a different application!).
+
+Crucially, for such clicks, the co-ordinates that accompany the message have the
+wrong origin – the co-ordinates are seemingly screen co-ordinates rather than
+the usual client co-ordinates. And so, the owning window is notified that the
+click happened – but it thinks that it happened somewhere different from where
+it actually did.
+
+Because the messages are directed specifically to the owner of the menu, this
+bug has little consequence for the most part. This is because the owner of the
+menu may not be something that responds to mouse messages (because there is some
+other child window that normally does that). Or even if it does, it may not
+respond to middle-clicks. (Or if it does, there may be nothing in the place that
+it thinks the click happened.)
+
+When the bug does trigger, though, the consequences can be unpleasant as
+middle-clicking is often used for closing things like tabs (and so you end up
+closing something that you didn’t mean to, without it being clear what exactly
+happened).
+
+I first encountered this bug when working on my own software. I wasn’t sure if I
+had somehow caused it, so I created an isolated reproduction which also helped
+me understand the bug. Once I understood how to trigger the bug, I was able to
+trigger it in various other pieces of software (like Firefox above). I also
+tested my repro on Windows 7 in a VM – the bug was there as well, so this isn’t
+something new (it’s just apparently gone unnoticed, or has been ignored, for a
+long time).
+
+## Working around the bug
+
+There are a couple of ways an application could attempt to work around this bug.
+One is to ignore the co-ordinates supplied with affected messages (such as
+[`WM_MBUTTONDOWN`](https://learn.microsoft.com/en-gb/windows/win32/inputdev/wm-mbuttondown))
+and instead use
+[`GetMessagePos()`](https://learn.microsoft.com/en-gb/windows/win32/api/winuser/nf-winuser-getmessagepos)
+to get the co-ordinates, which will be consistently in screen co-ordinates
+(although I would check if it behaves correctly with per-monitor DPI scaling if
+your app supports that).
+
+Another potential workaround is to ignore any such clicks if a menu is open.
+(Whether a menu is open can be detected using the
+[`GetGUIThreadInfo`](https://learn.microsoft.com/en-gb/windows/win32/api/winuser/nf-winuser-getguithreadinfo)
+function.)
+
+(Of course, it would be nice if Microsoft fixed the bug. But, even if they did,
+there will still probably be people running unfixed versions of Windows.)
+
+[^1]:
+    Unfortunately, the Mouse Highlighter tool in
+    [Microsoft PowerToys](https://learn.microsoft.com/en-gb/windows/powertoys/)
+    [does not support highlighting middle-clicks](https://github.com/microsoft/PowerToys/issues/15886).

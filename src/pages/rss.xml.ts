@@ -32,7 +32,7 @@ export async function GET(context: APIContext) {
       (await getPosts()).slice(0, 50).map((post) =>
         (async () => ({
           title: post.data.title,
-          pubDate: post.data.date,
+          pubDate: post.data.publishedAt ?? post.data.date,
           description: post.data.excerpt,
           link: `/${post.id}`,
           customData: `<yuo-be:pubDateIso>${post.data.date.toISOString()}</yuo-be:pubDateIso>

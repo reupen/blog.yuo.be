@@ -24,6 +24,7 @@ const posts = defineCollection({
       .object({
         comment_id: z.string().optional(),
         date: z.date(),
+        published_at: z.coerce.date().optional(),
         description: z.string().optional(),
         excerpt: z.string(),
         image: z
@@ -46,12 +47,14 @@ const posts = defineCollection({
           is_auto_excerpt: isAutoExcerpt,
           is_draft: isDraft,
           is_imported: _,
+          published_at: publishedAt,
           ...data
         }) => ({
           ...data,
           commentId,
           isAutoExcerpt,
           isDraft,
+          publishedAt,
           excerpt:
             isAutoExcerpt && excerpt.length > 220
               ? excerpt.substring(0, excerpt.lastIndexOf(" ", 160)) + "…"
