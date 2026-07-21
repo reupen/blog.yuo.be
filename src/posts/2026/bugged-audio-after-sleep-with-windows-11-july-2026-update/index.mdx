@@ -1,0 +1,82 @@
+---
+title: "Bugged audio after sleep with the Windows 11 July 2026 update"
+date: 2026-07-21
+published_at: 2026-07-21T19:20+01:00
+tags:
+  - windows
+  - microsoft
+excerpt: |-
+  Ship first, test later.
+---
+
+import { CaptionedImage } from "@/components"
+
+import settings_output_webp from "./settings-output.webp"
+import settings_sound_webp from "./settings-sound.webp"
+
+I thought Microsoft had got a handle on buggy Windows updates. Alas, since
+installing the KB5095093 preview update for Windows 11 25H2, the audio on my
+desktop PC is occasionally broken after resuming from sleep.
+
+Broken here means that applications get stuck when trying to play audio. Videos
+on the web, for example, just hang in a weird way.
+
+The problem has persisted with the non-preview KB5101650 July 2026 update
+recently released, and also with the KB5121767 out-of-band update that followed
+it.
+
+Some reports of this problem have also cropped up on the Microsoft forums in the
+last week:
+
+- [Windows Update KB5100998 Audio Issues](https://learn.microsoft.com/en-gb/answers/questions/5948960/windows-update-kb5100998-audio-issues)
+- [WIN11 - NO SOUND](https://learn.microsoft.com/en-gb/answers/questions/5951833/win11-no-sound)
+
+There’s also
+[a two-month-old report of this problem on the Feedback Hub](https://aka.ms/AA10yd3p).
+(The earlier date might be explained by the problem first cropping up in an
+insider preview version.)
+
+As you can imagine, the problem is very annoying. And so, when the problem has
+happened, I’ve been trying various things to fix things with the least amount of
+faff. After a fair bit of fiddling, I’ve found a reliable way to get audio
+working again on my PC[^1] (without resorting to restarting my computer).
+
+First, I navigate to the **Sound** page in **Settings** and click on my output
+device:
+
+<CaptionedImage
+  src={settings_sound_webp}
+  alt="The Sound page in the Windows Settings app"
+  caption="You can get to this page by right-clicking on the sound icon in the system tray"
+/>
+
+Then, I change **Audio enhancements** to another option, and then change it
+back:
+
+<CaptionedImage
+  src={settings_output_webp}
+  alt="The properties page for an audio output in the Windows Settings app"
+  caption="Of course, it’s very non-specific about what exactly these audio enhancements are"
+/>
+
+(In my case, I toggle it from **Off** to **Device Default Effects** and then
+back.)
+
+Unfortunately for me, I ran Disk Clean-up after installing KB5095093 and no
+longer have the option of simply uninstalling the relevant updates. (That also
+makes it difficult for me to conclusively prove that the update is what
+triggered the problem, though it was the most recent thing that had changed when
+the problem started.)
+
+Giving Microsoft the benefit of the doubt, it could be the case that the update
+revealed some bug in the audio drivers used on my system. Everything had been
+working fine previously, though. I tried updating my audio drivers after the
+problem first started (hence the recent driver date in the screenshot above),
+but the problem is still happening.
+
+As yet, there’s nothing related to this in the
+[Windows 11 25H2 known issues list](https://learn.microsoft.com/en-gb/windows/release-health/status-windows-11-25h2#known-issues),
+so I imagine that I’m going to have to put up with this for a bit longer (that
+is, until someone takes responsibility for the bug).
+
+[^1]: I say ‘my PC’, as I don’t know if the same steps will work for everyone.
