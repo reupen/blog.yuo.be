@@ -27,6 +27,7 @@ const posts = defineCollection({
         published_at: z.coerce.date().optional(),
         description: z.string().optional(),
         excerpt: z.string(),
+        featured_post_index: z.number().optional(),
         image: z
           .object({
             src: image(),
@@ -44,6 +45,7 @@ const posts = defineCollection({
         ({
           comment_id: commentId,
           excerpt,
+          featured_post_index: featuredPostIndex,
           is_auto_excerpt: isAutoExcerpt,
           is_draft: isDraft,
           is_imported: _,
@@ -52,6 +54,7 @@ const posts = defineCollection({
         }) => ({
           ...data,
           commentId,
+          featuredPostIndex,
           isAutoExcerpt,
           isDraft,
           publishedAt,

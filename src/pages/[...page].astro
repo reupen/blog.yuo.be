@@ -4,7 +4,7 @@ import { format } from "date-fns"
 
 import Pagination from "@/components/Pagination.astro"
 import Layout from "@/layouts/Layout.astro"
-import { getPosts } from "@/lib/server"
+import { getFeaturedPosts, getPosts } from "@/lib/server"
 
 export async function getStaticPaths({
   paginate,
@@ -12,7 +12,6 @@ export async function getStaticPaths({
   paginate: PaginateFunction
 }) {
   const posts = await getPosts()
-
   return paginate(posts, { pageSize: 20 })
 }
 
@@ -22,6 +21,8 @@ const description =
 const months = Map.groupBy(page.data, (post) =>
   format(post.data.date, "MMMM yyyy"),
 )
+
+const featuredPosts = page.currentPage === 1 ? await getFeaturedPosts() : []
 ---
 
 <Layout
@@ -43,6 +44,25 @@ const months = Map.groupBy(page.data, (post) =>
   </div>
   <div class="section">
     <div class="container">
+      {
+        featuredPosts.length > 0 && (
+          <div class="featured-container">
+            <h2>Featured posts</h2>
+            <ol class="featured-grid">
+              {featuredPosts.map((post) => (
+                <li>
+                  <p>
+                    <time datetime={post.data.date.toISOString()}>
+                      {format(post.data.date, "d MMMM yyyy")}
+                    </time>
+                  </p>
+                  <a href={`/${post.id}/`}>{post.data.title}</a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )
+      }
       {
         months.entries().map(([month, posts], index) => (
           <>
@@ -100,6 +120,40 @@ const months = Map.groupBy(page.data, (post) =>
       font-size: 17px;
       margin-top: 0.1rem;
       line-height: 1.7;
+    }
+  }
+
+  .featured-container {
+    background: var(--post-navigation-background);
+    border-radius: 6px;
+    padding: 0.3rem 1rem 1rem;
+
+    h2 {
+      margin-bottom: 0.2rem;
+      font-size: 28px;
+    }
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(calc((var(--max-body-width) - 2rem - 1.5rem * 2) / 3), 1fr)
+    );
+    gap: 0.25rem 1.5rem;
+
+    &,
+    li {
+      margin-bottom: 0;
+
+      a {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 15.5px;
+        margin-bottom: 0;
+      }
     }
   }
 
