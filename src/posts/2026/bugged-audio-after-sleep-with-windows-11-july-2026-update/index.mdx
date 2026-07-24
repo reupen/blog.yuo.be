@@ -6,7 +6,7 @@ tags:
   - windows
   - microsoft
 excerpt: |-
-  Ship first, test later.
+  Maybe that should say buggered instead.
 ---
 
 import { CaptionedImage } from "@/components"
@@ -38,11 +38,11 @@ insider preview version.)
 
 As you can imagine, the problem is very annoying. And so, when the problem has
 happened, I’ve been trying various things to fix things with the least amount of
-faff. After a fair bit of fiddling, I’ve found a reliable way to get audio
+faff. After a fair bit of fiddling, I’ve found two reliable ways to get audio
 working again on my PC[^1] (without resorting to restarting my computer).
 
-First, I navigate to the **Sound** page in **Settings** and click on my output
-device:
+For the first method, I navigate to the **Sound** page in **Settings** and click
+on my output device:
 
 <CaptionedImage
   src={settings_sound_webp}
@@ -62,6 +62,12 @@ back:
 (In my case, I toggle it from **Off** to **Device Default Effects** and then
 back.)
 
+The second method of fixing things involves using the
+[foobar2000](https://www.foobar2000.org) audio player. Simply temporarily
+playing something using the relevant exclusive output device option (e.g.
+‘Default : Primary Sound Driver [exclusive]’) makes things work again. (You can
+switch the output device back afterwards.)
+
 Unfortunately for me, I ran Disk Clean-up after installing KB5095093 and no
 longer have the option of simply uninstalling the relevant updates. (That also
 makes it difficult for me to conclusively prove that the update is what
@@ -76,7 +82,11 @@ but the problem is still happening.
 
 As yet, there’s nothing related to this in the
 [Windows 11 25H2 known issues list](https://learn.microsoft.com/en-gb/windows/release-health/status-windows-11-25h2#known-issues),
-so I imagine that I’m going to have to put up with this for a bit longer (that
-is, until someone takes responsibility for the bug).
+so I imagine that I’m going to have to put up with this for a bit longer[^2]
+(that is, until someone takes responsibility for the bug).
 
 [^1]: I say ‘my PC’, as I don’t know if the same steps will work for everyone.
+
+[^2]:
+    Admittedly, it seems to be happening less frequently in the last few days,
+    but it’s still happening.
