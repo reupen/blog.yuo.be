@@ -1,7 +1,7 @@
 ---
 title: "Verdict on replacement Seagate ST31500341AS"
 slug: verdict-on-replacement-seagate-st31500341-as
-date: 2008-11-23T19:58:00.000Z
+date: "2008-11-23T19:58:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-324

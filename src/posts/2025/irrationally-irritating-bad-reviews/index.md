@@ -1,6 +1,6 @@
 ---
 title: "Irrationally irritating bad reviews"
-date: 2025-04-12
+date: "2025-04-12"
 tags:
   - web
 excerpt: |-

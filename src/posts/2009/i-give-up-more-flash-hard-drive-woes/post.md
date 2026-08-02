@@ -1,7 +1,7 @@
 ---
 title: "I give up. (More flash/hard drive woes)"
 slug: i-give-up-more-flash-hard-drive-woes
-date: 2009-01-27T22:56:00.000Z
+date: "2009-01-27T22:56:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-318

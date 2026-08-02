@@ -1,7 +1,7 @@
 ---
 title: "Unwanted PC problems: fixing a Core i9-14900K freezing during gaming"
 slug: unwanted-pc-problems-fixing-a-core-i9-14900k-freezing-during-gaming
-date: 2024-01-28T00:00:18.000Z
+date: "2024-01-28T00:00:18.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-65b530e01fe2ea7fd10d1612

@@ -1,7 +1,7 @@
 ---
 title: "The bug that bites me"
 slug: the-bug-that-bites-me
-date: 2016-05-20T12:13:28.000Z
+date: "2016-05-20T12:13:28.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-368

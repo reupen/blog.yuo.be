@@ -1,7 +1,7 @@
 ---
 title: "Broken drivers"
 slug: broken-drivers
-date: 2011-04-27T10:18:00.000Z
+date: "2011-04-27T10:18:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-284

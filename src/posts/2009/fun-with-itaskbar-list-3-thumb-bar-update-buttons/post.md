@@ -1,7 +1,7 @@
 ---
 title: "Fun with ITaskbarList3::ThumbBarUpdateButtons"
 slug: fun-with-itaskbar-list-3-thumb-bar-update-buttons
-date: 2009-08-03T21:38:00.000Z
+date: "2009-08-03T21:38:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-302

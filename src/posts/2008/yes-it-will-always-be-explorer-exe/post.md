@@ -1,7 +1,7 @@
 ---
 title: 'Yes, it will always be "explorer.exe".'
 slug: yes-it-will-always-be-explorer-exe
-date: 2008-12-03T22:45:00.000Z
+date: "2008-12-03T22:45:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-322

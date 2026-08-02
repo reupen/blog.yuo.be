@@ -3,7 +3,7 @@ title:
   'Nokia N85 WiFi - "No gateway reply" with Thomson routers (also E71, N79,
   5800, ...)'
 slug: nokia-n85-wi-fi-no-gateway-reply-with-thomson-routers-also-e71-n79-5800
-date: 2008-11-25T22:42:00.000Z
+date: "2008-11-25T22:42:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-323

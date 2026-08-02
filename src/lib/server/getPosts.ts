@@ -1,6 +1,7 @@
-import { tz } from "@date-fns/tz"
 import { getCollection } from "astro:content"
 import { compareDesc, isSameMonth, isSameYear } from "date-fns"
+
+import { londonTz } from "@/lib"
 
 type BasePost = Awaited<ReturnType<typeof getCollection<"posts">>>[0]
 
@@ -29,12 +30,12 @@ export async function getPosts(tag?: string) {
     isNewMonth:
       index === 0 ||
       !isSameMonth(sortedPosts[index - 1].data.date, post.data.date, {
-        in: tz("Europe/London"),
+        in: londonTz,
       }),
     isNewYear:
       index === 0 ||
       !isSameYear(sortedPosts[index - 1].data.date, post.data.date, {
-        in: tz("Europe/London"),
+        in: londonTz,
       }),
   }))
 }

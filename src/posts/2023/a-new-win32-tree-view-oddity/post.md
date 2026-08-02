@@ -1,7 +1,7 @@
 ---
 title: "A Win32 tree view scrolling oddity"
 slug: a-new-win32-tree-view-oddity
-date: 2023-08-26T23:00:34.000Z
+date: "2023-08-26T23:00:34.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-64ea3e2454598e1f167b0f54

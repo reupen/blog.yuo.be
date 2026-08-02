@@ -1,6 +1,6 @@
 ---
 title: "What do all the recent NTDDI_VERSION values mean?"
-date: 2025-02-12
+date: "2025-02-12"
 tags:
   - win32
   - programming

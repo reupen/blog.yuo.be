@@ -1,7 +1,7 @@
 ---
 title: "Canon i865 under Windows XP x64 Edition?"
 slug: canon-i865-under-windows-xp-x64-edition
-date: 2006-10-06T19:26:00.000Z
+date: "2006-10-06T19:26:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-363

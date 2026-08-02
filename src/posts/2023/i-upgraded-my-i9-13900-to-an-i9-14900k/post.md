@@ -1,7 +1,7 @@
 ---
 title: "I upgraded my Intel Core i9-13900 to an i9-14900K"
 slug: i-upgraded-my-i9-13900-to-an-i9-14900k
-date: 2023-12-19T00:00:07.000Z
+date: "2023-12-19T00:00:07.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-658058d5f6eea81967542fe0

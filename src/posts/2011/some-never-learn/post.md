@@ -1,7 +1,7 @@
 ---
 title: "Some never learn"
 slug: some-never-learn
-date: 2011-02-28T22:00:00.000Z
+date: "2011-02-28T22:00:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-286

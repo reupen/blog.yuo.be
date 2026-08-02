@@ -1,7 +1,7 @@
 ---
 title: "Careful with SHAutoComplete"
 slug: careful-with-shauto-complete
-date: 2011-02-27T00:24:00.000Z
+date: "2011-02-27T00:24:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-287

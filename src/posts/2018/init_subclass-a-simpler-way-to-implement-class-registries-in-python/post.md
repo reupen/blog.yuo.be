@@ -2,7 +2,7 @@
 title:
   "__init_subclass__ – a simpler way to implement class registries in Python"
 slug: __init_subclass__-a-simpler-way-to-implement-class-registries-in-python
-date: 2018-08-16T20:34:46.000Z
+date: "2018-08-16T20:34:46.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5b0d3d718c60d71d1497e1d5

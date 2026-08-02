@@ -1,7 +1,7 @@
 ---
 title: 'Now Blu-ray "cracked"'
 slug: now-blu-ray-cracked
-date: 2007-01-20T08:30:00.000Z
+date: "2007-01-20T08:30:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-354

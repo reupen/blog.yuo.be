@@ -1,7 +1,7 @@
 ---
 title: "Columns UI can now be compiled using Clang"
 slug: columns-ui-can-now-be-compiled-using-clang
-date: 2016-05-11T20:54:34.000Z
+date: "2016-05-11T20:54:34.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-367

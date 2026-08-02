@@ -1,7 +1,7 @@
 ---
 title: "General computer woes"
 slug: general-computer-woes
-date: 2008-10-28T23:12:00.000Z
+date: "2008-10-28T23:12:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-328

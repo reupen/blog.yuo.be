@@ -1,7 +1,7 @@
 ---
 title: "A short time with a Pixel 4"
 slug: a-short-time-with-a-pixel-4
-date: 2019-10-27T06:00:00.000Z
+date: "2019-10-27T06:00:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5db476ab743a427e0512f7e0

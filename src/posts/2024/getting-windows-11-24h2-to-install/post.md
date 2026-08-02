@@ -1,7 +1,7 @@
 ---
 title: "Getting Windows 11 24H2 to install"
 slug: getting-windows-11-24h2-to-install
-date: 2024-12-15
+date: "2024-12-15"
 tags:
   - windows
 excerpt: |-

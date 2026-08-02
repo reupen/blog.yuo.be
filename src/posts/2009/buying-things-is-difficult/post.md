@@ -1,7 +1,7 @@
 ---
 title: "Buying things is difficult"
 slug: buying-things-is-difficult
-date: 2009-01-12T21:38:00.000Z
+date: "2009-01-12T21:38:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-319

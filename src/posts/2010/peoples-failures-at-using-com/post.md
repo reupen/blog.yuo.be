@@ -1,7 +1,7 @@
 ---
 title: "People's failures at using COM"
 slug: peoples-failures-at-using-com
-date: 2010-01-13T19:29:00.000Z
+date: "2010-01-13T19:29:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-296

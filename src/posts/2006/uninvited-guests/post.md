@@ -1,7 +1,7 @@
 ---
 title: "Uninvited guests"
 slug: uninvited-guests
-date: 2006-11-18T19:19:00.000Z
+date: "2006-11-18T19:19:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-358

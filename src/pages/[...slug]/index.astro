@@ -3,13 +3,14 @@ import mdxRenderer from "@astrojs/mdx/server.js"
 import reactRenderer from "@astrojs/react/server.js"
 import { experimental_AstroContainer } from "astro/container"
 import { render } from "astro:content"
-import { format } from "date-fns"
+import { format, formatISO } from "date-fns"
 import { convert as htmlToText } from "html-to-text"
 import { chunk } from "remeda"
 
 import { Comments } from "@/components/client"
 import { ShareMenu } from "@/components/client/ShareMenu"
 import Layout from "@/layouts/Layout.astro"
+import { londonTz } from "@/lib"
 import { getCommentCounts } from "@/lib"
 
 import "./_comentario.pcss"
@@ -118,8 +119,13 @@ const readingTime = Math.max(
     <div class="container">
       <h1>{post.data.title}</h1>
       <p class="date-reading-time">
-        <time datetime={post.data.date.toISOString()}>
-          {format(post.data.date, "d MMMM yyyy")}
+        <time
+          datetime={formatISO(post.data.date, {
+            representation: "date",
+            in: londonTz,
+          })}
+        >
+          {format(post.data.date, "d MMMM yyyy", { in: londonTz })}
         </time><span class="bullet"> • </span><span>{readingTime} min read</span
         >{
           post.data.tags.length > 0 && (

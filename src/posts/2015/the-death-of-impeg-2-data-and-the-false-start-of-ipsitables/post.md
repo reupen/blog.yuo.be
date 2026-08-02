@@ -1,7 +1,7 @@
 ---
 title: "The death of IMpeg2Data and the false start of IPSITables"
 slug: the-death-of-impeg-2-data-and-the-false-start-of-ipsitables
-date: 2015-12-30T19:10:00.000Z
+date: "2015-12-30T19:10:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-281

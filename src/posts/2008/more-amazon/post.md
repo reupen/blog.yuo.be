@@ -1,7 +1,7 @@
 ---
 title: "More Amazon"
 slug: more-amazon
-date: 2008-03-19T20:46:00.000Z
+date: "2008-03-19T20:46:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-334

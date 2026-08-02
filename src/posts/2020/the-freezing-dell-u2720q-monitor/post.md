@@ -1,7 +1,7 @@
 ---
 title: "The freezing Dell U2720Q monitor"
 slug: the-freezing-dell-u2720q-monitor
-date: 2020-08-05T20:36:47.000Z
+date: "2020-08-05T20:36:47.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5f21dcf93beb750cc5cd9bb0

@@ -1,16 +1,19 @@
-import { tz } from "@date-fns/tz"
 import { glob } from "astro/loaders"
 import { z } from "astro/zod"
 import { defineCollection } from "astro:content"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
+
+import { londonTz, utcTz } from "@/lib"
 
 const posts = defineCollection({
   loader: glob({
     base: "./src/posts",
     pattern: "**/*.md{x,}",
     generateId: ({ data: { date, is_imported: isImported, slug }, entry }) => {
-      const prefix = format(z.date().parse(date), "yyyy/MM/dd", {
-        in: isImported ? tz("UTC") : tz("Europe/London"),
+      if (typeof date !== "string") throw new Error("date must be a string")
+
+      const prefix = format(parseISO(date, { in: londonTz }), "yyyy/MM/dd", {
+        in: isImported ? utcTz : londonTz,
       })
 
       const computedSlug =
@@ -23,7 +26,10 @@ const posts = defineCollection({
     z
       .object({
         comment_id: z.string().optional(),
-        date: z.date(),
+        date: z.iso
+          .date()
+          .or(z.iso.datetime())
+          .transform((date) => parseISO(date, { in: londonTz })),
         published_at: z.coerce.date().optional(),
         description: z.string().optional(),
         excerpt: z.string(),

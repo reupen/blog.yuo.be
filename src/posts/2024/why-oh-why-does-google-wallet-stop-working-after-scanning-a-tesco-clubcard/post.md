@@ -2,7 +2,7 @@
 title:
   "Why, oh why, does Google Wallet stop working after scanning a Tesco Clubcard?"
 slug: why-oh-why-does-google-wallet-stop-working-after-scanning-a-tesco-clubcard
-date: 2024-07-23T23:00:30.000Z
+date: "2024-07-23T23:00:30.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-66a0043e3ae32947959f052f

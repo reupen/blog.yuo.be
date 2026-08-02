@@ -1,7 +1,7 @@
 ---
 title: "Finding a decent notebook..."
 slug: finding-a-decent-notebook
-date: 2006-10-13T15:27:00.000Z
+date: "2006-10-13T15:27:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-359

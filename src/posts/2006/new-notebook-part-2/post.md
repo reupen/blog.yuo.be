@@ -1,7 +1,7 @@
 ---
 title: "New notebook, part 2"
 slug: new-notebook-part-2
-date: 2006-11-20T20:01:00.000Z
+date: "2006-11-20T20:01:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-357

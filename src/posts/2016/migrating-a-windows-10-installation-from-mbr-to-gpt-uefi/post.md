@@ -1,7 +1,7 @@
 ---
 title: "Migrating a Windows 10 installation from MBR to GPT/UEFI"
 slug: migrating-a-windows-10-installation-from-mbr-to-gpt-uefi
-date: 2016-01-17T21:46:00.000Z
+date: "2016-01-17T21:46:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-278

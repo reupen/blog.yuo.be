@@ -1,7 +1,7 @@
 ---
 title: "Vista in nuts mode"
 slug: vista-in-nuts-mode
-date: 2007-09-09T22:14:00.000Z
+date: "2007-09-09T22:14:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-344

@@ -1,9 +1,10 @@
 ---
 import type { PaginateFunction } from "astro"
-import { format } from "date-fns"
+import { format, formatISO } from "date-fns"
 
 import Pagination from "@/components/Pagination.astro"
 import Layout from "@/layouts/Layout.astro"
+import { londonTz } from "@/lib"
 import { getFeaturedPosts, getPosts } from "@/lib/server"
 
 export async function getStaticPaths({
@@ -19,7 +20,7 @@ const { page } = Astro.props
 const description =
   "My personal blog, full of random musings about computing, programming, tech, photography and more"
 const months = Map.groupBy(page.data, (post) =>
-  format(post.data.date, "MMMM yyyy"),
+  format(post.data.date, "MMMM yyyy", { in: londonTz }),
 )
 
 const featuredPosts = page.currentPage === 1 ? await getFeaturedPosts() : []
@@ -52,8 +53,13 @@ const featuredPosts = page.currentPage === 1 ? await getFeaturedPosts() : []
               {featuredPosts.map((post) => (
                 <li>
                   <p>
-                    <time datetime={post.data.date.toISOString()}>
-                      {format(post.data.date, "d MMMM yyyy")}
+                    <time
+                      datetime={formatISO(post.data.date, {
+                        representation: "date",
+                        in: londonTz,
+                      })}
+                    >
+                      {format(post.data.date, "d MMMM yyyy", { in: londonTz })}
                     </time>
                   </p>
                   <a href={`/${post.id}/`}>{post.data.title}</a>

@@ -4,10 +4,11 @@ import rss from "@astrojs/rss"
 import type { APIContext } from "astro"
 import { experimental_AstroContainer } from "astro/container"
 import { render } from "astro:content"
-import { format } from "date-fns"
+import { format, formatISO } from "date-fns"
 import { transform, walk } from "ultrahtml"
 import sanitize from "ultrahtml/transformers/sanitize"
 
+import { londonTz } from "@/lib"
 import { getPosts } from "@/lib/server"
 
 export async function GET(context: APIContext) {
@@ -35,8 +36,11 @@ export async function GET(context: APIContext) {
           pubDate: post.data.publishedAt ?? post.data.date,
           description: post.data.excerpt,
           link: `/${post.data.originalId ?? post.id}/`,
-          customData: `<yuo-be:pubDateIso>${post.data.date.toISOString()}</yuo-be:pubDateIso>
-<yuo-be:pubDateFormatted>${format(post.data.date, "d MMMM yyyy")}</yuo-be:pubDateFormatted>`,
+          customData: `<yuo-be:pubDateIso>${formatISO(post.data.date, {
+            representation: "date",
+            in: londonTz,
+          })}</yuo-be:pubDateIso>
+<yuo-be:pubDateFormatted>${format(post.data.date, "d MMMM yyyy", { in: londonTz })}</yuo-be:pubDateFormatted>`,
           content: await transform(
             await container.renderToString((await render(post)).Content),
             [

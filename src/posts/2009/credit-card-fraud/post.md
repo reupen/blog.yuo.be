@@ -1,7 +1,7 @@
 ---
 title: "Credit card fraud"
 slug: credit-card-fraud
-date: 2009-06-02T22:15:00.000Z
+date: "2009-06-02T22:15:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-307

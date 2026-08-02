@@ -1,7 +1,7 @@
 ---
 title: "Unsubscribing from e-mail newsletters"
 slug: unsubscribing-from-e-mail-newsletters
-date: 2009-03-24T22:45:00.000Z
+date: "2009-03-24T22:45:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-314

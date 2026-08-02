@@ -1,7 +1,7 @@
 ---
 title: "Minor Vista bug"
 slug: minor-vista-bug
-date: 2007-09-15T21:51:00.000Z
+date: "2007-09-15T21:51:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-343

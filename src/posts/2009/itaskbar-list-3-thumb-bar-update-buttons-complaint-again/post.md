@@ -1,7 +1,7 @@
 ---
 title: "ITaskbarList3::ThumbBarUpdateButtons complaint again"
 slug: itaskbar-list-3-thumb-bar-update-buttons-complaint-again
-date: 2009-11-29T22:08:00.000Z
+date: "2009-11-29T22:08:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-299

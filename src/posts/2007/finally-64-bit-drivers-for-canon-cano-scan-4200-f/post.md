@@ -1,7 +1,7 @@
 ---
 title: "Finally 64-bit drivers for Canon CanoScan 4200F"
 slug: finally-64-bit-drivers-for-canon-cano-scan-4200-f
-date: 2007-01-29T23:07:00.000Z
+date: "2007-01-29T23:07:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-352

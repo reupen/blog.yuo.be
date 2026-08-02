@@ -1,7 +1,7 @@
 ---
 title: "Command Prompts on Vista"
 slug: command-prompts-on-vista
-date: 2007-08-23T23:13:00.000Z
+date: "2007-08-23T23:13:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-346

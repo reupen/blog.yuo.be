@@ -1,7 +1,7 @@
 ---
 title: "Computer woes continued"
 slug: computer-woes-continued
-date: 2008-11-03T18:24:00.000Z
+date: "2008-11-03T18:24:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-327

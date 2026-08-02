@@ -1,7 +1,7 @@
 ---
 title: "Netgear Draft 802.11n Notebook Adapter for £30"
 slug: netgear-draft-802-11-n-notebook-adapter-for-ps30
-date: 2007-02-13T19:47:00.000Z
+date: "2007-02-13T19:47:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-351

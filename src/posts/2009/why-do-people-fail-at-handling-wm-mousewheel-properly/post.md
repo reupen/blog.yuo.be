@@ -1,7 +1,7 @@
 ---
 title: "Why do people fail at handling WM_MOUSEWHEEL properly?"
 slug: why-do-people-fail-at-handling-wm-mousewheel-properly
-date: 2009-02-07T23:29:00.000Z
+date: "2009-02-07T23:29:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-315

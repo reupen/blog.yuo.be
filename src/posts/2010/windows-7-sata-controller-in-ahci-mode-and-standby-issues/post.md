@@ -1,7 +1,7 @@
 ---
 title: "Windows 7: SATA controller in AHCI mode and standby issues"
 slug: windows-7-sata-controller-in-ahci-mode-and-standby-issues
-date: 2010-01-20T20:30:00.000Z
+date: "2010-01-20T20:30:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-294

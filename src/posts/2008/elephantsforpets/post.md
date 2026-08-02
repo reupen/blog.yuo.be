@@ -1,7 +1,7 @@
 ---
 title: "Elephantsforpets"
 slug: elephantsforpets
-date: 2008-01-22T00:40:00.000Z
+date: "2008-01-22T00:40:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-338

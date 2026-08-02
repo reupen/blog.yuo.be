@@ -1,7 +1,7 @@
 ---
 title: "Where does Visual Studio fail?"
 slug: where-does-visual-studio-fail
-date: 2007-10-13T22:16:00.000Z
+date: "2007-10-13T22:16:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-341

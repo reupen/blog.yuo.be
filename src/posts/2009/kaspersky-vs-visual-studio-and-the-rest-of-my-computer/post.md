@@ -1,7 +1,7 @@
 ---
 title: "Kaspersky vs Visual Studio and the rest of my computer"
 slug: kaspersky-vs-visual-studio-and-the-rest-of-my-computer
-date: 2009-04-19T21:13:00.000Z
+date: "2009-04-19T21:13:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-312

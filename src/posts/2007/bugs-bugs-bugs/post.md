@@ -1,7 +1,7 @@
 ---
 title: "Bugs, bugs, bugs"
 slug: bugs-bugs-bugs
-date: 2007-09-24T13:30:00.000Z
+date: "2007-09-24T13:30:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-342

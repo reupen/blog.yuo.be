@@ -1,7 +1,7 @@
 ---
 title: "The beauty of a fold"
 slug: the-beauty-of-a-fold
-date: 2018-03-03T13:40:18.000Z
+date: "2018-03-03T13:40:18.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-5a9a6ef66a352c2ff1a77a88

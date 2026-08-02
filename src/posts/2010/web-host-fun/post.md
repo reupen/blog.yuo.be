@@ -1,7 +1,7 @@
 ---
 title: "Web host fun"
 slug: web-host-fun
-date: 2010-05-23T22:06:00.000Z
+date: "2010-05-23T22:06:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-291

@@ -1,7 +1,7 @@
 ---
 title: "Failure at using COM/OLE: Part 2"
 slug: failure-at-using-com-ole-part-2
-date: 2010-01-26T19:59:00.000Z
+date: "2010-01-26T19:59:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-293

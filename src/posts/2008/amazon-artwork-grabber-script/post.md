@@ -1,7 +1,7 @@
 ---
 title: "Amazon artwork grabber script"
 slug: amazon-artwork-grabber-script
-date: 2008-03-07T17:32:00.000Z
+date: "2008-03-07T17:32:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-335

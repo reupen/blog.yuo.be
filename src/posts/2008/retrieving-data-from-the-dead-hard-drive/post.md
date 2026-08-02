@@ -1,7 +1,7 @@
 ---
 title: "Retrieving data from the dead hard drive"
 slug: retrieving-data-from-the-dead-hard-drive
-date: 2008-11-03T23:29:00.000Z
+date: "2008-11-03T23:29:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-326

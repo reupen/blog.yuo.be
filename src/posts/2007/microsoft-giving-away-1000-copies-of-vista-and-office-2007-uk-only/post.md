@@ -1,7 +1,7 @@
 ---
 title: "Microsoft giving away 1000 copies of Vista and Office 2007 (UK only)"
 slug: microsoft-giving-away-1000-copies-of-vista-and-office-2007-uk-only
-date: 2007-01-19T23:34:00.000Z
+date: "2007-01-19T23:34:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-355

@@ -2,7 +2,7 @@
 title:
   "The death of Google Cloud Print on my MX895 printer: a story of ineptitude"
 slug: the-death-of-google-cloud-print-on-my-mx895-printer-a-story-of-ineptitude
-date: 2016-01-17T21:51:00.000Z
+date: "2016-01-17T21:51:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-277

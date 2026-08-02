@@ -4,6 +4,7 @@ import { format } from "date-fns"
 
 import Pagination from "@/components/Pagination.astro"
 import Layout from "@/layouts/Layout.astro"
+import { londonTz } from "@/lib"
 import { getPosts, getTags } from "@/lib/server"
 
 export async function getStaticPaths({
@@ -29,7 +30,9 @@ export async function getStaticPaths({
 const { page } = Astro.props
 const { tag } = Astro.params
 const description = `Posts tagged #${tag}`
-const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
+const years = Map.groupBy(page.data, (post) =>
+  format(post.data.date, "yyyy", { in: londonTz }),
+)
 ---
 
 <Layout
@@ -62,7 +65,9 @@ const years = Map.groupBy(page.data, (post) => format(post.data.date, "yyyy"))
                   <a href={`/${post.id}/`}>{post.data.title}</a>
                   <p class="post-excerpt">{post.data.excerpt}</p>
                   <p class="post-date">
-                    {format(post.data.date, "d MMMM yyyy")}
+                    {format(post.data.date, "d MMMM yyyy", {
+                      in: londonTz,
+                    })}
                   </p>
                 </li>
               ))}

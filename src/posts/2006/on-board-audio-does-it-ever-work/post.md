@@ -1,7 +1,7 @@
 ---
 title: "On-board audio - does it ever work?"
 slug: on-board-audio-does-it-ever-work
-date: 2006-10-13T10:45:00.000Z
+date: "2006-10-13T10:45:00.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-360

@@ -1,7 +1,7 @@
 ---
 title: "Shortcut menu, or context menu?"
 slug: shortcut-menu-vs-context-menu
-date: 2016-06-13T21:04:14.000Z
+date: "2016-06-13T21:04:14.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-371

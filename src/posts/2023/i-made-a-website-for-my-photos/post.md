@@ -1,7 +1,7 @@
 ---
 title: "I made a website for my photos"
 slug: i-made-a-website-for-my-photos
-date: 2023-10-01T23:00:45.000Z
+date: "2023-10-01T23:00:45.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-6516dd4f186cc48a4af6cd90

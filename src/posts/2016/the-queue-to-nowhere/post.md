@@ -1,7 +1,7 @@
 ---
 title: "The queue to nowhere"
 slug: the-queue-to-nowhere
-date: 2016-07-10T18:29:22.000Z
+date: "2016-07-10T18:29:22.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-373

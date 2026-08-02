@@ -1,7 +1,7 @@
 ---
 title: "The regularly irritating message from HMRC"
 slug: the-regularly-irritating-message-from-hmrc
-date: 2024-01-05T00:00:33.000Z
+date: "2024-01-05T00:00:33.000Z"
 is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-659729a51fe2ea7fd10d15c4
