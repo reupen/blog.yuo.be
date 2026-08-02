@@ -34,7 +34,7 @@ export async function GET(context: APIContext) {
           title: post.data.title,
           pubDate: post.data.publishedAt ?? post.data.date,
           description: post.data.excerpt,
-          link: `/${post.id}`,
+          link: `/${post.data.originalId ?? post.id}/`,
           customData: `<yuo-be:pubDateIso>${post.data.date.toISOString()}</yuo-be:pubDateIso>
 <yuo-be:pubDateFormatted>${format(post.data.date, "d MMMM yyyy")}</yuo-be:pubDateFormatted>`,
           content: await transform(

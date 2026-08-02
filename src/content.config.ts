@@ -37,6 +37,7 @@ const posts = defineCollection({
         is_auto_excerpt: z.boolean().optional(),
         is_draft: z.boolean().default(false),
         is_imported: z.boolean().optional(),
+        original_id: z.string().optional(),
         tags: z.array(z.string()).optional().default([]),
         title: z.string(),
         width: z.enum(["wide-1", "wide-2", "wide-3", "wide-4"]).optional(),
@@ -50,6 +51,7 @@ const posts = defineCollection({
           is_draft: isDraft,
           is_imported: _,
           published_at: publishedAt,
+          original_id: originalId,
           ...data
         }) => ({
           ...data,
@@ -58,6 +60,7 @@ const posts = defineCollection({
           isAutoExcerpt,
           isDraft,
           publishedAt,
+          originalId,
           excerpt:
             isAutoExcerpt && excerpt.length > 220
               ? excerpt.substring(0, excerpt.lastIndexOf(" ", 160)) + "…"
