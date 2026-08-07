@@ -213,9 +213,10 @@ improvement. (Interestingly, the timestamp given for ‘Date of Last Cleanup’ 
 gone backwards…)
 
 The free space situation on my drive had not yet improved, however. That
-required running the Disk clean-up tool to get rid of the `Windows.old`
-directory (created by the in-place upgrade process) and to clean up a few other
-things. I also ran the `Dism.exe` clean-up commands (which were now working!).
+required running the Disk Clean-up[^1] tool as admin to get rid of the
+`Windows.old` directory (created by the in-place upgrade process) and to clean
+up a few other things. I also ran the `Dism.exe` clean-up commands (which were
+now working!).
 
 After doing that, WinSxS was down to under 12GB:
 
@@ -248,3 +249,7 @@ so there was probably some other junk deleted too.)
 
 It’s unfortunate, though, that Windows wasn’t able to detect and sort out this
 problem itself. (And not to mention that this happened in the first place.)
+
+[^1]:
+    As it’s called when Windows is set to use UK English as the display language
+    – it’s ‘Disk Cleanup’ (without hyphen) when US English is in use.
