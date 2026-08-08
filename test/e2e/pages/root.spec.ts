@@ -14,8 +14,22 @@ test.describe("/", () => {
     expect(page.url()).toBe(`${baseURL}/2/`)
   })
 
-  test("can navigate to a post", async ({ page }) => {
-    const link = page.getByRole("main").getByRole("link").first()
+  test("can navigate to a featured post", async ({ page }) => {
+    const link = page
+      .getByRole("list", { name: "Featured posts", exact: true })
+      .getByRole("link")
+      .first()
+    const linkText = await link.textContent()
+    await link.click()
+
+    await expect(page).toHaveTitle(`${linkText} – ${SITE_TITLE}`)
+  })
+
+  test("can navigate to the latest post", async ({ page }) => {
+    const link = page
+      .getByRole("list", { name: / \d{4}$/ })
+      .getByRole("link")
+      .first()
     const linkText = await link.textContent()
     await link.click()
 

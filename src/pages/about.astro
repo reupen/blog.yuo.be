@@ -1,0 +1,90 @@
+---
+import Image from "astro/components/Image.astro"
+
+import me from "@/assets/me.avif"
+import Layout from "@/layouts/Layout.astro"
+import { getPostCount } from "@/lib/server"
+
+const description =
+  "About my personal blog, full of random musings about computing, programming, tech, photography and more"
+const postCount = await getPostCount()
+---
+
+<Layout description={description} title="About the blog (and me)">
+  <div class="post-header section">
+    <div class="container">
+      <h1>About the blog (and me)</h1>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="avatar">
+        <Image
+          src={me}
+          alt="Me in front of Ginkaku-ji, Kyoto"
+          title="Me in front of Ginkaku-ji, Kyoto"
+        />
+      </div>
+      <p>
+        I’m Reupen, a software developer from London, UK. This is my personal
+        blog, which has existed since 2006 (originally on Blogger).
+      </p>
+      <p>
+        Mostly I like to blog about computing, programming and software stuff.
+        But I also like photography, so sometimes I might post some photos from
+        a trip. (My favourite photos are also on <a
+          href="https://photos.reupen.uk/">my photography website</a
+        >.)
+      </p>
+      <p>
+        Professionally, I usually write software using Python and TypeScript.
+        I’ve also done some C++ in my spare time.
+      </p>
+      <p>
+        The blog is built using <a href="https://astro.build/" rel="noreferrer"
+          >Astro</a
+        > and is <a href="https://github.com/reupen/blog.yuo.be"
+          >open source on GitHub</a
+        >. It has an <a href={new URL("rss.xml", Astro.site)}>RSS feed</a> that you
+        can subscribe to if you use those kinds of things. (And, if you were wondering,
+        there are currently
+        {" "}{postCount.toLocaleString()} posts in the blog.)
+      </p>
+      <p>
+        I’m yet to post on them much, but you can also find me on <a
+          href="https://bsky.app/profile/reupen.uk">Bluesky</a
+        > and <a href="https://mastodonapp.uk/@reupen">Mastodon</a>.
+      </p>
+    </div>
+  </div>
+
+  <style>
+    .avatar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+
+      @media (min-width: calc(700px + 3rem)) {
+        margin-bottom: 1.25rem;
+      }
+
+      img {
+        display: inline-block;
+        height: 6rem;
+        width: auto;
+        clip-path: circle();
+        margin: 0;
+      }
+    }
+
+    .post-header {
+      background: var(--nav-background);
+      color: var(--nav-text-colour);
+      padding: 0.75rem 1rem 1rem;
+
+      @media (min-width: calc(700px + 3rem)) {
+        padding: 1rem 1.5rem 1rem;
+      }
+    }
+  </style>
+</Layout>
