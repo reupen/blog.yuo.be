@@ -1,7 +1,10 @@
-Copyright (c) Reupen Shah 2024
+Copyright (c) Reupen Shah 2026
 
-All files under /src/posts (that is blog posts and associated images, audio
-and video) are excluded from the below licence.
+The following are excluded from the below licence:
+
+- all files under /src/posts (that is blog posts and associated images, audio
+and video)
+- all files under /src/assets
 
 MIT License
 

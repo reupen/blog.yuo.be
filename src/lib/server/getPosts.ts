@@ -18,6 +18,10 @@ export async function getFeaturedPosts() {
   )
 }
 
+export async function getPostCount() {
+  return (await getCollection("posts", (post) => !post.data.isDraft)).length
+}
+
 export async function getPosts(tag?: string) {
   const sortedPosts = (await getCollection("posts"))
     .filter(
