@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 2 * * 0"
+    - cron: "1 1 * * *"
   workflow_dispatch:
 
 jobs:
@@ -125,3 +125,35 @@ jobs:
         with:
           name: e2e-test-results
           path: test/e2e/output
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    permissions:
+      contents: read
+      deployments: write
+    needs:
+      - build-site
+      - lint
+      - test-e2e
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download built site
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: /tmp
+
+      - name: Unpack site
+        run: tar -xzf /tmp/site.tar.gz
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/ --project-name=blog-yuo-be
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
