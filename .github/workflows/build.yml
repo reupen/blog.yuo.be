@@ -70,6 +70,21 @@ jobs:
           path: /tmp/site.tar.gz
           retention-days: 1
 
+      - name: Build site for production
+        env:
+          UMAMI_ID: ${{ secrets.UMAMI_ID }}
+        run: |
+          source .venv/bin/activate
+          npm run build
+          tar -czvf /tmp/site-prod.tar.gz dist/
+
+      - name: Upload artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: site-prod
+          path: /tmp/site-prod.tar.gz
+          retention-days: 1
+
   get-playwright-version:
     name: Get Playwright version
     runs-on: ubuntu-latest
@@ -144,11 +159,11 @@ jobs:
       - name: Download built site
         uses: actions/download-artifact@v8
         with:
-          name: site
+          name: site-prod
           path: /tmp
 
       - name: Unpack site
-        run: tar -xzf /tmp/site.tar.gz
+        run: tar -xzf /tmp/site-prod.tar.gz
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
