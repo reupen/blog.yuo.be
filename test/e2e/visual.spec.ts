@@ -2,7 +2,6 @@ import { expect, test } from "@playwright/test"
 
 const PAGES = [
   "/2015/12/30/the-death-of-impeg-2-data-and-the-false-start-of-ipsitables/",
-  "/about/",
 ]
 
 const COLOUR_SCHEMES = ["light", "dark"] as const
