@@ -57,11 +57,27 @@ jobs:
       - name: Install Python dependencies
         run: uv sync
 
+      - name: Restore Astro cache
+        id: restore-astro-cache
+        uses: actions/cache/restore@v6.1.0
+        with:
+          path: node_modules/.astro
+          key: astro-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            astro-${{ runner.os }}-
+
       - name: Build site
         run: |
           source .venv/bin/activate
           npm run build
           tar -czvf /tmp/site.tar.gz dist/
+
+      - name: Save Astro cache
+        if: ${{ github.event_name != 'pull_request' && steps.restore-astro-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6.1.0
+        with:
+          path: node_modules/.astro
+          key: ${{ steps.restore-astro-cache.outputs.cache-primary-key }}
 
       - name: Upload artefact
         uses: actions/upload-artifact@v7
