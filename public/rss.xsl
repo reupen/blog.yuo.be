@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet
   version="3.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:yuo-be="http://blog.yuo.be/rss/2026"
 >
@@ -25,7 +26,7 @@
           </p>
           <input aria-label="RSS feed URL">
             <xsl:attribute name="value">
-              <xsl:value-of select="/rss/channel/yuo-be:canonicalUrl" />
+              <xsl:value-of select="/rss/channel/atom:link/@href" />
             </xsl:attribute>
           </input>
           <p>

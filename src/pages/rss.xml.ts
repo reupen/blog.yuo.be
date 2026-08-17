@@ -23,14 +23,17 @@ export async function GET(context: APIContext) {
   container.addServerRenderer({ renderer: reactRenderer, name: "react" })
 
   return rss({
-    xmlns: { "yuo-be": "http://blog.yuo.be/rss/2026" },
+    xmlns: {
+      atom: "http://www.w3.org/2005/Atom",
+      "yuo-be": "http://blog.yuo.be/rss/2026",
+    },
     title: "Reupen’s blog",
     description:
       "A blog about computing, tech, programming, photography and more.",
     site: context.site,
     stylesheet: "/rss.xsl",
     customData: `<language>en-gb</language>
-<yuo-be:canonicalUrl>${encodeURI(new URL("/rss.xml", context.site).toString())}</yuo-be:canonicalUrl>`,
+<atom:link href="${new URL("rss.xml", context.site)}" rel="self" type="application/rss+xml" />`,
     items: await Promise.all(
       (await getPosts()).slice(0, 50).map((post) =>
         (async () => ({
