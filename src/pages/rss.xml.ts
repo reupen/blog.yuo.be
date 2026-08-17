@@ -16,6 +16,8 @@ export async function GET(context: APIContext) {
     throw new Error(`${context.site} is falsey`)
   }
 
+  const siteUrl = context.site.toString()
+
   const container = await experimental_AstroContainer.create()
   container.addServerRenderer({ renderer: mdxRenderer, name: "MDX" })
   container.addServerRenderer({ renderer: reactRenderer, name: "react" })
@@ -49,19 +51,19 @@ export async function GET(context: APIContext) {
                   if (node.attributes?.href)
                     node.attributes.href = node.attributes.href.replaceAll(
                       /^\//g,
-                      context.site,
+                      siteUrl,
                     )
 
                   if (node.attributes?.src)
                     node.attributes.src = node.attributes.src.replaceAll(
                       /^\//g,
-                      context.site,
+                      siteUrl,
                     )
 
                   if (node.attributes?.srcset)
                     node.attributes.srcset = node.attributes.srcset.replaceAll(
                       /(^|, )\//g,
-                      context.site,
+                      `$1${siteUrl}`,
                     )
                 })
                 return node

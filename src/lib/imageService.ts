@@ -11,6 +11,8 @@ const service: LocalImageService = {
   getURL: baseService.getURL,
   parseURL: baseService.parseURL,
   validateOptions: baseService.validateOptions,
+  getSrcSet: baseService.getSrcSet,
+  getRemoteSize: baseService.getRemoteSize,
   async transform(inputBuffer, transform) {
     const injectedOptions =
       transform.format === "avif" ? { bitdepth: 12, effort: 3 } : {}
