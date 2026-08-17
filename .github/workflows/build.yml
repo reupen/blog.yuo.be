@@ -82,8 +82,8 @@ jobs:
       - name: Upload artefact
         uses: actions/upload-artifact@v7
         with:
-          name: site
           path: /tmp/site.tar.gz
+          archive: false
           retention-days: 1
 
       - name: Build site for production
@@ -97,8 +97,8 @@ jobs:
       - name: Upload artefact
         uses: actions/upload-artifact@v7
         with:
-          name: site-prod
           path: /tmp/site-prod.tar.gz
+          archive: false
           retention-days: 1
 
   get-playwright-version:
@@ -139,8 +139,9 @@ jobs:
       - name: Download built site
         uses: actions/download-artifact@v8
         with:
-          name: site
+          name: site.tar.gz
           path: /tmp
+          skip-decompress: true
 
       - name: Unpack site
         run: tar -xzf /tmp/site.tar.gz
@@ -175,8 +176,9 @@ jobs:
       - name: Download built site
         uses: actions/download-artifact@v8
         with:
-          name: site-prod
+          name: site-prod.tar.gz
           path: /tmp
+          skip-decompress: true
 
       - name: Unpack site
         run: tar -xzf /tmp/site-prod.tar.gz
