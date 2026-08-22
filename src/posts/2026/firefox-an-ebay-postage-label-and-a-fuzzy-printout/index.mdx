@@ -1,0 +1,230 @@
+---
+title: "Firefox, an eBay postage label and a fuzzy printout"
+date: "2026-08-23"
+published_at: 2026-08-23T17:15+01:00
+excerpt: |-
+  I paid some attention to detail and lost a chunk of time.
+---
+
+import { CaptionedImage, ImageGrid } from "@/components"
+
+import adobe_customs_contents_webp from "./adobe-customs-contents.webp"
+import adobe_qr_webp from "./adobe-qr.webp"
+import firefox_customs_contents_webp from "./firefox-customs-contents.webp"
+import firefox_qr_webp from "./firefox-qr.webp"
+import original_customs_contents_webp from "./original-customs-content.webp"
+import print_to_pdf_adobe_webp from "./print-to-pdf-adobe.webp"
+import print_to_pdf_firefox_webp from "./print-to-pdf-firefox.webp"
+
+I recently sold something on eBay UK. The buyer was in the Channel Islands. And
+apparently that means you need to affix a customs declaration to the parcel.
+Handily, eBay provide a customs declaration label for you. And so I wanted to
+print that out (along with the postage label).[^1]
+
+Until recently, I had been using the free version of Adobe Acrobat to do this.
+That was simply as I trusted it to print labels and barcodes properly (which
+includes being able to print at the original scale – that is without scaling the
+document to fit within the printer margins).
+
+But Adobe Acrobat was increasingly becoming unbearable to use. (I’m sure many
+would say it’s been like that for aeons, but I’d mostly put up with it until
+now.) That includes terrible scrolling, generally being slow, and random panels
+popping up or reappearing and getting in my way. And to top it off, commenter
+Andrew B mentioned on the post
+[The Windows 11 installation that was eating my disk space](/2025/12/06/the-windows-11-installation-that-was-eating-my-disk-space/)
+that Adobe Acrobat has a habit of storing tens of gigabytes of Windows Installer
+patches in the `C:\Windows\Installer` directory. (A fact that I had been
+oblivious to until then.)
+
+Now, I generally use Firefox to browse the web. It, of course, has a built-in
+PDF viewer and it can also print without scaling. So, I thought I’d use it on
+this occasion to print the labels for my parcel going to the Channel Islands.
+
+Alas, that proved to be a bad idea, as the customs declaration that came out of
+my printer was unreadable in parts. Here is a crop of a 1600dpi scan of what it
+printed:
+
+<CaptionedImage
+  src={firefox_customs_contents_webp}
+  alt="A crop of a scan of the customs declaration containing small text where parts of characters appear to be missing."
+  caption="Can you send gills in the post?"
+/>
+
+On seeing what had come out of the printer, I immediately thought that it looked
+less than ideal. I checked what it looked like on screen – I could see that the
+customs declaration was a bitmap in the PDF, but it was legible (unlike what
+Firefox printed out).
+
+Perhaps my printer was to blame? I printed the same PDF using Adobe Acrobat,
+again with scaling turned off, to check. It looked much better:
+
+<CaptionedImage
+  src={adobe_customs_contents_webp}
+  alt="A crop of a scan of the customs declaration containing small text where everything is legible."
+  caption="Seeing the texture of the paper in the scan is oddly nice"
+/>
+
+I tried printing the PDF once again using a clean copy of
+[Firefox portable](https://en.wikipedia.org/wiki/Firefox_Portable) to
+double-check that I wasn’t doing anything wrong, but it came out the same as
+previously.[^2]
+
+As a reference point for what this part of the label should look like, here’s
+that area of the original image extracted from the PDF (using
+[pdfimages](https://en.wikipedia.org/wiki/Pdfimages) in
+[WSL](https://learn.microsoft.com/en-gb/windows/wsl/)) and scaled in-browser:
+
+<CaptionedImage
+  src={original_customs_contents_webp}
+  alt="A crop of the same area of original customs declaration image in the PDF."
+  caption="Not the best, but legible"
+  class="stretch"
+/>
+
+Also, if you looked closely at the Firefox scan, you may have noticed some
+specks of colour showing next to or in place of the colour black. This is
+present throughout the printout. Here are crops of part of the QR code in the
+postage label from Firefox (left) and Acrobat (right):
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: firefox_qr_webp,
+      alt: "A crop of a QR code where some coloured specks appear instead of black in some areas.",
+      class: "stretch",
+    },
+    {
+      image: adobe_qr_webp,
+      alt: "A crop of a QR code where only black is used.",
+      class: "stretch",
+    },
+  ]}
+>
+  The difference here is harder to spot on paper
+</ImageGrid>
+
+}
+
+To the naked eye, those coloured areas just look grey. My assumption was that
+some processing in Firefox has introduced grey everywhere, and my inkjet printer
+is using colour ink to represent grey (or at least the shades of grey used).
+
+I thought about how I could check if that was indeed the case. Printing to a
+file of some kind seemed like the most obvious way. And my rudimentary way of
+doing that is to use the ‘Microsoft Print to PDF’ virtual printer.[^3]
+
+It indeed turns out that printing to that virtual printer from Firefox adds grey
+to the QR code that isn’t there if you do the same thing from Adobe Acrobat.
+Here are crops from the images in the PDFs as printed by Firefox (left) and
+Acrobat (right) showing this:
+
+{
+
+<ImageGrid
+  images={[
+    {
+      image: print_to_pdf_firefox_webp,
+      alt: "A crop of a QR code where some black parts have grey borders.",
+      class: "stretch pixelate",
+    },
+    {
+      image: print_to_pdf_adobe_webp,
+      alt: "A crop of a QR code where only black is used.",
+      class: "stretch pixelate",
+    },
+  ]}
+>
+  There are also some other specks of very light grey that aren’t in the
+  original PDF (perhaps a compression artefact)
+</ImageGrid>
+
+}
+
+I should mention that the complete QR code still scans fine, so the slight loss
+of fidelity in it probably isn’t such a big deal. And while the labels for my
+Channel Islands parcel were just two images inserted into a PDF, normal Royal
+Mail postage labels (without a customs declaration) provided by eBay are much
+nicer and contain proper text (only using images for barcodes and logos). Those
+normal labels come out much better when printed using Firefox.
+
+I had a nose around the Mozilla Bugzilla and came across these potentially
+relevant bugs:
+
+- [1774615 - Avoid some printing blurriness because of rasterized group.](https://bugzilla.mozilla.org/show_bug.cgi?id=1774615)
+- [1863302 - The PDF printing quality is low](https://bugzilla.mozilla.org/show_bug.cgi?id=1863302)
+- [1269023 - poor print quality from pdf on 332-2012.pdf](https://bugzilla.mozilla.org/show_bug.cgi?id=1269023)
+- [852536 - low quality bar code pdf](https://bugzilla.mozilla.org/show_bug.cgi?id=852536)
+
+None of those stand out as being about exactly the same thing at first sight.
+Looking closer, though,
+[comment 11 on bug 1863302](https://bugzilla.mozilla.org/show_bug.cgi?id=1863302#c11)
+sounds very similar:
+
+> FYI I just run into this issue while printing a shipping document. I've
+> printed it from the Firefox PDF viewer and the barcode, text and QR code
+> looked rather fuzzy. I opened the same document in Edge and printed it out
+> using the exact same settings and got a crisp print.
+
+During my own rudimentary investigation with the ‘Microsoft Print to PDF’
+printer driver and a few postage labels, I noticed that Firefox seems to be
+resampling the images in the PDFs during printing by factors like 0.5x or 2x.
+Acrobat, on the other hand, was preserving the original resolution of the
+images. And so my suspicion is that the cause of the problem is Firefox deciding
+to resample the images in the PDFs during printing, though there could easily be
+more going on that I’m not aware of.
+
+After all that, I hadn’t solved my problem of ditching Acrobat. I had a look at
+some alternatives and tested out how they fared at printing.
+
+I tried printing the customs declaration label with Microsoft Edge, the free
+version of [Foxit PDF Reader](https://www.foxit.com/pdf-reader/), and the free
+version of [PDF-XChange Editor](https://www.pdf-xchange.com). They all printed
+it fine. I also had a quick look at
+[Sumatra PDF](https://www.sumatrapdfreader.org/free-pdf-reader) and
+[Okular](https://okular.kde.org/en-gb/). While both were able to print PDFs,
+they were lacking in printing options (not even having their own printing
+dialogue). I knew that neither of them would be suitable for me, and so I didn’t
+bother doing a test print with them.
+
+As it happened, I also had a large diagram to print out. I printed it with
+Acrobat, Foxit PDF Reader and PDF-XChange Editor as another test. To my
+surprise, Acrobat failed here. The diagram had some boxes shaded with diagonal
+lines going bottom-left to top-right, and some other boxes shaded with diagonal
+lines going from top-left to bottom-right. While that shading looked fine on
+screen (and in the print preview), for some reason, the lines going bottom-left
+to top-right were missing in the actual printed version (while the ones going
+from top-left to bottom-right came out fine). Using my new-found trick of
+investigating printing problems by printing to a PDF, I found Acrobat had made
+the missing lines very thin in the printout (seemingly so thin that I couldn’t
+see them on paper).
+
+Foxit PDF Reader and PDF-XChange Editor both printed the diagram correctly, with
+both types of diagonal-line-shading intact. Comparing all three printouts, there
+were some slight colour differences for whatever reason. I’m not trying to print
+colour-accurate PDFs (at least at the moment), so I’m not so bothered about
+that. I did also notice that some very fine coloured lines were a bit thicker or
+more saturated in the Foxit printout.
+
+Putting any slight colour differences aside, I have some working options for
+printing PDFs that aren’t Adobe Acrobat. Currently, PDF-XChange Editor is my
+favourite, simply because I prefer its print dialogue. That dialogue is
+resizeable and has a large print preview, which shows the printer margins and
+makes it clear if anything will be cut off when printing at 100% scale. (I
+wasn’t as much of a fan of their company’s website design, though.)
+
+[^1]:
+    eBay also give you a QR code that you can present at a Post Office and most
+    Royal Mail locations and they will print your label for you. I often make
+    use of those, but I felt that I’d be better off printing the labels myself
+    on this occasion.
+
+[^2]:
+    By now, I’ve tested Firefox 153.0.3 portable, one of the Firefox 154 betas
+    and Firefox 155 beta 2.
+
+[^3]:
+    There is the standard Windows ‘Print to file’ option, but when used with my
+    Canon printer, that results in a file in some proprietary Canon format that
+    I can do little with.
