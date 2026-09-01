@@ -47,7 +47,7 @@
     "mime": "^4.1.0",
     "p-limit": "^7.3.0",
     "prop-types": "^15.8.1",
-    "query-string": "^9.4.0",
+    "query-string": "^9.5.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-merge-refs": "^3.0.2",
