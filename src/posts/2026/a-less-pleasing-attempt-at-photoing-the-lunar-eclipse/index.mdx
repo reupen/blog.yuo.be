@@ -1,5 +1,5 @@
 ---
-title: "A less pleasing attempt at photoing the lunar eclipse"
+title: "An attempt at taking a photo of the lunar eclipse"
 date: "2026-08-30"
 published_at: 2026-08-30T01:00+01:00
 image:
@@ -14,6 +14,7 @@ excerpt: |-
 
 import { CaptionedImage } from "@/components"
 
+import lunar_eclipse_v2_avif from "./lunar-eclipse-v2.avif"
 import lunar_eclipse_avif from "./lunar-eclipse.avif"
 
 I saw that there was going to be a partial lunar eclipse in the early morning on
@@ -86,3 +87,20 @@ The next few lunar eclipses in London don’t look overly interesting to me. The
 one on 20 December 2029, however, is a total lunar eclipse and will be at an
 altitude of around 58°. It’s a bit of a wait, but perhaps I’ll be able to get a
 better shot of that one.
+
+## 8 September 2026 update
+
+I engaged my brain a bit and remembered that I could use
+[bias](https://en.wikipedia.org/wiki/Bias_frame) and
+[dark](https://en.wikipedia.org/wiki/Dark-frame_subtraction) frames to correct
+fixed sensor noise. So I took a load of both types of frames and incorporated
+them into the stacking process. Here’s an updated version of the stacked image:
+
+<CaptionedImage
+  src={lunar_eclipse_v2_avif}
+  alt="An updated photograph of the partial lunar eclipse on 28 August 2026, with less noise."
+  caption="Less noise is always better"
+/>
+
+The diagonal noise is pretty much gone. Alas, there isn’t too much extra detail
+visible. Still, it looks a fair bit nicer.
