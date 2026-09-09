@@ -1,6 +1,7 @@
 import Aside from "./Aside.astro"
 import CaptionedCode from "./CaptionedCode.astro"
 import CaptionedImage from "./CaptionedImage.astro"
+import CaptionedVideo from "./CaptionedVideo.astro"
 import ImageGrid from "./ImageGrid.astro"
 import Pagination from "./Pagination.astro"
 import PostImage from "./PostImage.astro"
@@ -12,6 +13,7 @@ export {
   Aside,
   CaptionedCode,
   CaptionedImage,
+  CaptionedVideo,
   ImageGrid,
   Pagination,
   PostImage,

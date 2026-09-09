@@ -1,0 +1,119 @@
+---
+title: "The terrible menu bar in the Windows 11 Notepad"
+date: "2026-09-10"
+published_at: 2026-09-10T00:15+01:00
+tags:
+  - windows
+excerpt: |-
+  Decades of consistency, lost in an update.
+---
+
+import { CaptionedImage, CaptionedVideo } from "@/components"
+
+import notepad_access_keys_webp from "./notepad-access-keys.webp"
+import notepad_hold_drag_mp4 from "./notepad-hold-drag.mp4"
+import notepad_left_right_mp4 from "./notepad-left-right.mp4"
+import notepad_right_click_mp4 from "./notepad-right-click.mp4"
+import registry_hold_drag_mp4 from "./regedit-hold-drag.mp4"
+
+It’s been seven weeks since I last complained about something in Windows on this
+blog. That feels like too long, so here's a post about menus – specifically, the
+menu bar in the modern version of Notepad in Windows 11.
+
+That menu bar has, unfortunately, quite a few regressions compared to the menu
+bar in the old Win32 version of Notepad.
+
+There’s a longstanding behaviour on Windows where you can press and hold the
+primary mouse button on one of the top-level items in the menu bar (like
+‘File’), move the mouse pointer over one of the items in the opened menu, and
+then release the mouse button to choose that item and dismiss the menu. Here’s
+that behaviour in action in the Registry Editor:
+
+<CaptionedVideo
+  src={registry_hold_drag_mp4}
+  aria-label="A demo of opening a menu in Registry Editor and activating a command with a single long mouse click."
+  caption="It’s pretty much the only way I use menus opened with a left-click"
+/>
+
+Does that work in the new Notepad? Nope. Here’s a rather pointless recording of
+what happens:
+
+<CaptionedVideo
+  src={notepad_hold_drag_mp4}
+  aria-label="A demo of attempting to open a menu and activate a command with a single long mouse click in the modern Notepad, where the command is not activated and the menu stays open."
+  caption="Spoiler: nothing useful happens"
+/>
+
+As an extension of that problem, you also can’t hold the mouse button down and
+move between top-level items in the menu bar. (I haven’t bothered to make
+another video of nothing happening for that.)
+
+Keyboard navigation also has bugs. You cannot fully navigate between menus using
+the left and right arrow keys. When pressing left, it will get stuck on any item
+that has a submenu, like View › Zoom. Similarly, when pressing right, it will
+get stuck when you end up in a submenu. Here’s that demonstrated in another
+video:
+
+<CaptionedVideo
+  src={notepad_left_right_mp4}
+  aria-label="A demo of attempting to navigate between main menus using the left and right arrow keys, and getting stuck whenever a submenu is involved."
+  caption="This is basic stuff"
+/>
+
+Another bug is that F10,
+[a documented keyboard shortcut for focusing menu bars](https://support.microsoft.com/en-gb/accessibility/windows/keyboard-shortcuts-in-windows#:~:text=F10,window),
+does nothing in Notepad.
+
+Access keys are also shown differently compared to old Win32 menus. Here’s an
+example of how they look in the modern Notepad:
+
+<CaptionedImage
+  src={notepad_access_keys_webp}
+  alt="The Edit menu in modern Notepad, with access keys shown for enabled items."
+  caption="The old Win32 way was to use underlines to show access keys"
+  class="limit-height-slightly"
+/>
+
+I can’t say I’m a massive fan (I mean, look at the placement of that ‘P’ for
+Paste). Putting that aside, those access keys are shown whenever you use the Alt
+key. They disappear, though, if you then use the arrow keys to navigate. I
+struggle to see how that’s the expected behaviour, as you’re still using the
+keyboard to navigate.
+
+Another oddity is that the menu bar items respond to right-clicks, as if they
+had a context menu:
+
+<CaptionedVideo
+  src={notepad_right_click_mp4}
+  aria-label="A demo of right-clicking on the Edit item three times with the menu opening on each right-click. The last time the menu is shown, all disabled items are enabled."
+  caption="At least this problem doesn’t get in my way"
+  class="limit-height-slightly"
+/>
+
+Bizarrely, that does weird things to the mouse pointer. But also, if you do it a
+few times, disabled items suddenly become enabled.
+
+Most of these problems aren’t Notepad problems per se, as the MenuBar component
+in the [WinUI 3 Gallery](https://apps.microsoft.com/detail/9p3jfpwwdzrc) has
+most of the same problems.
+
+In fact, someone
+[reported the problem about not being able to use a single long click to open a menu and activate an item](https://github.com/microsoft/microsoft-ui-xaml/issues/815)
+in 2019 (originally for WinUI 2). After five years of little action, someone
+decided to close the issue (incorrectly as completed), stating that it’s not a
+bug but a feature request and linking to
+[another issue](https://github.com/microsoft/microsoft-ui-xaml/issues/5600).
+(Considering that it’s a regression from Win32 menus, it’s hard to agree with
+the conclusion that it’s a feature request.) That second issue remains open. And
+in the meantime, someone else has
+[opened a third issue](https://github.com/microsoft/microsoft-ui-xaml/issues/8953).
+
+I’m familiar with how menu bars are supposed to work, because I implemented a
+menu toolbar[^1] in my own software over 20 years ago and made sure all these
+things work. Sadly, in 2026, that seems to be too difficult for Microsoft.
+
+[^1]:
+    I followed
+    [some instructions for how to create a menu toolbar](https://learn.microsoft.com/en-gb/windows/win32/controls/cc-faq-iemenubar)
+    that Microsoft published back then. (My memory tells me that they weren’t
+    the most detailed instructions…)
