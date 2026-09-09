@@ -86,7 +86,7 @@
     "rehype-external-links": "^3.0.0",
     "sass": "^1.97.3",
     "schema-dts": "^2.0.0",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.4",
     "typescript-eslint": "^8.62.0"
   },
   "overrides": {
