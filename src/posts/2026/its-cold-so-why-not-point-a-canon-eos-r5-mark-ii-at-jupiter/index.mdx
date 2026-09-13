@@ -15,6 +15,7 @@ import { CaptionedImage } from "@/components"
 
 import frame_300pc_webp from "./frame-300pc.webp"
 import sharpened_300pc_webp from "./sharpened-300pc.webp"
+import sharpened_v2_webp from "./sharpened-v2.webp"
 import stacked_300pc_webp from "./stacked-300px.webp"
 
 A bit over two years ago,
@@ -109,3 +110,19 @@ would be expected.
 I’ve probably had enough of photographing Jupiter and our moon now. I’d like to
 try Saturn again, though it looks like I’ll be waiting until Autumn for a good
 opportunity.
+
+## 16 September 2026 update
+
+While I’ve been experimenting with other stuff, I revisited this and reprocessed
+the same burst of photos. Here’s an updated stacked and sharpened image with a
+more natural appearance:
+
+<CaptionedImage
+  src={sharpened_v2_webp}
+  alt="A sharpened photo of Jupiter, with more natural colours than the previous stacked photos."
+  caption="I’ve also let the browser scale the image this time, instead of pre-scaling it"
+  style={{ width: `${sharpened_v2_webp.width * 3}px` }}
+/>
+
+It’s been sharpened using
+[PlanetaryTools](https://github.com/ckolivas/PlanetaryTools) this time.
