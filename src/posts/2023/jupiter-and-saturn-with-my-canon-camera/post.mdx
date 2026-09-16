@@ -19,7 +19,7 @@ excerpt: |-
   Finding Jupiter with the naked eye is usually pretty easy as it’s exceptionally bright. Manually pointing an 800mm lens at Jupiter is trickier: the small angle of vi
 ---
 
-import { Aside, PostImage } from "@/components"
+import { Aside, CaptionedImage, RawCaptionedImage } from "@/components"
 
 import jupiter_sharpened_png from "./jupiter-sharpened.png"
 import jupiter_single_png from "./jupiter-single.png"
@@ -71,15 +71,11 @@ pauses to take a breather (usually after about 50 shots). Here’s a crop of an
 above average photo from that series (with sharpening turned off, and the image
 resized to three times the original size):
 
-<figure>
-  <PostImage
-    src={jupiter_single_png}
-    alt="A single photo of Jupiter from the run of 50 photos."
-  />
-  <figcaption>
-    <span>Definitely not a biscuit</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={jupiter_single_png}
+  alt="A single photo of Jupiter from the run of 50 photos."
+  caption="Definitely not a biscuit"
+/>
 
 That was taken at a shutter speed of 1/250 seconds and at ISO 400. It’s a bit
 noisy, but you can make out some of Jupiter’s bands.
@@ -87,15 +83,11 @@ noisy, but you can make out some of Jupiter’s bands.
 To get a better result, I stacked most of the 50 photos using
 [AutoStakkert!](https://www.autostakkert.com):
 
-<figure>
-  <PostImage
-    src={jupiter_stacked_png}
-    alt="The 50 photos of Jupiter stacked into a single image."
-  />
-  <figcaption>
-    <span>I never did like noise</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={jupiter_stacked_png}
+  alt="The 50 photos of Jupiter stacked into a single image."
+  caption="I never did like noise"
+/>
 
 The result is a soft but less noisy image. I enabled the
 [Drizzle algorithm](<https://en.wikipedia.org/wiki/Drizzle_(image_processing)>)
@@ -105,30 +97,22 @@ To combat the softness, the last thing I did was apply some
 [wavelet sharpening](https://siril.readthedocs.io/en/latest/processing/atrouwavelets.html)
 using [Siril](https://siril.org):
 
-<figure>
-  <PostImage
-    src={jupiter_sharpened_png}
-    alt="A sharpened version of the stacked image of Jupiter."
-  />
-  <figcaption>
-    <span>Detail is good, though</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={jupiter_sharpened_png}
+  alt="A sharpened version of the stacked image of Jupiter."
+  caption="Detail is good, though"
+/>
 
 Like magic, the blurriness is mostly gone.
 
 As a comparison to what Jupiter actually looked like, here’s a screenshot from
 [Stellarium Web](https://stellarium-web.org/) at the same time and location:
 
-<figure>
-  <PostImage
-    src={jupiter_stellarium_png}
-    alt="A screenshot showing what Jupiter looked like in Stellarium for the same date, time and location."
-  />
-  <figcaption>
-    <span>Stellarium is a very useful tool</span>
-  </figcaption>
-</figure>
+<CaptionedImage
+  src={jupiter_stellarium_png}
+  alt="A screenshot showing what Jupiter looked like in Stellarium for the same date, time and location."
+  caption="Stellarium is a very useful tool"
+/>
 
 Ganymede, one of Jupiter’s moons, is in the sharpened photo at the top-right.
 The sharpened photo also has a small smudge in a similar location to Io and its
@@ -147,56 +131,40 @@ of a problem.)
 
 Here’s an above average shot from the series of photos I took:
 
-<figure>
-  <PostImage
-    src={saturn_single_png}
-    alt="A single photo of Saturn from the run of 50 photos."
-  />
-  <figcaption>
-    <span>I honestly wasn’t expecting to make out the rings</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={saturn_single_png}
+  alt="A single photo of Saturn from the run of 50 photos."
+  caption="I honestly wasn’t expecting to make out the rings"
+/>
 
 It’s only really a shape – but that’s good enough to make out the rings (not
 individually, of course!)
 
 Here’s the result of stacking the series of photos:
 
-<figure>
-  <PostImage
-    src={saturn_stacked_png}
-    alt="50 photos of Saturn stacked into a single image."
-  />
-  <figcaption>
-    <span>And the noise is gone</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={saturn_stacked_png}
+  alt="50 photos of Saturn stacked into a single image."
+  caption="And the noise is gone"
+/>
 
 Sharpening Saturn was not quite the same as sharpening Jupiter – there isn’t
 much detail to sharpen, so instead we’re trying to sharpen the shape. Here’s
 what I ended up with:
 
-<figure>
-  <PostImage
-    src={saturn_sharpened_png}
-    alt="A sharpened version of the stacked image of Saturn."
-  />
-  <figcaption>
-    <span>Definitely not a wrapped sweet</span>
-  </figcaption>
-</figure>
+<RawCaptionedImage
+  src={saturn_sharpened_png}
+  alt="A sharpened version of the stacked image of Saturn."
+  caption="Definitely not a wrapped sweet"
+/>
 
 A screenshot from Stellarium as a comparison:
 
-<figure>
-  <PostImage
-    src={saturn_stellarium_png}
-    alt="A screenshot showing what Saturn looked like in Stellarium for the same date, time and location."
-  />
-  <figcaption>
-    <span>Yes, the angle of my camera was slightly off</span>
-  </figcaption>
-</figure>
+<CaptionedImage
+  src={saturn_stellarium_png}
+  alt="A screenshot showing what Saturn looked like in Stellarium for the same date, time and location."
+  caption="Yes, the angle of my camera was slightly off"
+/>
 
 ## Wrapping up
 
