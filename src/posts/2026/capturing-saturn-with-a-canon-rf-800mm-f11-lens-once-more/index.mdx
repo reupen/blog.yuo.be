@@ -1,0 +1,161 @@
+---
+title: "Capturing Saturn with a Canon RF 800mm F11 lens once more"
+date: "2026-09-17"
+published_at: 2026-09-17T22:35+01:00
+tags:
+  - photography
+  - space
+excerpt: |-
+  It’s still small, but it’s less small.
+---
+
+import { RawCaptionedImage } from "@/components"
+
+import frame from "./saturn-frame-debayered.webp"
+import stacked_1x_adjusted_sharpened_gimp from "./saturn-stacked-1x-edited-sharpened.webp"
+import stacked_1x_adjusted_gimp from "./saturn-stacked-1x-edited.webp"
+import stacked_1x from "./saturn-stacked-1x.webp"
+import stacked_3x_adjusted_sharpened from "./saturn-stacked-3x-edited-sharpened.webp"
+
+Almost three years ago,
+[I had a go at capturing Saturn with a Canon EOS R mirrorless camera and a Canon RF 800mm F11 IS STM lens](/2023/11/07/jupiter-and-saturn-with-my-canon-camera/).
+The camera combined with that lens doesn’t exactly make for proper
+astrophotography equipment (the narrow ƒ/11 aperture is particularly
+suboptimal), and so it was just a bit of fun to see what I could capture given
+that I already had them in my possession.
+
+Since then, I’ve upgraded to a Canon EOS R5 Mark II and I bought an Extender RF
+1.4x. I’d also like to think I have a bit more of a clue about what I’m doing,
+so I’ve been meaning to try again to see if I can get a better result. Saturn is
+[approaching its closest point to Earth for the year](https://theskylive.com/saturn-info#distance)
+– it seemed like a good time to make that new attempt.
+
+When a cloudless night came along, I got up out of bed as Saturn approached its
+highest point in the sky for the night and set up my camera outside on a tripod.
+The combination of an RF 800mm F11 IS STM lens and the Extender RF 1.4x gave me
+a focal length of 1120mm. With Saturn in frame on my camera, I took a series of
+4-second bursts[^1] of RAW photos at 30fps using the electronic shutter and the
+Canon Camera Connect mobile app.
+
+In total, I took 23 bursts of photos, each with between 100 and 113 photos. I’m
+not sure there was a massive difference between most of them. But in the end, I
+selected a set of 113 frames shot at an exposure time of 1/250s, ISO 1250 and an
+aperture of ƒ/16 (which was fixed due to the lens and extender combination).
+
+This time, I mixed things up by using [Siril](https://siril.org) to do the
+stacking. I used the development version, which has
+[a new multi-point planetary registration and stacking feature](https://siril.readthedocs.io/en/latest/preprocessing/multipoint.html).
+Siril can also read RAW images for my camera model (though it’ll convert them to
+the [FITS format](https://en.wikipedia.org/wiki/FITS) for processing), and has
+some [demosaicing](https://en.wikipedia.org/wiki/Demosaicing) algorithms[^2],
+such as LMMSE, that aren’t normally available[^3] in
+[LibRaw](https://www.libraw.org).
+
+I didn’t demosaic my images during Siril’s initial conversion step and instead
+let Siril handle it during stacking. As an illustration, though, here’s one of
+the frames from the selected burst of photos, demosaiced by Siril:
+
+<RawCaptionedImage
+  src={frame}
+  alt="A noisy photo of Saturn. Saturn appears green and small."
+  caption="Not a flying saucer, but Saturn"
+/>
+
+I’ve brightened the image so that something is actually visible. Note that Siril
+intentionally does not correct the white balance of the RAW image, leaving
+Saturn looking greener than usual.
+
+To get the registration step working, I had to brighten the frames. (I did this
+linearly to avoid messing the processing up.) I set it to stack 75% of the
+frames in the burst, which produced this:
+
+<RawCaptionedImage
+  src={stacked_1x}
+  alt="A soft photo of Saturn with minimal noise. Saturn appears green and small."
+  caption="The noise is mostly gone"
+/>
+
+The colours are obviously off. Also, though, the RGB channels are misaligned due
+to
+[atmospheric dispersion](https://www.skyatnightmagazine.com/astrophotography/atmospheric-dispersion-corrector#:~:text=What%20is%20atmospheric%20dispersion%3F).
+
+I aligned the RGB channels using OpenCV and a Python script that I already had
+and then used the Curves tool in [GIMP](https://www.gimp.org) to sort out the
+other problems. Here’s what I had after that:
+
+<RawCaptionedImage
+  src={stacked_1x_adjusted_gimp}
+  alt="A photo of Saturn in more natural colours. Saturn appears small in the frame."
+  caption="What colour is Saturn, really?"
+/>
+
+It’s already looking better than my previous attempt in 2023. I hadn’t yet
+sharpened the image, though. As usual, I used wavelet sharpening. I turned to
+[waveSharp](https://codeberg.org/Corbee/waveSharp3.0) (which is no longer being
+developed, it seems) for that. One reason I like waveSharp is that it lets you
+sharpen only the luminance channel, avoiding exacerbating any chroma noise in
+the image.
+
+Here’s a slightly sharpened version of the previous image:
+
+<RawCaptionedImage
+  src={stacked_1x_adjusted_sharpened_gimp}
+  alt="A photo of Saturn. Saturn is slightly sharper than the previous photo. Saturn appears small in the frame."
+  caption="It’s a subtle improvement"
+/>
+
+In 2023, I used AutoStakkert! and its 3x
+[drizzle](<https://en.wikipedia.org/wiki/Drizzle_(image_processing)>) mode to
+produce an image three times the size of the input frames. The multi-point
+stacking mode in the development version of Siril doesn’t have a drizzle option,
+but it does have a ‘Scale’ parameter with choices 1x, 1.5x, 2x and 3x. Here’s
+how the parameter
+[is described in the documentation](https://siril.readthedocs.io/en/latest/preprocessing/multipoint.html#stacking-parameters):
+
+> When a value greater than `1x` is selected each frame is upscaled using OpenCV
+> interpolation before contribution to the upscaled stack buffer. This is
+> similar to the old "Simplified Drizzle" method provided for deep-sky stacking.
+
+And here’s the result of using the 3x scaling option, cleaned up and slightly
+sharpened:
+
+<RawCaptionedImage
+  src={stacked_3x_adjusted_sharpened}
+  alt="A photo of Saturn. It is three times the size of the previous photo."
+  caption="I can stop squinting"
+/>
+
+To be honest, simply resizing the previous smaller image (with a high-quality
+algorithm) produces a more aesthetically pleasing result. I suppose there isn’t
+much fine detail visible here where there might’ve been a more useful
+difference.
+
+Anyway, the result is a fair bit nicer than my 2023 attempt. Alas, it seems
+unlikely that I’m going to be able to do much better without some more
+appropriate equipment (like, a telescope…).
+
+[^1]:
+    The camera can only maintain 30fps RAW image shooting for around 4 to 4.3
+    seconds, after which time it’ll need a breather while buffered shots are
+    written to the memory card. Recording video is an option too that I haven’t
+    tried for shooting planets (I can imagine dealing with the video formats
+    produced by the camera would be a nightmare…).
+
+[^2]:
+    The camera uses a type of
+    [colour filter array](https://en.wikipedia.org/wiki/Color_filter_array)
+    called a [Bayer filter](https://en.wikipedia.org/wiki/Bayer_filter) to
+    produce a colour image. The pixels in the RAW image data are in an RGGB
+    pattern and so [demosaicing](https://en.wikipedia.org/wiki/Demosaicing) is
+    required to produce a normal colour image.
+
+[^3]:
+    The demosaicing algorithms supported by LibRaw
+    [are listed in its documentation](https://www.libraw.org/docs/API-datastruct-eng.html#:~:text=0%2D10%3A%20interpolation%20quality%3A).
+    Some additional algorithms are in the historical
+    [LibRaw-demosaic-pack-GPL2](https://github.com/LibRaw/LibRaw-demosaic-pack-GPL2)
+    and
+    [LibRaw-demosaic-pack-GPL3](https://github.com/LibRaw/LibRaw-demosaic-pack-GPL3)
+    repos (it seems the separate repos were for licensing reasons). (I say
+    historical repos as the first one says it’s abandoned in the README, and the
+    second one hasn’t been updated for 16 years.)

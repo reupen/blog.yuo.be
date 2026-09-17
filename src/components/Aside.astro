@@ -12,12 +12,24 @@
     padding: 1rem;
     margin-bottom: 1.5rem;
 
-    :global(h2) {
+    :global(p) {
+      margin: 0.5rem 0;
+    }
+
+    :global(li) {
+      margin: 0.5rem 0;
+    }
+
+    :global(ul) {
+      margin: 0 0 1rem;
+    }
+
+    > :global(*):first-child {
       margin-top: 0;
     }
 
-    :global(p) {
-      margin: 0;
+    > :global(*):last-child {
+      margin-bottom: 0;
     }
   }
 </style>
