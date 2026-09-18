@@ -130,6 +130,31 @@ function.)
 (Of course, it would be nice if Microsoft fixed the bug. But, even if they did,
 there will still probably be people running unfixed versions of Windows.)
 
+## Added on 18 September 2026
+
+In addition to the mouse messages I referred to above, there are also
+[pointer messages](https://learn.microsoft.com/en-gb/windows/win32/inputmsg/messages),
+like
+[`WM_POINTERDOWN`](https://learn.microsoft.com/en-gb/windows/win32/inputmsg/wm-pointerdown)
+and
+[`WM_POINTERUP`](https://learn.microsoft.com/en-gb/windows/win32/inputmsg/wm-pointerup)
+that were added on Windows 8. Win32 apps don’t receive pointer messages for
+mouse events unless they opt in by calling
+[`EnableMouseInPointer()`](https://learn.microsoft.com/en-gb/windows/win32/api/winuser/nf-winuser-enablemouseinpointer)
+(with an argument of `TRUE`).
+
+I opted into them in my isolated reproduction and had a quick look at how
+pointer messages for middle-clicks behave when a popup menu is open. Neither
+`WM_POINTERDOWN` nor `WM_POINTERUP` are received – only `WM_MBUTTONDOWN` and
+`WM_MBUTTONUP` are. That suggests something in Windows is specifically
+forwarding the dodgy `WM_MBUTTON*` and `WM_XBUTTON*` messages to the menu owner
+(which is what I already suspected, to be honest).
+
+Another thing I noticed is that when triggering this bug with the system menu,
+if you close the menu using the Esc key, the problem doesn’t immediately stop
+happening. Input remains captured by the system menu area and the problem
+continues until something else is focused (or Esc is pressed a second time).
+
 [^1]:
     Unfortunately, the Mouse Highlighter tool in
     [Microsoft PowerToys](https://learn.microsoft.com/en-gb/windows/powertoys/)
