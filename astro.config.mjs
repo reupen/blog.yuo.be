@@ -1,13 +1,13 @@
-import { unified } from "@astrojs/markdown-remark"
+import { satteri } from "@astrojs/markdown-satteri"
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
 import umami from "@yeskunall/astro-umami"
 import compress from "astro-compress"
 import { defineConfig } from "astro/config"
-import rehypeExternalLinks from "rehype-external-links"
 
-import fb2kTmGrammar from "./src/tm-grammars/fb2k.json"
+import { hastExternalLinksPlugin } from "@/lib"
+import fb2kTmGrammar from "@/tm-grammars/fb2k.json"
 
 export default defineConfig({
   site:
@@ -33,15 +33,8 @@ export default defineConfig({
     ...(process.env.UMAMI_ID ? [umami({ id: process.env.UMAMI_ID })] : []),
   ],
   markdown: {
-    processor: unified({
-      rehypePlugins: [
-        [
-          rehypeExternalLinks,
-          {
-            rel: ["noreferrer"],
-          },
-        ],
-      ],
+    processor: satteri({
+      hastPlugins: [hastExternalLinksPlugin],
     }),
     shikiConfig: {
       defaultColor: false,
