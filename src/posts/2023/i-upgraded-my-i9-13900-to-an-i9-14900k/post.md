@@ -2,20 +2,12 @@
 title: "I upgraded my Intel Core i9-13900 to an i9-14900K"
 slug: i-upgraded-my-i9-13900-to-an-i9-14900k
 date: "2023-12-19T00:00:07.000Z"
-is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-658058d5f6eea81967542fe0
 tags:
   - hardware
 excerpt: |-
-  There was a good deal on a 14900K during Black Friday weekend, so I decided to buy one as a fairly low-cost upgrade from my non-K 13900.
-
-
-  Did I get a good one?
-
-  Asus motherboards give these CPUs a silicon prediction (SP) score, and these are often used as an easy way of determining whether a particular CPU is a good sample (or not).
-
-  There are, in fact, three SP scores – an overall one, one for performance cores and one for efficient cores (often instead called efficiency cores, but this page o
+  Don’t judge me, it was a cheap upgrade.
 ---
 
 There was a good deal on a 14900K during Black Friday weekend, so I decided to

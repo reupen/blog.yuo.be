@@ -2,7 +2,6 @@
 title: "I made a website for my photos"
 slug: i-made-a-website-for-my-photos
 date: "2023-10-01T23:00:45.000Z"
-is_auto_excerpt: true
 is_imported: true
 comment_id: ghost-6516dd4f186cc48a4af6cd90
 tags:
@@ -10,10 +9,7 @@ tags:
   - web
   - programming
 excerpt: |-
-  Photography is a small hobby of mine, and I used to post some of my photos on photography websites like 500px. But, apart from blurry photos, on that site you get people liking your photos just because you liked theirs, and people following you just so that you follow them back: it’s basically like interacting with bots.
-
-
-  Not getting much from that experience, I’ve wanted to build a dedicated site for my photos for a while. It means I can make sure photos are displayed in the way I want, use mo
+  Likes? Who needs them.
 ---
 
 Photography is a small hobby of mine, and I used to post some of my photos on

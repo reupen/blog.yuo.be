@@ -9,9 +9,7 @@ tags:
   - c++
   - programming
 excerpt: |-
-  I previously wrote
-  [https://blog.yuo.be/2016/05/11/columns-ui-can-now-be-compiled-using-clang/] about how
-  the following:
+  I previously wrote about how the following:
 
   console::formatter() << "some text" << 15 << a_variable << and so on...;
 

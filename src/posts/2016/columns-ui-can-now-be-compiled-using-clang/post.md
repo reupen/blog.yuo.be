@@ -9,7 +9,7 @@ tags:
   - programming
 excerpt: |-
   After a fair bit of work, release builds of Columns UI can now be compiled with
-  Clang[1] (and the builds produced seem to work 🙌).
+  Clang (and the builds produced seem to work 🙌).
 
   Clang attempts to be compatible with Visual C++
   [http://clang.llvm.org/docs/MSVCCompatibility.html] – in terms of ABI, some
