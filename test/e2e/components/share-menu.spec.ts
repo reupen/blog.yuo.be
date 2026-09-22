@@ -44,7 +44,7 @@ test.describe("share menu", () => {
       await page.getByRole("button", { name: "Share" }).click()
       await page.getByRole("menuitem", { name: "Copy link" }).hover()
 
-      await expect(page.getByRole("menu")).toHaveScreenshot("share-menu.png", {
+      await expect(page.getByRole("menu")).toHaveScreenshot("share-menu.webp", {
         scale: "device",
       })
     })

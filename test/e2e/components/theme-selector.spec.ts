@@ -41,7 +41,7 @@ test.describe("theme selector", () => {
 
       await expect(
         page.getByRole("listbox", { name: "Theme" }),
-      ).toHaveScreenshot("theme-selector-menu.png", { scale: "device" })
+      ).toHaveScreenshot("theme-selector-menu.webp", { scale: "device" })
     })
   })
 

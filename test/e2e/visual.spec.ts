@@ -15,7 +15,7 @@ PAGES.forEach((path) => {
         test("matches the saved screenshot", async ({ page }) => {
           await page.goto(path)
           await expect(page).toHaveScreenshot(
-            [path.replaceAll(/(^\/|\/$)/g, ""), `${colourScheme}.png`],
+            [path.replaceAll(/(^\/|\/$)/g, ""), `${colourScheme}.webp`],
             {
               fullPage: true,
             },
