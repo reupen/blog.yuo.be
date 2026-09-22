@@ -29,7 +29,7 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
         >
           <i
             aria-hidden="true"
-            className="fa-solid fa-comment fa-mobile-fw"
+            className="byb-icon byb-icon-comment byb-icon-mobile-fw"
           ></i>
           &#x2004;
           {!commentsLoaded && <>Show comments</>}

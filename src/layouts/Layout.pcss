@@ -1,5 +1,6 @@
 @import "@/components/client/ShareMenu.pcss";
 @import "@/components/client/ThemeSelector.pcss";
+@import "./icons.pcss";
 
 @font-face {
   font-family: "Noto Serif Variable";
@@ -48,8 +49,6 @@
 
 :root {
   color-scheme: light dark;
-
-  --fa-width: "auto";
 
   --body-background: light-dark(#fff9f3, #151515);
   --caption-text-colour: light-dark(#404040, #a9a8a8);
@@ -441,14 +440,6 @@ audio {
 @media print {
   .no-print {
     display: none !important;
-  }
-}
-
-.fa-mobile-fw {
-  --fa-width: 1.25em;
-
-  @media (min-width: 600px) {
-    --fa-width: auto;
   }
 }
 

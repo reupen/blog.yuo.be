@@ -4,7 +4,6 @@ import type { BlogPosting, WithContext } from "schema-dts"
 
 import { ThemeSelector } from "@/components/client"
 
-import "./font-awesome.scss"
 import "./Layout.pcss"
 
 export interface Props {
@@ -116,8 +115,8 @@ const computedTitle =
         {
           postReturnUrl && (
             <a class="small no-print" href={postReturnUrl}>
-              <i aria-hidden="true" class="fa-solid fa-chevron-left" /> All
-              posts
+              <i aria-hidden="true" class="byb-icon byb-icon-chevron-left" />{" "}
+              All posts
             </a>
           )
         }
@@ -129,19 +128,21 @@ const computedTitle =
       <ul class="container">
         <li>
           <a href="/about/">
-            <i aria-hidden="true" class="fa-solid fa-circle-info"></i>{" "}
+            <i aria-hidden="true" class="byb-icon byb-icon-circle-info"></i>{
+              " "
+            }
             About
           </a>
         </li>
         <li>
           <a href={new URL("rss.xml", Astro.site)}>
-            <i aria-hidden="true" class="fa-solid fa-rss"></i>{" "}
+            <i aria-hidden="true" class="byb-icon byb-icon-rss"></i>{" "}
             RSS
           </a>
         </li>
         <li>
           <a href="https://github.com/reupen/blog.yuo.be">
-            <i aria-hidden="true" class="fa-brands fa-github"></i>{" "}
+            <i aria-hidden="true" class="byb-icon byb-icon-github"></i>{" "}
             Source
           </a>
         </li>

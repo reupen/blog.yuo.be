@@ -26,7 +26,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     {
       id: "copy-url",
       text: "Copy link",
-      iconClass: "fa-solid fa-copy",
+      iconClass: "byb-icon byb-icon-copy",
       condition: () =>
         typeof navigator !== "undefined" && !!navigator.clipboard?.writeText,
       run: async () => {
@@ -41,13 +41,13 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     {
       id: "reddit",
       text: "Reddit",
-      iconClass: "fa-brands fa-reddit",
+      iconClass: "byb-icon byb-icon-reddit",
       url: () => makeUrl("https://reddit.com/submit", { url, title }),
     },
     {
       id: "hn",
       text: "Hacker News",
-      iconClass: "fa-brands fa-hacker-news",
+      iconClass: "byb-icon byb-icon-hacker-news",
       url: () =>
         makeUrl("https://news.ycombinator.com/submitlink", {
           t: title,
@@ -57,7 +57,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     {
       id: "bluesky",
       text: "Bluesky",
-      iconClass: "fa-brands fa-bluesky",
+      iconClass: "byb-icon byb-icon-bluesky",
       url: () =>
         makeUrl("https://bsky.app/intent/compose", {
           text: `${title} ${url}`,
@@ -66,14 +66,14 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     {
       id: "mastodon",
       text: "Mastodon",
-      iconClass: "fa-brands fa-mastodon",
+      iconClass: "byb-icon byb-icon-mastodon",
       url: () =>
         `https://share.joinmastodon.org/#text=${encodeURIComponent(`${title} ${url}`)}`,
     },
     {
       id: "x",
       text: "X",
-      iconClass: "fa-brands fa-x-twitter",
+      iconClass: "byb-icon byb-icon-x-twitter",
       url: () =>
         makeUrl("https://x.com/intent/tweet", { text: `${title} ${url}` }),
     },
@@ -117,7 +117,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
       >
         <i
           aria-hidden="true"
-          className="fa-solid fa-share-nodes fa-mobile-fw"
+          className="byb-icon byb-icon-share-nodes byb-icon-mobile-fw"
         ></i>
         &#x2004;Share
       </button>

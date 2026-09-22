@@ -8,5 +8,12 @@
       "@/*": ["src/*"]
     }
   },
-  "include": [".astro/types.d.ts", "src", "src/**/*.pcss", "test", "*"]
+  "include": [
+    ".astro/types.d.ts",
+    "scripts",
+    "src",
+    "src/**/*.pcss",
+    "test",
+    "*"
+  ]
 }

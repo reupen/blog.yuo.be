@@ -149,8 +149,10 @@ const readingTime = Math.max(
     <div class="container content">
       <Content />
       <a class="coffee-link" href="https://buymeacoffee.com/reupen">
-        <i aria-hidden="true" class="fa-solid fa-mug-hot fa-mobile-fw"
-        ></i>&#x2004;Buy me a coffee
+        <i
+          aria-hidden="true"
+          class="byb-icon byb-icon-mug-hot byb-icon-mobile-fw"></i>&#x2004;Buy
+        me a coffee
       </a>{" "}
       <ShareMenu
         client:load
@@ -166,7 +168,7 @@ const readingTime = Math.max(
         {
           previous && (
             <a href={previous.url}>
-              <i aria-hidden="true" class="fa-solid fa-arrow-left" />
+              <i aria-hidden="true" class="byb-icon byb-icon-arrow-left" />
               {previous.data.title}
             </a>
           )
@@ -177,7 +179,7 @@ const readingTime = Math.max(
           next && (
             <a class="next-page" href={next.url}>
               {next.data.title}
-              <i aria-hidden="true" class="fa-solid fa-arrow-right" />
+              <i aria-hidden="true" class="byb-icon byb-icon-arrow-right" />
             </a>
           )
         }

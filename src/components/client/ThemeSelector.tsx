@@ -8,10 +8,10 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
     {
       id: "auto",
       text: "Automatic",
-      iconClass: "fa-solid fa-circle-half-stroke",
+      iconClass: "byb-icon byb-icon-circle-half-stroke",
     },
-    { id: "light", text: "Light", iconClass: "fa-regular fa-sun" },
-    { id: "dark", text: "Dark", iconClass: "fa-solid fa-moon" },
+    { id: "light", text: "Light", iconClass: "byb-icon byb-icon-sun" },
+    { id: "dark", text: "Dark", iconClass: "byb-icon byb-icon-moon" },
   ]
 
   // eslint-disable-next-line @eslint-react/purity
@@ -78,7 +78,10 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
             >
               <span>
                 {selectedItem?.id === item.id && (
-                  <i aria-hidden="true" className="fa-solid fa-circle"></i>
+                  <i
+                    aria-hidden="true"
+                    className="byb-icon byb-icon-circle"
+                  ></i>
                 )}
               </span>
               <span>{item.text}</span>
