@@ -1,5 +1,7 @@
 import { expect, type Page, test } from "@playwright/test"
 
+import { COLOUR_SCHEMES } from "../constants.ts"
+
 async function clickOption(page: Page, name: string) {
   await page.getByRole("combobox", { name: "Theme" }).click()
   await page.getByRole("option", { name }).click()
@@ -36,12 +38,18 @@ test.describe("theme selector", () => {
       await expect(htmlLocator).toHaveClass("light")
     })
 
-    test("the menu matches the saved screenshot", async ({ page }) => {
-      await page.getByRole("combobox", { name: "Theme" }).click()
+    COLOUR_SCHEMES.forEach((colourScheme) => {
+      test.describe(`${colourScheme} mode`, () => {
+        test.use({ colorScheme: colourScheme })
 
-      await expect(
-        page.getByRole("listbox", { name: "Theme" }),
-      ).toHaveScreenshot("theme-selector-menu.webp", { scale: "device" })
+        test("the menu matches the saved screenshot", async ({ page }) => {
+          await page.getByRole("combobox", { name: "Theme" }).click()
+
+          await expect(
+            page.getByRole("listbox", { name: "Theme" }),
+          ).toHaveScreenshot(`${colourScheme}-menu.webp`, { scale: "device" })
+        })
+      })
     })
   })
 

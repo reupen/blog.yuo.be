@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test"
 
+import { COLOUR_SCHEMES } from "../constants.ts"
+
 test.describe("share menu", () => {
   test.describe("when JavaScript is enabled", () => {
     test.beforeEach(async ({ page }) => {
@@ -40,12 +42,21 @@ test.describe("share menu", () => {
       await newTab.close()
     })
 
-    test("the menu matches the saved screenshot", async ({ page }) => {
-      await page.getByRole("button", { name: "Share" }).click()
-      await page.getByRole("menuitem", { name: "Copy link" }).hover()
+    COLOUR_SCHEMES.forEach((colourScheme) => {
+      test.describe(`${colourScheme} mode`, () => {
+        test.use({ colorScheme: colourScheme })
 
-      await expect(page.getByRole("menu")).toHaveScreenshot("share-menu.webp", {
-        scale: "device",
+        test("the menu matches the saved screenshot", async ({ page }) => {
+          await page.getByRole("button", { name: "Share" }).click()
+          await page.getByRole("menuitem", { name: "Copy link" }).hover()
+
+          await expect(page.getByRole("menu")).toHaveScreenshot(
+            `${colourScheme}-menu.webp`,
+            {
+              scale: "device",
+            },
+          )
+        })
       })
     })
   })
