@@ -3,6 +3,7 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 from fontTools.subset import Options, Subsetter, load_font, save_font
+from fontTools.varLib import instancer
 
 ROOT_PATH = Path(__file__).parents[1]
 
@@ -47,6 +48,13 @@ def main():
         print(f"Subsetting: {path}")
         font = load_font(path, options)
         subsetter.subset(font)
+        font = instancer.instantiateVariableFont(
+            font,
+            {
+                "wght": (375, 700),
+                "wdth": 100,
+            },
+        )
         save_font(font, f"{subsets_path / path.stem}.woff2", options)
 
     print("Re-running npm run build...")
