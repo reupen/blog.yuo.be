@@ -18,9 +18,7 @@ test.describe("share menu", () => {
       ).toBeVisible()
     })
 
-    test("can share on Bluesky", async ({ browserName, context, page }) => {
-      test.skip(browserName == "webkit", "Test is unreliable on WebKit")
-
+    test("can share on Bluesky", async ({ context, page }) => {
       await context.route(/^https:\/\/bsky.app/, (route) =>
         route.fulfill({
           status: 404,
@@ -34,6 +32,34 @@ test.describe("share menu", () => {
       const newTabPromise = page.waitForEvent("popup")
 
       await page.getByRole("menuitem", { name: "Bluesky" }).click()
+
+      const newTab = await newTabPromise
+      await expect(newTab).toHaveURL(
+        "https://bsky.app/intent/compose?text=The%20death%20of%20IMpeg2Data%20and%20the%20false%20start%20of%20IPSITables%20https%3A%2F%2Fblog.yuo.be%2F2015%2F12%2F30%2Fthe-death-of-impeg-2-data-and-the-false-start-of-ipsitables%2F",
+      )
+      await newTab.close()
+    })
+
+    test("can navigate using the keyboard", async ({ context, page }) => {
+      await context.route(/^https:\/\/bsky.app/, (route) =>
+        route.fulfill({
+          status: 404,
+          body: "Intercepted",
+          contentType: "text/plain",
+        }),
+      )
+
+      await page.getByRole("button", { name: "Share" }).click()
+
+      const newTabPromise = page.waitForEvent("popup")
+
+      await page.keyboard.press("H")
+      await expect(
+        page.getByRole("menuitem", { name: "Hacker News" }),
+      ).toBeFocused()
+
+      await page.keyboard.press("ArrowDown")
+      await page.keyboard.press("Enter")
 
       const newTab = await newTabPromise
       await expect(newTab).toHaveURL(

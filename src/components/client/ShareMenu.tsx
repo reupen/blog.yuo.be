@@ -10,6 +10,8 @@ import {
   useInteractions,
   useListNavigation,
   useRole,
+  useTypeahead,
+  FloatingFocusManager,
 } from "@floating-ui/react"
 import clsx from "clsx"
 import queryString from "query-string"
@@ -92,6 +94,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
   })
 
   const listRef = useRef<(HTMLElement | null)[]>([])
+  const listItemsTextRef = useRef<string[]>(items.map((item) => item.text))
 
   const click = useClick(context)
   const dismiss = useDismiss(context)
@@ -101,9 +104,14 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
     activeIndex,
     onNavigate: setActiveIndex,
   })
+  const typeahead = useTypeahead(context, {
+    listRef: listItemsTextRef,
+    activeIndex,
+    onMatch: setActiveIndex,
+  })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [click, dismiss, role, listNavigation],
+    [click, dismiss, role, listNavigation, typeahead],
   )
 
   // See https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/examples/menu-button-links/
@@ -123,7 +131,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
       </button>
       {isOpen && (
         <FloatingPortal>
-          <>
+          <FloatingFocusManager context={context} modal={false}>
             <ul
               className="share-menu"
               ref={refs.setFloating}
@@ -159,7 +167,7 @@ export function ShareMenu({ url, title }: { url: string; title: string }) {
                 )
               })}
             </ul>
-          </>
+          </FloatingFocusManager>
         </FloatingPortal>
       )}
     </div>

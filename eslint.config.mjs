@@ -10,7 +10,7 @@ import globals from "globals"
 import tseslint from "typescript-eslint"
 
 export default defineConfig(
-  globalIgnores([".astro/", "dist/", "src/env.d.ts"]),
+  globalIgnores([".astro/", "dist/", "src/env.d.ts", "test/e2e/output/"]),
   {
     files: ["**/*.mdx"],
     languageOptions: {
