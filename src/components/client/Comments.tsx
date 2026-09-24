@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 
 import { getCommentCounts } from "@/lib/getCommentCounts.ts"
 
+const COMENTARIO_SCRIPT_URL = "https://comments.yuo.be/comentario.js"
+
 interface Props {
   initialCommentCounts: Record<string, number> | undefined
   pathname: string
@@ -12,6 +14,13 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
   const [commentCount, setCommentCount] = useState(
     initialCommentCounts?.[pathname] ?? 0,
   )
+  const [isComentarioLoaded, setIsComentarioLoaded] = useState<boolean>(false)
+  const [isComentarioLoadingShown, setIsComentarioLoadingShown] =
+    useState<boolean>(false)
+  const [comentarioLoadError, setComentarioLoadError] = useState<
+    unknown | null
+  >(null)
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -29,15 +38,26 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
     })()
   }, [pathname])
 
+  const showComments = () => {
+    ;(async () => {
+      try {
+        await import(/* @vite-ignore */ COMENTARIO_SCRIPT_URL)
+        setIsComentarioLoaded(true)
+      } catch (error) {
+        console.error(error)
+        setComentarioLoadError(error)
+      }
+    })()
+    setIsCommentsVisible(true)
+    setTimeout(() => {
+      setIsComentarioLoadingShown(true)
+    }, 1_000)
+  }
+
   return (
     <>
       {!isCommentsVisible && (
-        <div
-          className="comments-link"
-          onClick={() => {
-            setIsCommentsVisible(true)
-          }}
-        >
+        <button className="comments-link" onClick={showComments} type="button">
           <i
             aria-hidden="true"
             className="byb-icon byb-icon-comment byb-icon-mobile-fw"
@@ -49,16 +69,22 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
               Show {commentCount} comment{commentCount !== 1 && "s"}
             </>
           )}
-        </div>
+        </button>
       )}
       {isCommentsVisible && (
         <>
           <h2 className="comments-header">Comments</h2>
-          <comentario-comments
-            page-id={pathname}
-            theme="custom"
-            no-fonts
-          ></comentario-comments>
+          {comentarioLoadError && "Error loading Comentario"}
+          {!isComentarioLoaded &&
+            isComentarioLoadingShown &&
+            "Loading comments…"}
+          {isComentarioLoaded && (
+            <comentario-comments
+              page-id={pathname}
+              theme="custom"
+              no-fonts
+            ></comentario-comments>
+          )}
         </>
       )}
     </>
