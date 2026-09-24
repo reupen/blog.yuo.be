@@ -1,5 +1,4 @@
-import { useState } from "react"
-import useSWR from "swr"
+import { useEffect, useState } from "react"
 
 import { getCommentCounts } from "@/lib/getCommentCounts.ts"
 
@@ -10,13 +9,25 @@ interface Props {
 
 export function Comments({ initialCommentCounts, pathname }: Props) {
   const [isCommentsVisible, setIsCommentsVisible] = useState<boolean>(false)
-  const { data } = useSWR(
-    `comment-counts-${pathname}`,
-    async () => getCommentCounts(window.location.host, [pathname]),
-    { fallbackData: initialCommentCounts },
+  const [commentCount, setCommentCount] = useState(
+    initialCommentCounts?.[pathname] ?? 0,
   )
-  const commentCount = data?.[pathname] ?? 0
-  const commentsLoaded = Boolean(data)
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const fetchedCommentCounts = await getCommentCounts(
+          window.location.host,
+          [pathname],
+        )
+
+        if (fetchedCommentCounts) {
+          setCommentCount(fetchedCommentCounts[pathname] ?? 0)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    })()
+  }, [pathname])
 
   return (
     <>
@@ -32,8 +43,7 @@ export function Comments({ initialCommentCounts, pathname }: Props) {
             className="byb-icon byb-icon-comment byb-icon-mobile-fw"
           ></i>
           &#x2004;
-          {!commentsLoaded && <>Show comments</>}
-          {commentsLoaded && commentCount === 0 && <>Post a comment</>}
+          {commentCount === 0 && <>Post a comment</>}
           {commentCount > 0 && (
             <>
               Show {commentCount} comment{commentCount !== 1 && "s"}

@@ -55,7 +55,6 @@
     "react-merge-refs": "^3.0.2",
     "remeda": "^2.39.0",
     "satori": "^0.26.0",
-    "swr": "^2.4.0",
     "typescript": "^6.0.3",
     "ultrahtml": "^1.6.0"
   },
