@@ -1,12 +1,16 @@
 .theme-selector-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: inherit;
 
-  &,
-  label {
-    cursor: pointer;
-  }
-
-  label {
+  .theme-selector-label {
     display: flex;
     column-gap: 0.4rem;
     align-items: baseline;
@@ -26,6 +30,8 @@
   border-radius: 5px;
   padding: 0;
   font-size: 15px;
+  font-weight: 500;
+  outline: none;
 
   li {
     display: grid;
@@ -34,9 +40,10 @@
     align-items: center;
     cursor: pointer;
     margin: 0;
-    padding: 0.3rem 0.6rem;
+    padding: 0.2rem 0.5rem;
     list-style: none;
     color: var(--text-colour);
+    border: 2px solid transparent;
 
     &:first-child {
       border-radius: 5px 5px 0 0;
@@ -44,6 +51,11 @@
 
     &:last-child {
       border-radius: 0 0 5px 5px;
+    }
+
+    &:focus-visible {
+      border: 2px solid var(--text-colour);
+      outline: none;
     }
 
     &.highlight {

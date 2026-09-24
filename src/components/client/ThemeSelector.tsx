@@ -1,43 +1,51 @@
-import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react-dom"
+import {
+  autoUpdate,
+  offset,
+  shift,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useListNavigation,
+  useRole,
+  useTypeahead,
+  FloatingPortal,
+  FloatingFocusManager,
+} from "@floating-ui/react"
 import clsx from "clsx"
-import { useSelect } from "downshift"
-import { mergeRefs } from "react-merge-refs"
+import { useId, useRef, useState } from "react"
+
+const items = [
+  {
+    id: "auto",
+    text: "Automatic",
+    iconClass: "byb-icon byb-icon-circle-half-stroke",
+  },
+  { id: "light", text: "Light", iconClass: "byb-icon byb-icon-sun" },
+  { id: "dark", text: "Dark", iconClass: "byb-icon byb-icon-moon" },
+]
 
 export function ThemeSelector({ className, ...rest }: { className: string }) {
-  const items = [
-    {
-      id: "auto",
-      text: "Automatic",
-      iconClass: "byb-icon byb-icon-circle-half-stroke",
-    },
-    { id: "light", text: "Light", iconClass: "byb-icon byb-icon-sun" },
-    { id: "dark", text: "Dark", iconClass: "byb-icon byb-icon-moon" },
-  ]
-
   // eslint-disable-next-line @eslint-react/purity
   const currentTheme = localStorage.getItem("theme")
+  const initialSelectedIndex = Math.max(
+    0,
+    items.findIndex((item) => item.id === currentTheme),
+  )
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(initialSelectedIndex)
+  const [activeIndex, setActiveIndex] = useState<number | null>(
+    initialSelectedIndex,
+  )
+  const listRef = useRef<(HTMLElement | null)[]>([])
+  const listItemsTextRef = useRef<(string | null)[]>(
+    items.map((item) => item.text),
+  )
+  const labelId = useId()
 
-  const {
-    isOpen,
-    selectedItem,
-    getToggleButtonProps,
-    getLabelProps,
-    getMenuProps,
-    highlightedIndex,
-    getItemProps,
-  } = useSelect({
-    items,
-    itemToString: (item) => item?.text ?? "",
-    defaultSelectedItem:
-      items.find((item) => item.id == currentTheme) ?? items[0],
-    onSelectedItemChange: ({ selectedItem }) => {
-      const theme = selectedItem?.id ?? "auto"
-      localStorage.setItem("theme", theme)
-      document.documentElement.className = theme
-    },
-  })
-
-  const { refs, floatingStyles } = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
     placement: "bottom-start",
     middleware: [
       offset({ mainAxis: 10, crossAxis: -10 }),
@@ -46,48 +54,101 @@ export function ThemeSelector({ className, ...rest }: { className: string }) {
     whileElementsMounted: autoUpdate,
   })
 
-  const { ref: toggleButtonRef, ...toggleButtonProps } = getToggleButtonProps()
-  const { ref: menuRef, ...menuProps } = getMenuProps()
+  const click = useClick(context)
+  const dismiss = useDismiss(context)
+  const role = useRole(context, { role: "select" })
+  const listNavigation = useListNavigation(context, {
+    listRef,
+    activeIndex,
+    onNavigate: setActiveIndex,
+    selectedIndex,
+  })
+  const typeahead = useTypeahead(context, {
+    listRef: listItemsTextRef,
+    activeIndex,
+    onMatch: setActiveIndex,
+    selectedIndex,
+  })
+
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
+    [click, dismiss, role, listNavigation, typeahead],
+  )
+
+  const selectItem = (index: number) => {
+    const theme = items[index].id
+    setSelectedIndex(index)
+    localStorage.setItem("theme", theme)
+    document.documentElement.className = theme
+    setIsOpen(false)
+  }
 
   return (
     <div className={className} {...rest}>
-      <div
+      <button
+        aria-labelledby={labelId}
         className="theme-selector-button"
-        ref={mergeRefs([refs.setReference, toggleButtonRef])}
-        {...toggleButtonProps}
+        ref={refs.setReference}
+        type="button"
+        {...getReferenceProps()}
       >
-        <label {...getLabelProps()}>
-          {selectedItem && (
-            <i aria-hidden="true" className={selectedItem.iconClass}></i>
+        <span id={labelId} className="theme-selector-label">
+          {items[selectedIndex] && (
+            <i
+              aria-hidden="true"
+              className={items[selectedIndex].iconClass}
+            ></i>
           )}
           <span>Theme</span>
-        </label>
-      </div>
-      <ul
-        className={clsx("theme-selector-menu", !isOpen && "hidden")}
-        ref={mergeRefs([refs.setFloating, menuRef])}
-        style={floatingStyles}
-        {...menuProps}
-      >
-        {isOpen &&
-          items.map((item, index) => (
-            <li
-              className={clsx(highlightedIndex === index && "highlight")}
-              key={item.id}
-              {...getItemProps({ item, index })}
+        </span>
+      </button>
+      {isOpen && (
+        <FloatingPortal>
+          <FloatingFocusManager context={context} modal={false}>
+            <ul
+              aria-labelledby={labelId}
+              className={clsx("theme-selector-menu")}
+              ref={refs.setFloating}
+              style={floatingStyles}
+              {...getFloatingProps()}
             >
-              <span>
-                {selectedItem?.id === item.id && (
-                  <i
-                    aria-hidden="true"
-                    className="byb-icon byb-icon-circle"
-                  ></i>
-                )}
-              </span>
-              <span>{item.text}</span>
-            </li>
-          ))}
-      </ul>
+              {items.map((item, index) => (
+                <li
+                  className={clsx(index == activeIndex && "highlight")}
+                  key={item.id}
+                  ref={(node) => {
+                    listRef.current[index] = node
+                  }}
+                  tabIndex={activeIndex === index ? 0 : -1}
+                  {...getItemProps({
+                    onClick: () => selectItem(index),
+                    onKeyDown(event) {
+                      if (event.key === "Enter") {
+                        event.preventDefault()
+                        selectItem(index)
+                      }
+
+                      if (event.key === " ") {
+                        event.preventDefault()
+                        selectItem(index)
+                      }
+                    },
+                  })}
+                >
+                  <span>
+                    {selectedIndex == index && (
+                      <i
+                        aria-hidden="true"
+                        className="byb-icon byb-icon-circle"
+                      ></i>
+                    )}
+                  </span>
+                  <span>{item.text}</span>
+                </li>
+              ))}
+            </ul>
+          </FloatingFocusManager>
+        </FloatingPortal>
+      )}
     </div>
   )
 }

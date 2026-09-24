@@ -44,7 +44,6 @@
     "@types/react-dom": "^19.2.5",
     "@yeskunall/astro-umami": "^0.0.9",
     "astro": "^7.3.3",
-    "downshift": "^9.3.2",
     "ky": "^1.14.3",
     "mime": "^4.1.0",
     "p-limit": "^7.3.0",

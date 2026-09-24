@@ -43,7 +43,7 @@ test.describe("theme selector", () => {
         test.use({ colorScheme: colourScheme })
 
         test("the menu matches the saved screenshot", async ({ page }) => {
-          await page.getByRole("combobox", { name: "Theme" }).click()
+          await page.getByRole("combobox", { name: "Theme" }).press("Enter")
 
           await expect(
             page.getByRole("listbox", { name: "Theme" }),
