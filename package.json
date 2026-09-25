@@ -39,7 +39,7 @@
     "@astrojs/sitemap": "^3.7.4",
     "@floating-ui/react": "^0.27.17",
     "@floating-ui/react-dom": "^2.1.7",
-    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@yeskunall/astro-umami": "^0.0.9",
