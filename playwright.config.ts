@@ -63,7 +63,7 @@ export default defineConfig({
   snapshotPathTemplate:
     "{testDir}/__screenshots__/{testFilePath}/{arg}--{projectName}{ext}",
   webServer: {
-    command: "npm run preview",
+    command: "npm exec --no -- astro preview",
     port: 4321,
   },
 })

@@ -26,6 +26,8 @@ def run_in_playwright_container(arg):
         "-it",
         "-e",
         "CI",
+        "-e",
+        "ASTRO_TELEMETRY_DISABLED=1",
         f"mcr.microsoft.com/playwright:v{playwright_version}",
         "bash",
         "-c",
