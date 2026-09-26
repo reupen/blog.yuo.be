@@ -1,6 +1,6 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import mdx from "@astrojs/mdx"
-import react from "@astrojs/react"
+import preact from "@astrojs/preact"
 import sitemap from "@astrojs/sitemap"
 import umami from "@yeskunall/astro-umami"
 import compress from "astro-compress"
@@ -28,8 +28,8 @@ export default defineConfig({
       JavaScript: false,
       SVG: true,
     }),
+    preact({ compat: true }),
     mdx(),
-    react(),
     ...(process.env.UMAMI_ID ? [umami({ id: process.env.UMAMI_ID })] : []),
   ],
   markdown: {

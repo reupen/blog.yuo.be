@@ -13,7 +13,7 @@ import {
   FloatingFocusManager,
 } from "@floating-ui/react"
 import clsx from "clsx"
-import { useId, useRef, useState } from "react"
+import { useId, useRef, useState } from "preact/compat"
 
 const items = [
   {
