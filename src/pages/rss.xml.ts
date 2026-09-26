@@ -1,5 +1,5 @@
 import mdxRenderer from "@astrojs/mdx/server.js"
-import reactRenderer from "@astrojs/react/server.js"
+import preactRenderer from "@astrojs/preact/server.js"
 import rss from "@astrojs/rss"
 import type { APIContext } from "astro"
 import { experimental_AstroContainer } from "astro/container"
@@ -20,7 +20,7 @@ export async function GET(context: APIContext) {
 
   const container = await experimental_AstroContainer.create()
   container.addServerRenderer({ renderer: mdxRenderer, name: "MDX" })
-  container.addServerRenderer({ renderer: reactRenderer, name: "react" })
+  container.addServerRenderer({ renderer: preactRenderer, name: "preact" })
 
   return rss({
     xmlns: {

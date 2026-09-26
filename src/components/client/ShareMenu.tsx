@@ -14,8 +14,8 @@ import {
   FloatingFocusManager,
 } from "@floating-ui/react"
 import clsx from "clsx"
+import { useRef, useState } from "preact/compat"
 import queryString from "query-string"
-import { useRef, useState } from "react"
 
 export function ShareMenu({ url, title }: { url: string; title: string }) {
   const [isOpen, setIsOpen] = useState(false)

@@ -1,6 +1,6 @@
 ---
 import mdxRenderer from "@astrojs/mdx/server.js"
-import reactRenderer from "@astrojs/react/server.js"
+import preactRenderer from "@astrojs/preact/server.js"
 import { experimental_AstroContainer } from "astro/container"
 import { render } from "astro:content"
 import { format, formatISO } from "date-fns"
@@ -72,7 +72,7 @@ const { Content } = await render(post)
 
 const container = await experimental_AstroContainer.create()
 container.addServerRenderer({ renderer: mdxRenderer, name: "MDX" })
-container.addServerRenderer({ renderer: reactRenderer, name: "react" })
+container.addServerRenderer({ renderer: preactRenderer, name: "preact" })
 
 const postHtml = await container.renderToString(Content)
 const postText = htmlToText(postHtml, { wordwrap: false })

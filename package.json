@@ -34,23 +34,23 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/markdoc": "^2.0.9",
     "@astrojs/mdx": "^8.0.2",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/preact": "^6.0.5",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@floating-ui/react": "^0.27.17",
     "@floating-ui/react-dom": "^2.1.7",
     "@fortawesome/fontawesome-free": "^7.3.1",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@preact/compat": "^18.3.2",
     "@yeskunall/astro-umami": "^0.0.9",
     "astro": "^7.3.5",
     "ky": "^1.14.3",
     "mime": "^4.1.0",
     "p-limit": "^7.3.0",
+    "preact": "^10.29.8",
     "prop-types": "^15.8.1",
     "query-string": "^9.5.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "npm:@preact/compat@^18.3.2",
+    "react-dom": "npm:@preact/compat@^18.3.2",
     "remeda": "^2.39.0",
     "satori": "^0.26.0",
     "typescript": "^6.0.3",
@@ -94,6 +94,8 @@
   "overrides": {
     "astro": "$astro",
     "sharp": "$sharp",
-    "typescript": "$typescript"
+    "typescript": "$typescript",
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }

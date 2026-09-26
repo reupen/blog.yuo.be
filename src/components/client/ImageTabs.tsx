@@ -3,7 +3,8 @@ import clsx from "clsx"
 
 import "./ImageTabs.pcss"
 
-import { useState, useRef, useEffect, type KeyboardEvent, useId } from "react"
+import type { TargetedKeyboardEvent } from "preact"
+import { useState, useRef, useEffect, useId } from "preact/compat"
 
 interface ImageTabsProps {
   enlarge?: boolean
@@ -56,7 +57,9 @@ export function ImageTabs({
     setIsHydrated(true)
   }, [images.length, stateId])
 
-  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleTabKeyDown = (
+    event: TargetedKeyboardEvent<HTMLButtonElement>,
+  ) => {
     const tabCount = images.length
     let newIndex
 
