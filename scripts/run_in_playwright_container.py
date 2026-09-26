@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 import argparse
+import os
 from pathlib import PurePath
+from platform import system
 from subprocess import run
 
 from utils.npm import get_dependency_version
 
-ROOT_DIR = PurePath(__file__).parents[1].as_posix()
+ROOT_DIR = PurePath(__file__).parents[1]
+CONTAINER_RUNNER = os.environ.get(
+    "CONTAINER_RUNNER", "wslc" if system() == "Windows" else "podman"
+)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("command")
@@ -14,13 +19,13 @@ parser.add_argument("command")
 def run_in_playwright_container(arg):
     playwright_version = get_dependency_version("node_modules/@playwright/test")
     command = [
-        "podman",
+        CONTAINER_RUNNER,
         "run",
         "--rm",
         "-v",
-        f"{ROOT_DIR}:/home/pwuser/",
+        f"{ROOT_DIR.as_posix()}:/home/pwuser/",
         "-v",
-        "/home/pwuser/node_modules/",
+        f"{ROOT_DIR.name}:/home/pwuser/node_modules/",
         "-w",
         "/home/pwuser/",
         "-it",
