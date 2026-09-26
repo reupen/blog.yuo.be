@@ -18,31 +18,25 @@ const { images, rowSize = 2, ...rest } = Astro.props
 
 <figure {...rest}>
   <div class="grid">
-    {
-      chunk(images, rowSize).map((chunk) => {
-        const imageARs = chunk.map(({ image }) => image.width / image.height)
-        const totalAR = sum(imageARs)
+    {chunk(images, rowSize).map((chunk) => {
+      const imageARs = chunk.map(({ image }) => image.width / image.height)
+      const totalAR = sum(imageARs)
 
-        return (
-          <div
-            class="grid-row"
-            style={{
-              gridTemplateColumns: `${imageARs.map((aR) => `${aR / totalAR}fr`).join(" ")}`,
-            }}
-          >
-            {chunk.map(({ ["class"]: class_, image, alt }) => (
-              <a href={image.src}>
-                <PostImage
-                  src={image}
-                  alt={alt}
-                  class:list={["image", class_]}
-                />
-              </a>
-            ))}
-          </div>
-        )
-      })
-    }
+      return (
+        <div
+          class="grid-row"
+          style={{
+            gridTemplateColumns: `${imageARs.map((aR) => `${aR / totalAR}fr`).join(" ")}`,
+          }}
+        >
+          {chunk.map(({ ["class"]: class_, image, alt }) => (
+            <a href={image.src}>
+              <PostImage src={image} alt={alt} class:list={["image", class_]} />
+            </a>
+          ))}
+        </div>
+      )
+    })}
   </div>
   <figcaption>
     <slot />

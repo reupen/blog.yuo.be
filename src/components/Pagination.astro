@@ -32,27 +32,23 @@ const { class: class_, nextHref, previousHref, entryName } = Astro.props
 
 <div class:list={["pagination", class_]}>
   <div class="previous">
-    {
-      previousHref && (
-        <a href={previousHref}>
-          <i aria-hidden="true" class="byb-icon byb-icon-chevron-left" />{" "}
-          <span class="nav-link-text">
-            Newer<span class="visually-hidden"> {entryName}</span>
-          </span>
-        </a>
-      )
-    }
+    {previousHref && (
+      <a href={previousHref}>
+        <i aria-hidden="true" class="byb-icon byb-icon-chevron-left" />{" "}
+        <span class="nav-link-text">
+          Newer<span class="visually-hidden"> {entryName}</span>
+        </span>
+      </a>
+    )}
   </div>
   <div class="next">
-    {
-      nextHref && (
-        <a href={nextHref}>
-          <span class="nav-link-text">
-            Older<span class="visually-hidden"> {entryName}</span>
-          </span>{" "}
-          <i aria-hidden="true" class="byb-icon byb-icon-chevron-right" />
-        </a>
-      )
-    }
+    {nextHref && (
+      <a href={nextHref}>
+        <span class="nav-link-text">
+          Older<span class="visually-hidden"> {entryName}</span>
+        </span>{" "}
+        <i aria-hidden="true" class="byb-icon byb-icon-chevron-right" />
+      </a>
+    )}
   </div>
 </div>

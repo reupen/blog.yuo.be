@@ -126,22 +126,22 @@ const readingTime = Math.max(
           })}
         >
           {format(post.data.date, "d MMMM yyyy", { in: londonTz })}
-        </time><span class="bullet"> • </span><span>{readingTime} min read</span
-        >{
-          post.data.tags.length > 0 && (
-            <span class="tags">
-              <span class="bullet"> • </span>
-              <span class="visually-hidden">Tags: </span>
-              <span>
-                {post.data.tags.map((tag) => (
-                  <>
-                    <a href={`/tag/${tag}/`}>#{tag}</a>{" "}
-                  </>
-                ))}
-              </span>
+        </time>
+        <span class="bullet"> • </span>
+        <span>{readingTime} min read</span>
+        {post.data.tags.length > 0 && (
+          <span class="tags">
+            <span class="bullet"> • </span>
+            <span class="visually-hidden">Tags: </span>
+            <span>
+              {post.data.tags.map((tag) => (
+                <>
+                  <a href={`/tag/${tag}/`}>#{tag}</a>{" "}
+                </>
+              ))}
             </span>
-          )
-        }
+          </span>
+        )}
       </p>
     </div>
   </div>
@@ -151,8 +151,9 @@ const readingTime = Math.max(
       <a class="coffee-link" href="https://buymeacoffee.com/reupen">
         <i
           aria-hidden="true"
-          class="byb-icon byb-icon-mug-hot byb-icon-mobile-fw"></i>&#x2004;Buy
-        me a coffee
+          class="byb-icon byb-icon-mug-hot byb-icon-mobile-fw"
+        ></i>
+        &#x2004;Buy me a coffee
       </a>{" "}
       <ShareMenu
         client:load
@@ -165,24 +166,20 @@ const readingTime = Math.max(
         pathname={Astro.url.pathname}
       />
       <div class="prev-next-links no-print">
-        {
-          previous && (
-            <a href={previous.url}>
-              <i aria-hidden="true" class="byb-icon byb-icon-arrow-left" />
-              {previous.data.title}
-            </a>
-          )
-        }
+        {previous && (
+          <a href={previous.url}>
+            <i aria-hidden="true" class="byb-icon byb-icon-arrow-left" />
+            {previous.data.title}
+          </a>
+        )}
         {!previous && <span />}
         {!next && <span />}
-        {
-          next && (
-            <a class="next-page" href={next.url}>
-              {next.data.title}
-              <i aria-hidden="true" class="byb-icon byb-icon-arrow-right" />
-            </a>
-          )
-        }
+        {next && (
+          <a class="next-page" href={next.url}>
+            {next.data.title}
+            <i aria-hidden="true" class="byb-icon byb-icon-arrow-right" />
+          </a>
+        )}
       </div>
     </div>
   </div>

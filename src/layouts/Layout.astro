@@ -63,28 +63,24 @@ const computedTitle =
     <meta property="og:site_name" content={siteTitle} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content={ogType} />
-    {
-      ogPublishedTime && (
+    {ogPublishedTime && (
+      <meta
+        property="article:published_time"
+        content={ogPublishedTime.toISOString()}
+      />
+    )}
+    {image && (
+      <>
+        <meta property="og:image" content={image.url} />
         <meta
-          property="article:published_time"
-          content={ogPublishedTime.toISOString()}
+          property="og:image:type"
+          content={mime.getType(image.url.pathname)}
         />
-      )
-    }
-    {
-      image && (
-        <>
-          <meta property="og:image" content={image.url} />
-          <meta
-            property="og:image:type"
-            content={mime.getType(image.url.pathname)}
-          />
-          <meta property="og:image:width" content={image.width.toFixed()} />
-          <meta property="og:image:height" content={image.height.toFixed()} />
-          <meta property="og:image:alt" content={image?.alt ?? title} />
-        </>
-      )
-    }
+        <meta property="og:image:width" content={image.width.toFixed()} />
+        <meta property="og:image:height" content={image.height.toFixed()} />
+        <meta property="og:image:alt" content={image?.alt ?? title} />
+      </>
+    )}
     <meta
       name="twitter:card"
       content={image ? "summary_large_image" : "summary"}
@@ -92,58 +88,50 @@ const computedTitle =
     <meta name="twitter:creator" content={siteAuthor} />
     <meta name="twitter:title" content={computedTitle} />
     {description && <meta name="twitter:description" content={description} />}
-    {
-      structuredData && (
-        <script
-          is:inline
-          set:html={JSON.stringify(structuredData)}
-          type="application/ld+json"
-        />
-      )
-    }
+    {structuredData && (
+      <script
+        is:inline
+        set:html={JSON.stringify(structuredData)}
+        type="application/ld+json"
+      />
+    )}
   </head>
   <body class:list={["blog", bodyWidthClass]}>
     <header>
       <nav class="container">
         {
-          (
-            <a class:list={[Astro.url.pathname === "/" && "hidden"]} href="/">
-              Reupen’s blog
-            </a>
-          )
+          <a class:list={[Astro.url.pathname === "/" && "hidden"]} href="/">
+            Reupen’s blog
+          </a>
         }
-        {
-          postReturnUrl && (
-            <a class="small no-print" href={postReturnUrl}>
-              <i aria-hidden="true" class="byb-icon byb-icon-chevron-left" />{" "}
-              All posts
-            </a>
-          )
-        }
+        {postReturnUrl && (
+          <a class="small no-print" href={postReturnUrl}>
+            <i aria-hidden="true" class="byb-icon byb-icon-chevron-left" /> All
+            posts
+          </a>
+        )}
         <ThemeSelector client:only="react" className="right no-print" />
       </nav>
     </header>
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
     <footer class="no-print">
       <ul class="container">
         <li>
           <a href="/about/">
-            <i aria-hidden="true" class="byb-icon byb-icon-circle-info"></i>{
-              " "
-            }
+            <i aria-hidden="true" class="byb-icon byb-icon-circle-info"></i>{" "}
             About
           </a>
         </li>
         <li>
           <a href={new URL("rss.xml", Astro.site)}>
-            <i aria-hidden="true" class="byb-icon byb-icon-rss"></i>{" "}
-            RSS
+            <i aria-hidden="true" class="byb-icon byb-icon-rss"></i> RSS
           </a>
         </li>
         <li>
           <a href="https://github.com/reupen/blog.yuo.be">
-            <i aria-hidden="true" class="byb-icon byb-icon-github"></i>{" "}
-            Source
+            <i aria-hidden="true" class="byb-icon byb-icon-github"></i> Source
           </a>
         </li>
       </ul>

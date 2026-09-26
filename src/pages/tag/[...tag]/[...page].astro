@@ -37,44 +37,43 @@ const years = Map.groupBy(page.data, (post) =>
 
 <Layout
   description={description}
-  title={page.currentPage > 1
-    ? `Posts tagged #${tag} (page ${page.currentPage})`
-    : `Posts tagged #${tag}`}
+  title={
+    page.currentPage > 1
+      ? `Posts tagged #${tag} (page ${page.currentPage})`
+      : `Posts tagged #${tag}`
+  }
 >
   <div class="post-header section">
     <div class="container">
       <h1>
-        Posts tagged #{tag}{
-          page.currentPage > 1 && <> (page {page.currentPage})</>
-        }
+        Posts tagged #{tag}
+        {page.currentPage > 1 && <> (page {page.currentPage})</>}
       </h1>
     </div>
   </div>
   <div class="section">
     <div class="container">
-      {
-        years.entries().map(([year, posts], index) => (
-          <>
-            <h2>
-              {year}
-              {index === 0 && !posts[0].isNewYear && " (continued)"}
-            </h2>
-            <ol>
-              {posts.map((post) => (
-                <li id={post.id}>
-                  <a href={`/${post.id}/`}>{post.data.title}</a>
-                  <p class="post-excerpt">{post.data.excerpt}</p>
-                  <p class="post-date">
-                    {format(post.data.date, "d MMMM yyyy", {
-                      in: londonTz,
-                    })}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </>
-        ))
-      }
+      {years.entries().map(([year, posts], index) => (
+        <>
+          <h2>
+            {year}
+            {index === 0 && !posts[0].isNewYear && " (continued)"}
+          </h2>
+          <ol>
+            {posts.map((post) => (
+              <li id={post.id}>
+                <a href={`/${post.id}/`}>{post.data.title}</a>
+                <p class="post-excerpt">{post.data.excerpt}</p>
+                <p class="post-date">
+                  {format(post.data.date, "d MMMM yyyy", {
+                    in: londonTz,
+                  })}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </>
+      ))}
       <Pagination
         entryName="posts"
         nextHref={page.url.next}

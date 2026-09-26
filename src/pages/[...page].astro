@@ -33,73 +33,65 @@ const featuredPosts = page.currentPage === 1 ? await getFeaturedPosts() : []
   <div class="post-header section">
     <div class="container">
       <h1 class:list={[page.currentPage === 1 && "page-1"]}>
-        {
-          page.currentPage > 1 ? (
-            <>Posts (page {page.currentPage})</>
-          ) : (
-            <>Reupen’s blog</>
-          )
-        }
+        {page.currentPage > 1 ? (
+          <>Posts (page {page.currentPage})</>
+        ) : (
+          <>Reupen’s blog</>
+        )}
       </h1>
     </div>
-    {
-      page.currentPage === 1 && (
-        <div class="container">
-          <p>
-            Random musings about computing, programming, photography and more.{" "}
-            <a href="/about/">More about the blog.</a>
-          </p>
-        </div>
-      )
-    }
+    {page.currentPage === 1 && (
+      <div class="container">
+        <p>
+          Random musings about computing, programming, photography and more.{" "}
+          <a href="/about/">More about the blog.</a>
+        </p>
+      </div>
+    )}
   </div>
   <div class="section">
     <div class="container">
-      {
-        featuredPosts.length > 0 && (
-          <div class="featured-container">
-            <h2 id="featured-posts">Featured posts</h2>
-            <ol aria-labelledby="featured-posts" class="featured-grid">
-              {featuredPosts.map((post) => (
-                <li>
-                  <p>
-                    <time
-                      datetime={formatISO(post.data.date, {
-                        representation: "date",
-                        in: londonTz,
-                      })}
-                    >
-                      {format(post.data.date, "d MMMM yyyy", { in: londonTz })}
-                    </time>
-                  </p>
+      {featuredPosts.length > 0 && (
+        <div class="featured-container">
+          <h2 id="featured-posts">Featured posts</h2>
+          <ol aria-labelledby="featured-posts" class="featured-grid">
+            {featuredPosts.map((post) => (
+              <li>
+                <p>
+                  <time
+                    datetime={formatISO(post.data.date, {
+                      representation: "date",
+                      in: londonTz,
+                    })}
+                  >
+                    {format(post.data.date, "d MMMM yyyy", { in: londonTz })}
+                  </time>
+                </p>
+                <a href={`/${post.id}/`}>{post.data.title}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+      {months.entries().map(([month, posts], index) => {
+        const monthId = `${month.replace(" ", "-").toLowerCase()}`
+        return (
+          <>
+            <h2 id={monthId}>
+              {month}
+              {index === 0 && !posts[0].isNewMonth && " (continued)"}
+            </h2>
+            <ol aria-labelledby={monthId}>
+              {posts.map((post) => (
+                <li id={post.id}>
                   <a href={`/${post.id}/`}>{post.data.title}</a>
+                  <p>{post.data.excerpt}</p>
                 </li>
               ))}
             </ol>
-          </div>
+          </>
         )
-      }
-      {
-        months.entries().map(([month, posts], index) => {
-          const monthId = `${month.replace(" ", "-").toLowerCase()}`
-          return (
-            <>
-              <h2 id={monthId}>
-                {month}
-                {index === 0 && !posts[0].isNewMonth && " (continued)"}
-              </h2>
-              <ol aria-labelledby={monthId}>
-                {posts.map((post) => (
-                  <li id={post.id}>
-                    <a href={`/${post.id}/`}>{post.data.title}</a>
-                    <p>{post.data.excerpt}</p>
-                  </li>
-                ))}
-              </ol>
-            </>
-          )
-        })
-      }
+      })}
       <Pagination
         entryName="posts"
         nextHref={page.url.next}

@@ -32,28 +32,31 @@ const postCount = await getPostCount()
       <p>
         Mostly I like to blog about computing, programming and software stuff.
         But I also like photography, so sometimes I might post some photos from
-        a trip. (My favourite photos are also on <a
-          href="https://photos.reupen.uk/">my photography website</a
-        >.)
+        a trip. (My favourite photos are also on{" "}
+        <a href="https://photos.reupen.uk/">my photography website</a>.)
       </p>
       <p>
         Professionally, I usually write software using Python and TypeScript.
         I’ve also done some C++ in my spare time.
       </p>
       <p>
-        The blog is built using <a href="https://astro.build/" rel="noreferrer"
-          >Astro</a
-        > and is <a href="https://github.com/reupen/blog.yuo.be"
-          >open source on GitHub</a
-        >. It has an <a href={new URL("rss.xml", Astro.site)}>RSS feed</a> that you
-        can subscribe to if you use those kinds of things. (And, if you were wondering,
-        there are currently
-        {" "}{postCount.toLocaleString()} posts in the blog.)
+        The blog is built using{" "}
+        <a href="https://astro.build/" rel="noreferrer">
+          Astro
+        </a>{" "}
+        and is{" "}
+        <a href="https://github.com/reupen/blog.yuo.be">
+          open source on GitHub
+        </a>
+        . It has an <a href={new URL("rss.xml", Astro.site)}>RSS feed</a> that
+        you can subscribe to if you use those kinds of things. (And, if you were
+        wondering, there are currently {postCount.toLocaleString()} posts in the
+        blog.)
       </p>
       <p>
-        I’m yet to post on them much, but you can also find me on <a
-          href="https://bsky.app/profile/reupen.uk">Bluesky</a
-        > and <a href="https://mastodonapp.uk/@reupen">Mastodon</a>.
+        I’m yet to post on them much, but you can also find me on{" "}
+        <a href="https://bsky.app/profile/reupen.uk">Bluesky</a> and{" "}
+        <a href="https://mastodonapp.uk/@reupen">Mastodon</a>.
       </p>
     </div>
   </div>

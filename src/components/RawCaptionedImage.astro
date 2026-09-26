@@ -17,12 +17,10 @@ const { caption, src, ...rest } = Astro.props
   <a href={src.src}>
     <img src={src.src} height={src.height} width={src.width} {...rest} />
   </a>
-  {
-    (caption || Astro.slots.has("default")) && (
-      <figcaption>
-        {caption && <span>{caption}</span>}
-        <slot />
-      </figcaption>
-    )
-  }
+  {(caption || Astro.slots.has("default")) && (
+    <figcaption>
+      {caption && <span>{caption}</span>}
+      <slot />
+    </figcaption>
+  )}
 </figure>
