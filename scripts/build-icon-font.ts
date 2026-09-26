@@ -1,3 +1,4 @@
+import { getUnixTime, parseISO } from "date-fns"
 import { createReadStream, promises as fs } from "node:fs"
 import { dirname, join, basename } from "node:path"
 import { text } from "node:stream/consumers"
@@ -17,6 +18,7 @@ const DEST_DIR = join(dirname(import.meta.dirname), "src/layouts/icons")
 const COPYRIGHT =
   "Icons copyright (c) Fonticons, Inc. (https://fontawesome.com, https://fontawesome.com/license/free)"
 const DESCRIPTION = "Custom icon font built from Font Awesome SVGs"
+const TIMESTAMP = getUnixTime(parseISO("2026-09-26T00:00:00Z"))
 
 const ICON_PATHS = [
   `svgs/regular/sun.svg`,
@@ -71,6 +73,7 @@ async function writeFont() {
   const ttf = svg2ttf(svgFontText, {
     copyright: COPYRIGHT,
     description: DESCRIPTION,
+    ts: TIMESTAMP,
   })
   const woff2 = ttf2woff2(ttf.buffer)
 
