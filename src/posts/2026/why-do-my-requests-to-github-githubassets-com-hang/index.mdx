@@ -1,0 +1,136 @@
+---
+title: "Why do my requests to github.githubassets.com hang?"
+date: "2026-09-29"
+published_at: 2026-09-29T22:25+01:00
+excerpt: |-
+  Hello, UDP. What do you mean, you can’t hear me?
+width: wide-1
+tags:
+  - networking
+  - web
+---
+
+import { CaptionedImage } from "@/components"
+
+import broken_github_webp from "./broken-github.webp"
+import firefox_developer_tools_webp from "./firefox-developer-tools.webp"
+import wireshark_webp from "./wireshark.webp"
+
+I’ve had a particularly annoying problem using the GitHub website since earlier
+in the year. Often, pages will hang while loading and then leave me with things
+like this:
+
+<CaptionedImage
+  src={broken_github_webp}
+  alt="A screenshot of a list of repositories on GitHub where the list isn’t laid out and styled correctly."
+  caption="The increasing use of client-side JavaScript on GitHub doesn’t help when this happens"
+/>
+
+That problem is caused by requests for CSS and JavaScript files on
+`github.githubassets.com` hanging, with Firefox giving up after a while. That
+leaves the page with broken styling, missing data and other problems.
+
+I can easily reproduce the problem in Firefox on Windows 11 by:
+
+1. Copying the URL for a CSS file on `github.githubassets.com` (currently
+   `https://github.githubassets.com/assets/light-99f877e9ddfc0e51.css` works)
+2. Opening the Network tab in the Developer Tools in Firefox and ticking
+   ‘Disable Cache’
+3. Loading the copied CSS URL
+4. Refreshing the page several times, waiting a few seconds between each attempt
+
+It’s often the second or third attempt at loading the CSS file that will hang.
+It’ll hang for at least several seconds, and potentially long enough for Firefox
+to give up. Here’s an example of the third request hanging for 10 seconds:
+
+<CaptionedImage
+  src={firefox_developer_tools_webp}
+  alt="A screenshot of the Network tab in the Firefox Developer Tools, where one of the requests for a CSS file took 10 seconds."
+  caption="The ‘Protocol’ and ‘Remote IP’ columns are both relevant here"
+/>
+
+I mentioned Windows 11 because I can reproduce this problem on two Windows 11
+devices, but not on Ubuntu or on my Android phone connected to my home Wi-Fi.
+(Even Ubuntu in a VM with bridged networking on an affected Windows host seems
+to work fine.)
+
+Here’s an example of a Wireshark capture where I reproduced the problem (with
+[TLS decryption](https://wiki.wireshark.org/TLS#tls-decryption) active):
+
+<CaptionedImage
+  src={wireshark_webp}
+  alt="A screenshot of Wireshark, with repeated outgoing HTTP/3 and QUIC packets with no response."
+  caption="Not so quic(k) now"
+/>
+
+(Note that this isn’t the same attempt as in the Developer Tools screenshot
+above.)
+
+In the 11<sup>th</sup> second, I tried to refresh the CSS file. It looks like
+Firefox tries to reuse the existing HTTP/3 connection, but nothing useful
+happens until the 26<sup>th</sup> second. (And I don’t know why the packets
+marked as `QUIC` rather than `HTTP3` still say ‘Protected Payload’ when the TLS
+key log file is loaded.)
+
+[There is a discussion thread about hanging requests to `github.githubassets.com` on the GitHub community](https://github.com/orgs/community/discussions/78053).
+But it’s a quiet thread, and there could easily be more than one cause for the
+symptoms reported.
+
+Still, there are some clues in that thread. There’s some discussion about IPv6,
+and the most recent poster is blaming Azure and suspecting MTU-related problems.
+
+Is Azure involved? The `Server` header sent by `github.githubassets.com` is
+`Windows-Azure-Web/1.0 Microsoft-HTTPAPI/2.0`. But responses also have a
+`x-fastly-request-id` header, so it would seem Fastly is in front of Azure (and
+typically serving up cached responses).
+
+Perhaps I have a local MTU-related configuration problem? Well, my set-up isn’t
+exactly complicated, and [Path MTU Discovery Test](http://pmtud.enslaves.us)
+reports that everything is OK:
+
+| Direction             | Tested Maximum Size Segment | Client Sent MSS | Notes |
+| --------------------- | --------------------------- | --------------- | ----- |
+| Server to Client IPv4 | 1452 (MTU 1492)             | 1452 (MTU 1492) | OK    |
+| Client to Server IPv4 | unlimited                   | (n/a)           | OK    |
+| Server to Client IPv6 | 1432 (MTU 1492)             | 1432 (MTU 1492) | OK    |
+| Client to Server IPv6 | unlimited                   | (n/a)           | OK    |
+
+In any case, a bit of experimentation led me to find some working workarounds
+for the problem.
+
+The first workaround that works for me is to disable IPv6 for
+`github.githubassets.com`. In Firefox, this can be done using the
+`network.dns.ipv4OnlyDomains` setting in `about:config`.
+
+The second, more sledgehammer-y thing that works here is to disable HTTP/3. In
+Firefox, this can be done using the `network.http.http3.enable` setting in
+`about:config` (followed by restarting the browser to clear any open HTTP/3
+connections).
+
+Note that every other HTTP/3 website I’ve found works fine (including a few
+other Microsoft sites and Fastly’s website). (And online IPv6 tests also report
+that everything is fine.)
+
+Given the minimal volume of complaints about this problem online, there surely
+is still some other factor more local to me. Perhaps my router, an Asus
+GT-BE19000, could be at fault. I tried swapping it out[^1] with a spare Netgear
+router I had. I could no longer reproduce the problem (well, it hung once, but
+that was out of over a hundred attempts). I tried both routers one more time and
+again the Netgear seemed okay while the problem could be reproduced on the Asus.
+Still, that doesn’t really prove anything, as swapping my router would have a
+whole load of secondary effects. (And yes, all the ‘AiProtection’ and similar
+nonsense on the Asus router is disabled, and always has been.)
+
+What about Chrome? It’s not immune from the hanging requests either, but from
+some brief testing, it appears to fall back to HTTP/2 much more readily. And so
+the effect of the problem there tends to be a delay, rather than pages being
+completely broken.
+
+Alas, I’ve done all the debugging I can easily do, so I’ll have to leave it
+there. (And well, I’m perfectly happy to disable IPv6 for
+`github.githubassets.com`, assuming that continues to work as a workaround, of
+course…)
+
+[^1]:
+    I tried using the Wi-Fi hotspot on my mobile phone first, but I then
+    realised that my current mobile network doesn’t support IPv6.
