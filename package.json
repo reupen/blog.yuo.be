@@ -81,7 +81,7 @@
     "mediabunny": "^1.56.1",
     "postcss-custom-media": "^12.0.2",
     "postcss-preset-env": "^11.5.4",
-    "prettier": "^3.8.1",
+    "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.1.0",
     "satteri": "^0.10.5",
     "schema-dts": "^2.0.0",
