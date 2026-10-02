@@ -68,7 +68,7 @@
     "@types/node": "^22.19.11",
     "@types/svg2ttf": "^5.0.3",
     "@types/ttf2woff": "^2.0.4",
-    "@typescript-eslint/parser": "^8.62.0",
+    "@typescript-eslint/parser": "^8.71.0",
     "astro-compress": "^2.4.1",
     "cssnano": "^9.1.1",
     "date-fns": "^4.1.0",
@@ -89,7 +89,7 @@
     "svg2ttf": "^6.1.0",
     "svgicons2svgfont": "^16.0.0",
     "ttf2woff2": "^8.0.1",
-    "typescript-eslint": "^8.62.0"
+    "typescript-eslint": "^8.71.0"
   },
   "overrides": {
     "astro": "$astro",
