@@ -20,6 +20,9 @@ updates:
     cooldown:
       default-days: 3
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: typescript
+        versions: ["7.0.x"]
     groups:
       astro:
         patterns:
