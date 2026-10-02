@@ -85,7 +85,7 @@
     "prettier-plugin-astro": "^1.1.0",
     "satteri": "^0.10.5",
     "schema-dts": "^2.0.0",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "svg2ttf": "^6.1.0",
     "svgicons2svgfont": "^16.0.0",
     "ttf2woff2": "^8.0.1",
