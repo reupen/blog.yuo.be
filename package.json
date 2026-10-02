@@ -61,7 +61,7 @@
     "@astrojs/markdown-satteri": "^0.4.2",
     "@axe-core/playwright": "^4.11.1",
     "@date-fns/tz": "^1.5.0",
-    "@eslint-react/eslint-plugin": "^5.21.1",
+    "@eslint-react/eslint-plugin": "^5.23.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
     "@types/html-to-text": "^9.0.4",
