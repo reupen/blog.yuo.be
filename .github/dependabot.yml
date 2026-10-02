@@ -20,9 +20,6 @@ updates:
     cooldown:
       default-days: 3
     open-pull-requests-limit: 5
-    ignore:
-      - dependency-name: typescript
-        versions: ["7.0.x"]
     groups:
       astro:
         patterns:
@@ -50,6 +47,13 @@ updates:
           - "@typescript-eslint/*"
           - "typescript"
           - "typescript-eslint"
+    ignore:
+      - dependency-name: typescript
+        versions:
+          - "7.0.x"
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
 
   - package-ecosystem: uv
     directory: /
