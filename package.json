@@ -71,7 +71,7 @@
     "@typescript-eslint/parser": "^8.71.0",
     "astro-compress": "^2.4.1",
     "cssnano": "^9.1.1",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.4.0",
     "eslint": "^10.11.0",
     "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-mdx": "^3.8.1",
