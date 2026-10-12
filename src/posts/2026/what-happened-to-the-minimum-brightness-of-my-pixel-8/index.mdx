@@ -9,6 +9,10 @@ excerpt: |-
   Yes, sometimes I look at my phone when I should be sleeping.
 ---
 
+import { CaptionedImage } from "@/components"
+
+import vertical_pink_line_avif from "./vertical-pink-line.avif"
+
 When I got my Pixel 8, one of the things I remember is that it was actually
 pleasant to use in a dark room. By that, I mean the minimum screen brightness
 was dim enough to not hurt my eyes.
@@ -115,8 +119,54 @@ do Pixel phones keep getting heavier?)
 I can only hope that Google does something to make using my Pixel 8 in a dark
 room more pleasant. But as time goes on, that sadly looks less likely.
 
+## 12 October 2026 mini update
+
+Around a month and a half ago, an intermittent vertical pink line appeared on my
+Pixel 8:
+
+<CaptionedImage
+  src={vertical_pink_line_avif}
+  alt="A photo of a Pixel 8 mobile phone with a vertical pink line on the right-hand side of the display"
+  caption="My screen protector was also a bit worn"
+  class="limit-height-slightly"
+/>
+
+The line tended to come up after taking my phone out of my pocket and then would
+disappear after a little while. Sometimes it would show up when putting my phone
+down on a desk or table or when touching the screen near the bottom.
+
+Luckily for me, my phone was still inside the
+[three-year Pixel 8 extended repair programme](https://support.google.com/pixelphone/answer/15009955?hl=en-GB)
+for vertical lines or flickering displays. And so I booked an appointment at a
+local iSmash branch and got the display replaced under warranty.[^2]
+
+Is the new display any better? It probably is a bit better behaved. At normal
+brightness levels, I don’t notice any weirdness when toggling ‘Smooth display’.
+But with dark mode on, in a dark room, turning ‘Smooth display’ on makes the
+settings screen noticeably brighter.
+
+A large solid square of `rgb(1, 1, 1)` or `rgb(2, 2, 2)` still has shadows and
+patterns visible in it. But it’s probably cleaner than my old screen. And there
+still can be a large jump from `rgb(0, 0, 0)` to `rgb(1, 1, 1)` depending on
+settings.
+
+And as for my main complaint, the minimum brightness, it seems exactly the same
+on the new display as it was on the old one. I’m now often using extra dim and
+Darker at the same time if I decide to look at my phone in the middle of the
+night.
+
+On top of that, the update that added these glass effects everywhere has made my
+phone laggier. I see little point in paying a large amount for mediocre
+hardware, and so my next phone will be anything other than a Pixel.
+
 [^1]:
     The squares on the black level test looking mostly the same (in a dark room
     at minimum brightness) is what I see with colours set to ‘natural’ and
     ‘Smooth display’ turned off. There’s more variation when either of those
     settings are changed.
+
+[^2]:
+    I was worried about how my visit would go since the pink line was
+    intermittent. Luckily, though, the line came up when I was there. I may well
+    have been turned away otherwise, as the standard Pixel diagnostics don’t
+    really do anything to trigger intermittent faults like this.
