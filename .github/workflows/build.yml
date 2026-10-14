@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - test/*
   schedule:
     - cron: "1 1 * * *"
   workflow_dispatch:
@@ -17,23 +18,20 @@ jobs:
       - name: Git clone repository
         uses: actions/checkout@v7
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: pnpm ci
 
       - name: Check formatting
-        run: npm run format:check
+        run: pnpm run format:check
 
       - name: Run Astro check
-        run: npm run check
+        run: pnpm run check
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
   build-site:
     name: Build site
@@ -42,14 +40,11 @@ jobs:
       - name: Git clone repository
         uses: actions/checkout@v7
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: pnpm ci
 
       - name: Install uv
         run: pipx install uv
@@ -69,8 +64,8 @@ jobs:
       - name: Build site
         run: |
           source .venv/bin/activate
-          npm run build
-          tar -czvf /tmp/site.tar.gz dist/
+          pnpm run build
+          tar -czf /tmp/site.tar.gz dist/
 
       - name: Save Astro cache
         if: ${{ github.event_name != 'pull_request' && steps.restore-astro-cache.outputs.cache-hit != 'true' }}
@@ -91,8 +86,8 @@ jobs:
           UMAMI_ID: ${{ secrets.UMAMI_ID }}
         run: |
           source .venv/bin/activate
-          npm run build
-          tar -czvf /tmp/site-prod.tar.gz dist/
+          pnpm run build
+          tar -czf /tmp/site-prod.tar.gz dist/
 
       - name: Upload artefact
         uses: actions/upload-artifact@v7
@@ -109,6 +104,9 @@ jobs:
     steps:
       - name: Git clone repository
         uses: actions/checkout@v7
+
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
 
       - id: get-version
         name: Get Playwright version
@@ -127,14 +125,11 @@ jobs:
       - name: Git clone repository
         uses: actions/checkout@v7
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: pnpm ci
 
       - name: Download built site
         uses: actions/download-artifact@v8
@@ -147,7 +142,7 @@ jobs:
         run: tar -xzf /tmp/site.tar.gz
 
       - name: Run e2e tests
-        run: npm exec --no -- playwright test
+        run: pnpm exec -- playwright test
         env:
           HOME: /root
 
@@ -183,6 +178,12 @@ jobs:
       - name: Unpack site
         run: tar -xzf /tmp/site-prod.tar.gz
 
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
+
+      - name: Approve workerd build
+        run: pnpm approve-builds --yes workerd
+
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:
@@ -190,3 +191,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/ --project-name=blog-yuo-be
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          packageManager: pnpm

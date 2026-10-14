@@ -14,21 +14,22 @@
     "astro": "astro",
     "check": "astro check --minimumFailingSeverity hint",
     "clean": "shx rm -rf dist node_modules/.astro",
-    "prebuild": "npm run icons",
+    "prebuild": "pnpm run icons",
     "build": "astro build",
     "postbuild": "python scripts/subset_fonts.py",
     "dev": "astro dev",
     "format:check": "prettier -c .",
     "icons": "node scripts/build-icon-font.ts",
     "lint": "eslint --max-warnings 0 .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "pnpm run lint --fix",
     "preview": "astro preview",
     "start": "astro dev",
-    "pretest": "npm run build",
-    "test": "python scripts/run_in_playwright_container.py \"npm ci && npm exec --no -- playwright test\"",
+    "pretest": "pnpm run build",
+    "test": "pnpm run test:run",
+    "test:run": "python scripts/run_in_playwright_container.py \"npm install -g pnpm && pnpm ci && pnpm exec -- playwright test\"",
     "test:report": "playwright show-report test/e2e/output/html",
-    "pretest:update": "npm run build",
-    "test:update": "python scripts/run_in_playwright_container.py \"npm ci && npm exec --no -- playwright test --update-snapshots\""
+    "pretest:update": "pnpm run build",
+    "test:update": "python scripts/run_in_playwright_container.py \"npm install -g pnpm && pnpm ci && pnpm exec -- playwright test --update-snapshots\""
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -38,23 +39,24 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@floating-ui/react": "^0.27.20",
-    "@floating-ui/react-dom": "^2.1.7",
+    "@floating-ui/react-dom": "^2.1.9",
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@preact/compat": "^18.3.2",
     "@yeskunall/astro-umami": "^0.0.9",
-    "astro": "^7.3.5",
+    "astro": "^7.3.8",
+    "clsx": "^2.1.1",
     "ky": "^2.1.0",
     "mime": "^4.1.0",
     "p-limit": "^7.3.3",
     "preact": "^10.29.8",
     "prop-types": "^15.8.1",
     "query-string": "^9.5.1",
-    "react": "npm:@preact/compat@^18.3.2",
-    "react-dom": "npm:@preact/compat@^18.3.2",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "remeda": "^2.50.0",
     "satori": "^0.33.5",
     "typescript": "^6.0.3",
-    "ultrahtml": "^1.6.0"
+    "ultrahtml": "^1.7.0"
   },
   "devDependencies": {
     "@astrojs/compiler-rs": "^0.5.1",
@@ -69,7 +71,7 @@
     "@types/svg2ttf": "^5.0.3",
     "@types/ttf2woff": "^2.0.4",
     "@typescript-eslint/parser": "^8.71.0",
-    "astro-compress": "^2.4.1",
+    "astro-compress": "^2.4.3",
     "cssnano": "^9.1.1",
     "date-fns": "^4.4.0",
     "eslint": "^10.11.0",
@@ -85,17 +87,17 @@
     "prettier-plugin-astro": "^1.1.0",
     "satteri": "^0.10.5",
     "schema-dts": "^2.0.0",
-    "sharp": "^0.35.5",
+    "sharp": "catalog:",
     "svg2ttf": "^6.1.0",
     "svgicons2svgfont": "^16.0.0",
     "ttf2woff2": "^8.0.1",
     "typescript-eslint": "^8.71.0"
   },
-  "overrides": {
-    "astro": "$astro",
-    "sharp": "$sharp",
-    "typescript": "$typescript",
-    "react": "$react",
-    "react-dom": "$react-dom"
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^12",
+      "onFail": "download"
+    }
   }
 }

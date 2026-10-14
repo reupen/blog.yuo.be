@@ -3,4 +3,5 @@
 /test/e2e/output/
 package.json
 package-lock.json
+pnpm-lock.yaml
 /src/posts/2026/another-attempt-at-recording-some-perseids/index.mdx
