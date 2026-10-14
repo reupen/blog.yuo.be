@@ -57,8 +57,8 @@ def main():
         )
         save_font(font, f"{subsets_path / path.stem}.woff2", options)
 
-    print("Re-running npm run build...")
-    subprocess.run(["npm", "run", "build"], shell=True, check=True)
+    print("Re-running pnpm run build...")
+    subprocess.run(["pnpm", "run", "build"], shell=True, check=True)
 
 
 if __name__ == "__main__":

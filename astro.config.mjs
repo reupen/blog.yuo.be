@@ -6,8 +6,7 @@ import umami from "@yeskunall/astro-umami"
 import compress from "astro-compress"
 import { defineConfig } from "astro/config"
 
-import { hastExternalLinksPlugin } from "@/lib"
-import fb2kTmGrammar from "@/tm-grammars/fb2k.json"
+import { hastExternalLinksPlugin, shikiConfig } from "@/lib"
 
 export default defineConfig({
   site:
@@ -36,14 +35,7 @@ export default defineConfig({
     processor: satteri({
       hastPlugins: [hastExternalLinksPlugin],
     }),
-    shikiConfig: {
-      defaultColor: false,
-      langs: [fb2kTmGrammar],
-      themes: {
-        light: "github-light",
-        dark: "github-dark",
-      },
-    },
+    shikiConfig,
   },
   trailingSlash: "always",
   vite: {

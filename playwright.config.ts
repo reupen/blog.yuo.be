@@ -63,7 +63,7 @@ export default defineConfig({
   snapshotPathTemplate:
     "{testDir}/__screenshots__/{testFilePath}/{arg}--{projectName}{ext}",
   webServer: {
-    command: "npm exec --no -- astro preview --ignore-lock",
+    command: "pnpm exec -- astro preview --ignore-lock",
     port: 4321,
   },
 })
