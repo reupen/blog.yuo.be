@@ -32,10 +32,10 @@
     "test:update": "python scripts/run_in_playwright_container.py \"npm install -g pnpm && pnpm ci && pnpm exec -- playwright test --update-snapshots\""
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/markdoc": "^2.0.9",
-    "@astrojs/mdx": "^8.0.2",
-    "@astrojs/preact": "^6.0.5",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdoc": "^2.1.2",
+    "@astrojs/mdx": "^8.1.2",
+    "@astrojs/preact": "^6.1.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@floating-ui/react": "^0.27.20",
@@ -43,7 +43,7 @@
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@preact/compat": "^18.3.2",
     "@yeskunall/astro-umami": "^0.0.9",
-    "astro": "^7.3.8",
+    "astro": "^7.4.4",
     "clsx": "^2.1.1",
     "ky": "^2.1.0",
     "mime": "^4.1.0",
@@ -59,8 +59,8 @@
     "ultrahtml": "^1.7.0"
   },
   "devDependencies": {
-    "@astrojs/compiler-rs": "^0.5.1",
-    "@astrojs/markdown-satteri": "^0.4.2",
+    "@astrojs/compiler-rs": "^0.5.2",
+    "@astrojs/markdown-satteri": "^0.4.6",
     "@axe-core/playwright": "^4.13.0",
     "@date-fns/tz": "^1.5.0",
     "@eslint-react/eslint-plugin": "^5.23.1",
