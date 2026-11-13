@@ -54,7 +54,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "remeda": "^2.50.0",
-    "satori": "^0.33.5",
+    "satori": "^0.63.2",
     "typescript": "^6.0.3",
     "ultrahtml": "^1.7.0"
   },
